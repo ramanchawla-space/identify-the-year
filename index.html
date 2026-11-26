@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Identify the Year</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Special+Elite&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f3ecdc; --paper2:#e9dfc8; --card:#fbf7ee; --ink:#1d1b18; --ink2:#4a443b;
+    --muted:#8a7f6c; --rule:#cbbd9f; --red:#c0392b; --red2:#e0533f; --teal:#1f6f78;
+    --gold:#c9962e; --good:#2e7d4f; --shadow:0 8px 24px rgba(60,45,20,.18);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);
+    background-color:var(--paper);
+    background-image:
+      radial-gradient(rgba(120,95,50,.07) 1px, transparent 1px),
+      radial-gradient(1200px 700px at 50% -20%, #fffaf0 0%, transparent 60%);
+    background-size:4px 4px, auto;
+    -webkit-font-smoothing:antialiased;
+  }
+  button{font-family:inherit}
+
+  /* ---------- Masthead + scorecard ---------- */
+  #scorecard{position:sticky;top:0;z-index:50;background:rgba(243,236,220,.96);
+    backdrop-filter:blur(6px);border-bottom:3px double var(--ink);box-shadow:0 4px 18px rgba(60,45,20,.12)}
+  .sc-inner{max-width:1280px;margin:0 auto;padding:10px 20px;display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+  .brand{margin-right:auto;padding-top:2px;line-height:1}
+  .brand .t{font-family:"Playfair Display",serif;font-weight:900;font-size:1.45rem;letter-spacing:-.01em;white-space:nowrap}
+  .brand .t span{color:var(--red)}
+  .brand .s{font-family:"Special Elite",monospace;font-size:.72rem;color:var(--muted);letter-spacing:.12em;margin-top:4px;text-transform:uppercase}
+  .players{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;flex:1;min-width:280px}
+  .player{display:flex;align-items:center;gap:6px;min-width:0;background:var(--card);
+    border:1.5px solid var(--ink);border-radius:4px;padding:5px 4px 5px 10px;box-shadow:2px 2px 0 var(--ink)}
+  .player.lead{background:#fff4d6;border-color:var(--gold);box-shadow:2px 2px 0 var(--gold)}
+  .player.lead .pname{color:#7a5410}
+  .pname{background:transparent;border:none;color:var(--ink);font-weight:700;flex:1 1 auto;min-width:0;width:100%;font-size:.9rem;outline:none;font-family:inherit}
+  .pname::placeholder{color:var(--muted);font-weight:600}
+  .pname:focus{border-bottom:1px dashed var(--muted)}
+  .score{min-width:28px;text-align:center;font-weight:800;font-family:"Playfair Display",serif;font-size:1.1rem;color:var(--red)}
+  .sbtn{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--ink);font-weight:800;cursor:pointer;line-height:1;font-size:.95rem;flex:none;
+    transition:transform .08s}
+  .sbtn:active{transform:scale(.9)}
+  .sbtn.plus{background:var(--teal);color:#fff;border-color:var(--teal)}
+  .sbtn.minus{background:transparent;color:var(--ink)}
+  .pdel{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:3px 5px;border-radius:4px;flex:none}
+  .pdel:hover{color:var(--red);background:rgba(192,57,43,.08)}
+  .pbtn{cursor:pointer;background:var(--ink);color:var(--paper);border:none;border-radius:4px;padding:9px 14px;font-weight:700;white-space:nowrap;box-shadow:2px 2px 0 var(--red)}
+  .pbtn:hover{background:#000}
+  .sc-label{display:none;font-family:"Special Elite",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);padding-top:8px}
+  #scorecard.tally-mode .players,#scorecard.tally-mode #addPlayer{display:none}
+  #scorecard.tally-mode .sc-label{display:block}
+
+  /* ---------- Stage ---------- */
+  #stage{max-width:1100px;margin:22px auto;padding:0 20px 40px}
+  .slide{display:none;animation:fade .35s ease}
+  .slide.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .sheet{background:var(--card);border:1px solid var(--rule);box-shadow:var(--shadow);padding:22px 28px 26px;position:relative}
+  .sheet::before{content:"";position:absolute;inset:6px;border:1px solid var(--rule);pointer-events:none}
+
+  .qhead{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:6px}
+  .edition{font-family:"Special Elite",monospace;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+  .qtitle{font-family:"Playfair Display",serif;font-weight:900;font-size:2rem;margin:10px 0 2px;letter-spacing:-.01em}
+  .qtitle em{color:var(--red);font-style:italic}
+  .qsub{color:var(--ink2);margin:0 0 16px;font-size:.95rem}
+
+  /* film-countdown timer */
+  .timer{display:flex;align-items:center;gap:8px;font-weight:800}
+  .dial{--p:100;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+    background:conic-gradient(var(--ink) calc(var(--p)*1%), var(--paper2) 0);position:relative}
+  .dial::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--card)}
+  .dial b{position:relative;z-index:1;font-family:"Playfair Display",serif;font-size:1.05rem}
+  .timer.warn .dial{background:conic-gradient(var(--red) calc(var(--p)*1%), var(--paper2) 0);animation:pulse 1s infinite}
+  .timer.done .dial{background:var(--red)}
+  .timer.done .dial b{color:var(--red)}
+  @keyframes pulse{50%{transform:scale(1.08)}}
+
+  /* polaroid photo wall */
+  .wall{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:22px;padding:14px 6px 6px}
+  .polaroid{background:#fff;padding:10px 10px 30px;box-shadow:0 6px 16px rgba(40,30,10,.22);cursor:zoom-in;position:relative;
+    transition:transform .2s ease, box-shadow .2s ease}
+  .polaroid:nth-child(3n+1){transform:rotate(-2deg)}
+  .polaroid:nth-child(3n+2){transform:rotate(1.4deg)}
+  .polaroid:nth-child(3n){transform:rotate(-.8deg)}
+  .polaroid:hover{transform:rotate(0) scale(1.03);z-index:2;box-shadow:0 12px 28px rgba(40,30,10,.3)}
+  .polaroid::before{content:"";position:absolute;top:-10px;left:50%;width:80px;height:22px;transform:translateX(-50%) rotate(-3deg);
+    background:rgba(230,215,170,.75);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .polaroid .ph{aspect-ratio:4/3;background:#222;overflow:hidden;display:grid;place-items:center}
+  .polaroid img,.polaroid video{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.92) contrast(1.02)}
+  .polaroid .cap{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-family:"Special Elite",monospace;font-size:.8rem;color:var(--ink2)}
+  .polaroid .badge{position:absolute;top:16px;right:16px;background:var(--red);color:#fff;font-size:.68rem;font-weight:800;letter-spacing:.08em;
+    padding:3px 7px;border-radius:3px;text-transform:uppercase}
+
+  /* headline clue clippings */
+  .clips{margin-top:20px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .clip{background:var(--paper);border-left:4px solid var(--ink);padding:10px 14px;font-family:"Special Elite",monospace;font-size:1rem;line-height:1.35;
+    display:flex;gap:10px;align-items:flex-start}
+  .clip .n{font-family:"Playfair Display",serif;font-weight:900;color:var(--red);font-size:1.1rem;line-height:1.1}
+  .clip.locked{color:transparent;user-select:none;background:repeating-linear-gradient(-45deg,var(--paper2),var(--paper2) 8px,var(--paper) 8px,var(--paper) 16px);border-left-color:var(--rule)}
+  .clip.locked .n{color:var(--muted)}
+  .clip.locked::after{content:"Headline hidden — press 📰 Next Clue";color:var(--muted);font-family:Inter,sans-serif;font-size:.85rem}
+  .clip.locked span:not(.n){display:none}
+  .clip.fresh{animation:stamp .4s ease}
+  @keyframes stamp{from{transform:scale(1.04);background:#fff4d6}to{transform:none}}
+
+  /* controls */
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;align-items:center}
+  .act{cursor:pointer;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);border-radius:4px;padding:10px 16px;font-weight:700;font-size:.95rem;
+    box-shadow:2px 2px 0 var(--ink);transition:transform .08s}
+  .act:active{transform:translate(2px,2px);box-shadow:none}
+  .act.clue{background:var(--ink);color:var(--paper)}
+  .act.hint{background:#fff4d6;border-color:var(--gold);box-shadow:2px 2px 0 var(--gold)}
+  .act.answer{background:var(--red);color:#fff;border-color:var(--red);box-shadow:2px 2px 0 #7d2219}
+  .act:disabled{opacity:.4;cursor:not-allowed}
+  .feedback{margin-left:auto;font-weight:800;color:var(--red)}
+  .hintbox{display:none;margin-top:14px;padding:12px 16px;background:#fff4d6;border:1px dashed var(--gold);font-family:"Special Elite",monospace}
+  .hintbox.show{display:block;animation:fade .3s}
+  .answerbox{display:none;margin-top:14px;padding:16px 18px;background:var(--paper);border:2px solid var(--ink);align-items:center;gap:20px}
+  .answerbox.show{display:flex;animation:fade .3s}
+  .stampyear{font-family:"Playfair Display",serif;font-weight:900;font-size:3.4rem;color:var(--red);border:4px solid var(--red);padding:2px 14px;
+    transform:rotate(-6deg);line-height:1;flex:none;animation:slam .45s cubic-bezier(.2,1.6,.4,1)}
+  @keyframes slam{from{transform:rotate(-6deg) scale(2.2);opacity:0}to{transform:rotate(-6deg) scale(1);opacity:1}}
+  .answerbox p{margin:0;font-size:1rem;line-height:1.45}
+
+  /* intro */
+  .intro{text-align:center}
+  .intro .kicker{font-family:"Special Elite",monospace;letter-spacing:.25em;text-transform:uppercase;color:var(--ink2);font-size:.85rem}
+  .intro h1{font-family:"Playfair Display",serif;font-weight:900;font-size:3.4rem;margin:6px 0 4px;letter-spacing:-.02em}
+  .intro h1 span{color:var(--red);font-style:italic}
+  .intro .lead{max-width:720px;margin:0 auto 18px;color:var(--ink2);font-size:1.02rem;line-height:1.5}
+  .rules{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;max-width:860px;margin:0 auto 20px;text-align:left;padding:0;list-style:none}
+  .rules li{border-top:1px solid var(--ink);padding:9px 2px 0;font-size:.92rem;line-height:1.4}
+  .rules b{color:var(--red)}
+  .act.begin{font-size:1.1rem;padding:13px 34px;background:var(--ink);color:var(--paper);box-shadow:3px 3px 0 var(--red)}
+  .intro .foot{font-family:"Special Elite",monospace;color:var(--muted);margin-top:14px;font-size:.85rem}
+
+  /* nav */
+  #nav{max-width:1100px;margin:0 auto 30px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .navbtn{cursor:pointer;background:var(--card);border:1.5px solid var(--ink);border-radius:4px;padding:11px 20px;font-weight:700;box-shadow:2px 2px 0 var(--ink)}
+  .navbtn:disabled{opacity:.35;cursor:not-allowed}
+  .mid{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .progress{font-family:"Special Elite",monospace;color:var(--ink2);letter-spacing:.08em}
+  .dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:620px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--rule);cursor:pointer}
+  .dot.done{background:var(--teal)}
+  .dot.active{background:var(--red);transform:scale(1.35)}
+
+  /* tally */
+  .tally{text-align:center}
+  .tally .kicker{font-family:"Special Elite",monospace;letter-spacing:.25em;text-transform:uppercase;color:var(--ink2)}
+  .winner{font-family:"Playfair Display",serif;font-weight:900;font-size:2.8rem;margin:4px 0;color:var(--red)}
+  .winner-sub{color:var(--ink2);margin-bottom:20px}
+  .ranklist{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;max-width:840px;margin:0 auto;text-align:left}
+  .rankrow{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--rule)}
+  .rankrow.first{background:#fff4d6;border-bottom-color:var(--gold)}
+  .rankrow .rk{width:38px;font-weight:800;color:var(--muted)}
+  .rankrow .nm{flex:1;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .rankrow .sc{font-family:"Playfair Display",serif;font-weight:900;font-size:1.3rem;color:var(--red)}
+
+  /* lightbox */
+  #lightbox{position:fixed;inset:0;background:rgba(20,16,10,.88);display:none;align-items:center;justify-content:center;z-index:200;padding:30px;cursor:zoom-out}
+  #lightbox.show{display:flex}
+  #lightbox img,#lightbox video{max-width:96vw;max-height:88vh;background:#fff;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+
+  .hidden{display:none!important}
+  @media (max-width:760px){
+    .players{grid-template-columns:repeat(2,1fr)}
+    .wall{grid-template-columns:1fr 1fr}
+    .clips,.rules,.ranklist{grid-template-columns:1fr}
+    .qtitle{font-size:1.5rem}.intro h1{font-size:2.3rem}
+    .sheet{padding:18px 16px}
+    .answerbox.show{flex-direction:column;align-items:flex-start}
+  }
+  @media (max-width:480px){.wall{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="scorecard">
+  <div class="sc-inner">
+    <div class="brand"><div class="t">Identify the <span>Year</span></div><div class="s">The Team Time-Machine Quiz</div></div>
+    <div class="players" id="players"></div>
+    <button class="pbtn" id="addPlayer">＋ Add Player</button>
+    <div class="sc-label">Score Card</div>
+  </div>
+</div>
+
+<div id="stage"></div>
+
+<div id="nav">
+  <button class="navbtn" id="prevBtn">‹ Prev</button>
+  <div class="mid"><div class="progress" id="progress"></div><div class="dots" id="dots"></div></div>
+  <button class="navbtn" id="nextBtn">Next ›</button>
+</div>
+
+<div id="lightbox"></div>
+
+<script>
+/* =========================================================================
+   QUESTIONS — every year is between 1990 and 2026.
+   y: answer year · m: media clues (img / gif / video) · c: headline clues
+   h: hint · e: answer explanation
+   ========================================================================= */
+const GAME = [
+{
+"y": 1990,
+"m": [
+{
+"t": "img",
+"src": "media/q01-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q01-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q01-3.jpg"
+}
+],
+"c": [
+"A political prisoner walks free after 27 years.",
+"A space telescope launches — with a blurry mirror.",
+"East and West Germany become one country again."
+],
+"h": "The very start of the decade.",
+"e": "1990 — Mandela released (Feb), Hubble launched (Apr), German reunification (Oct)."
+},
+{
+"y": 1991,
+"m": [
+{
+"t": "img",
+"src": "media/q02-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q02-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q02-3.jpg"
+},
+{
+"t": "video",
+"src": "media/q02-4.webm",
+"poster": "media/q02-4-poster.jpg"
+}
+],
+"c": [
+"The USSR ceases to exist on Boxing Day.",
+"A Philippine volcano erupts and cools the whole planet.",
+"Operation Desert Storm."
+],
+"h": "Early 90s.",
+"e": "1991 — Gulf War (Desert Storm), Pinatubo erupted, the Soviet Union dissolved."
+},
+{
+"y": 1992,
+"m": [
+{
+"t": "img",
+"src": "media/q03-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q03-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q03-3.jpg"
+}
+],
+"c": [
+"NBA stars play at the Olympics for the first time in Barcelona.",
+"'Euro Disney' opens near Paris.",
+"A Category 5 hurricane flattens southern Florida.",
+"The Queen calls it her 'annus horribilis'."
+],
+"h": "Early 90s — Barcelona.",
+"e": "1992 — the Dream Team at Barcelona, Euro Disney opened, Hurricane Andrew."
+},
+{
+"y": 1993,
+"m": [
+{
+"t": "img",
+"src": "media/q04-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q04-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q04-3.jpg"
+}
+],
+"c": [
+"A famous handshake on the White House lawn.",
+"A truck bomb explodes under the World Trade Center.",
+"A 51-day standoff in Texas.",
+"Dinosaurs come back to life in a Spielberg blockbuster."
+],
+"h": "Early 90s.",
+"e": "1993 — the Oslo Accords handshake, first WTC bombing, Waco siege, Jurassic Park."
+},
+{
+"y": 1994,
+"m": [
+{
+"t": "img",
+"src": "media/q05-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q05-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q05-3.jpg"
+}
+],
+"c": [
+"A tunnel under the sea links England and France.",
+"A former prisoner becomes South Africa's president.",
+"Sony's first games console launches in Japan.",
+"Brazil win the World Cup in the USA."
+],
+"h": "Mid-90s.",
+"e": "1994 — Channel Tunnel opened, Mandela became president, PlayStation launched, USA '94."
+},
+{
+"y": 1995,
+"m": [
+{
+"t": "img",
+"src": "media/q06-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q06-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q06-3.jpg"
+}
+],
+"c": [
+"Mandela, in a Springbok jersey, hands over the Rugby World Cup.",
+"A truck bomb destroys a federal building in Oklahoma.",
+"An online auction site is founded.",
+"Microsoft launches Windows with a 'Start' button."
+],
+"h": "Mid-90s.",
+"e": "1995 — the Rugby World Cup in South Africa, Oklahoma City bombing, eBay founded, Windows 95."
+},
+{
+"y": 1996,
+"m": [
+{
+"t": "img",
+"src": "media/q07-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q07-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q07-3.jpg"
+}
+],
+"c": [
+"The first mammal cloned from an adult cell is born.",
+"A chess computer beats the world champion in a game.",
+"Atlanta hosts the Centennial Olympics."
+],
+"h": "Mid-90s.",
+"e": "1996 — Dolly the sheep, Deep Blue beat Kasparov in a game, the Atlanta Olympics."
+},
+{
+"y": 1996,
+"m": [
+{
+"t": "img",
+"src": "media/q08-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q08-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q08-3.jpg"
+}
+],
+"c": [
+"'I'll tell you what I want, what I really really want…'",
+"A console with a 3-pronged controller launches.",
+"'Football's coming home' — England host the Euros."
+],
+"h": "Girl power.",
+"e": "1996 — Wannabe, the Nintendo 64, Euro 96 in England."
+},
+{
+"y": 1997,
+"m": [
+{
+"t": "img",
+"src": "media/q09-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q09-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q09-3.jpg"
+}
+],
+"c": [
+"Britain hands Hong Kong back to China.",
+"A small rover trundles across Mars.",
+"A 21-year-old wins the Masters by 12 strokes.",
+"A princess dies in a car crash in Paris."
+],
+"h": "Late 90s.",
+"e": "1997 — Hong Kong handover, Mars Pathfinder, Tiger's first Masters, Diana's death."
+},
+{
+"y": 1998,
+"m": [
+{
+"t": "img",
+"src": "media/q10-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q10-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q10-3.jpg"
+}
+],
+"c": [
+"The first module of the International Space Station launches.",
+"France win the World Cup at home.",
+"Two Stanford students found a search company in a garage.",
+"The Good Friday Agreement is signed."
+],
+"h": "Late 90s.",
+"e": "1998 — Zarya launched, France won the World Cup, Google founded, the Good Friday Agreement."
+},
+{
+"y": 1999,
+"m": [
+{
+"t": "img",
+"src": "media/q11-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q11-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q11-3.jpg"
+},
+{
+"t": "video",
+"src": "media/q11-4.webm",
+"poster": "media/q11-4-poster.jpg"
+}
+],
+"c": [
+"A sail-shaped hotel opens in Dubai.",
+"A total solar eclipse crosses Europe.",
+"Everyone worries about the Y2K bug.",
+"The euro launches as a currency."
+],
+"h": "Party like it's…",
+"e": "1999 — Burj Al Arab opened, the European eclipse, the euro, Y2K, and Putin became acting president."
+},
+{
+"y": 2000,
+"m": [
+{
+"t": "img",
+"src": "media/q12-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q12-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q12-3.jpg"
+}
+],
+"c": [
+"An Aboriginal sprinter lights the cauldron and wins 400 m gold in Sydney.",
+"The first crew moves into the International Space Station.",
+"A giant dome opens in London to mark the new millennium."
+],
+"h": "The Y2K bug didn't bite.",
+"e": "2000 — Sydney Olympics, Expedition 1 on the ISS, the Millennium Dome."
+},
+{
+"y": 2000,
+"m": [
+{
+"t": "img",
+"src": "media/q13-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q13-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q13-3.jpg"
+}
+],
+"c": [
+"A Concorde crashes after take-off from Paris.",
+"A console that doubled as a DVD player launches.",
+"Fireworks over a harbour bridge open a new millennium of Olympics."
+],
+"h": "A brand-new millennium (sort of).",
+"e": "2000 — the Concorde crash, PlayStation 2 launched, the Sydney Olympics."
+},
+{
+"y": 2001,
+"m": [
+{
+"t": "img",
+"src": "media/q14-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q14-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q14-3.jpg"
+}
+],
+"c": [
+"Hijacked planes hit the Twin Towers.",
+"The first paying space tourist visits the ISS.",
+"A Russian space station is brought down into the Pacific.",
+"Apple launches the iPod; Wikipedia goes live."
+],
+"h": "A new millennium starts properly.",
+"e": "2001 — 9/11, Dennis Tito, Mir deorbited, the iPod and Wikipedia."
+},
+{
+"y": 2002,
+"m": [
+{
+"t": "img",
+"src": "media/q15-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q15-2.jpg"
+}
+],
+"c": [
+"Twelve countries start paying with new notes and coins.",
+"Brazil win the first World Cup held in Asia.",
+"The Queen celebrates 50 years on the throne."
+],
+"h": "Early 2000s.",
+"e": "2002 — euro notes and coins circulate, Brazil win in Japan/Korea, the Golden Jubilee."
+},
+{
+"y": 2003,
+"m": [
+{
+"t": "img",
+"src": "media/q16-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q16-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q16-3.jpg"
+}
+],
+"c": [
+"Supersonic airliners make their last commercial flights.",
+"A space shuttle breaks up on re-entry.",
+"A dictator's statue is pulled down in Baghdad.",
+"The Human Genome Project is completed."
+],
+"h": "Early 2000s.",
+"e": "2003 — Concorde retired, Columbia lost, the Iraq War, the human genome completed."
+},
+{
+"y": 2004,
+"m": [
+{
+"t": "img",
+"src": "media/q17-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q17-2.jpg"
+},
+{
+"t": "video",
+"src": "media/q17-3.webm",
+"poster": "media/q17-3-poster.jpg"
+}
+],
+"c": [
+"A Boxing Day tsunami devastates coasts around the Indian Ocean.",
+"A Harvard student launches a social network.",
+"Twin rovers land on Mars.",
+"The Olympics return to Athens."
+],
+"h": "Athens Olympics year.",
+"e": "2004 — the Indian Ocean tsunami, Facebook, Spirit & Opportunity, Athens 2004."
+},
+{
+"y": 2005,
+"m": [
+{
+"t": "img",
+"src": "media/q18-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q18-2.jpg"
+},
+{
+"t": "video",
+"src": "media/q18-3.webm",
+"poster": "media/q18-3-poster.jpg"
+}
+],
+"c": [
+"A hurricane floods New Orleans.",
+"The world's largest passenger jet makes its first flight.",
+"'Me at the zoo' is the first video on a new website."
+],
+"h": "Mid-2000s.",
+"e": "2005 — Hurricane Katrina, the A380's first flight, YouTube."
+},
+{
+"y": 2005,
+"m": [
+{
+"t": "img",
+"src": "media/q19-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q19-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q19-3.jpg"
+}
+],
+"c": [
+"A German cardinal becomes Pope.",
+"Liverpool come back from 3–0 down in Istanbul.",
+"Concerts around the world to 'Make Poverty History'."
+],
+"h": "Mid-2000s.",
+"e": "2005 — Benedict XVI elected, the Miracle of Istanbul, Live 8."
+},
+{
+"y": 2006,
+"m": [
+{
+"t": "img",
+"src": "media/q20-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q20-2.jpg"
+}
+],
+"c": [
+"Astronomers decide Pluto is no longer a planet.",
+"A console with a motion-sensing remote launches.",
+"Italy win the World Cup in Germany after a famous headbutt.",
+"The first tweet is sent."
+],
+"h": "Mid-2000s.",
+"e": "2006 — Pluto demoted, the Wii, Italy won the World Cup (Zidane's headbutt), Twitter."
+},
+{
+"y": 2007,
+"m": [
+{
+"t": "img",
+"src": "media/q21-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q21-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q21-3.jpg"
+}
+],
+"c": [
+"'An iPod, a phone, and an internet communicator.'",
+"The 'New 7 Wonders of the World' are announced.",
+"The final Harry Potter book is published."
+],
+"h": "Just before the financial crisis.",
+"e": "2007 — the iPhone, the New 7 Wonders, Harry Potter and the Deathly Hallows."
+},
+{
+"y": 2008,
+"m": [
+{
+"t": "img",
+"src": "media/q22-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q22-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q22-3.jpg"
+}
+],
+"c": [
+"The Olympics open in a 'Bird's Nest' stadium.",
+"A Jamaican sprinter sets world records while celebrating.",
+"A giant investment bank collapses."
+],
+"h": "A global financial crisis.",
+"e": "2008 — Beijing Olympics, Usain Bolt, Lehman Brothers collapsed."
+},
+{
+"y": 2008,
+"m": [
+{
+"t": "img",
+"src": "media/q23-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q23-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q23-3.jpg"
+}
+],
+"c": [
+"The world's biggest particle collider is switched on.",
+"A swimmer wins 8 golds at one Games.",
+"America elects its first Black president."
+],
+"h": "'Yes we can.'",
+"e": "2008 — the LHC switched on, Phelps's 8 golds, Obama elected."
+},
+{
+"y": 2009,
+"m": [
+{
+"t": "img",
+"src": "media/q24-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q24-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q24-3.jpg"
+}
+],
+"c": [
+"A pilot lands a jet on the Hudson River.",
+"The King of Pop dies.",
+"A record crowd watches a presidential inauguration.",
+"The first Bitcoin is mined."
+],
+"h": "The end of the 2000s.",
+"e": "2009 — Miracle on the Hudson, Michael Jackson died, Obama inaugurated, Bitcoin."
+},
+{
+"y": 2010,
+"m": [
+{
+"t": "img",
+"src": "media/q25-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q25-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q25-3.jpg"
+}
+],
+"c": [
+"The world's tallest building opens.",
+"An Icelandic volcano grounds flights across Europe.",
+"33 Chilean miners are rescued after 69 days.",
+"Apple launches the iPad."
+],
+"h": "A new decade begins.",
+"e": "2010 — Burj Khalifa, Eyjafjallajökull, the Chilean miners, the iPad."
+},
+{
+"y": 2010,
+"m": [
+{
+"t": "img",
+"src": "media/q26-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q26-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q26-3.jpg"
+}
+],
+"c": [
+"Plastic horns drone through a World Cup in Africa.",
+"Spain win their first World Cup.",
+"An oil rig explodes in the Gulf of Mexico."
+],
+"h": "Waka Waka.",
+"e": "2010 — the South Africa World Cup, Spain champions, Deepwater Horizon."
+},
+{
+"y": 2011,
+"m": [
+{
+"t": "img",
+"src": "media/q27-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q27-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q27-3.jpg"
+}
+],
+"c": [
+"A royal wedding at Westminster Abbey.",
+"An earthquake and tsunami hit a Japanese nuclear plant.",
+"Protests sweep across the Arab world."
+],
+"h": "Early 2010s.",
+"e": "2011 — William & Kate married, Fukushima, the Arab Spring."
+},
+{
+"y": 2011,
+"m": [
+{
+"t": "img",
+"src": "media/q28-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q28-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q28-3.jpg"
+},
+{
+"t": "video",
+"src": "media/q28-4.webm",
+"poster": "media/q28-4-poster.jpg"
+}
+],
+"c": [
+"Officials watch a raid in Pakistan from the White House.",
+"The Space Shuttle flies for the last time.",
+"India win the Cricket World Cup at home with a six.",
+"Steve Jobs dies."
+],
+"h": "Early 2010s.",
+"e": "2011 — the bin Laden raid, the last shuttle flight, India won the Cricket World Cup."
+},
+{
+"y": 2012,
+"m": [
+{
+"t": "img",
+"src": "media/q29-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q29-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q29-3.jpg"
+}
+],
+"c": [
+"A car-sized rover lands on Mars using a 'sky crane'.",
+"A skydiver jumps from the edge of space.",
+"London hosts the Olympics for a third time."
+],
+"h": "The Mayan calendar 'ended'.",
+"e": "2012 — Curiosity landed, Red Bull Stratos, the London Olympics."
+},
+{
+"y": 2012,
+"m": [
+{
+"t": "img",
+"src": "media/q30-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q30-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q30-3.jpg"
+},
+{
+"t": "img",
+"src": "media/q30-4.jpg"
+}
+],
+"c": [
+"The Queen celebrates 60 years on the throne.",
+"A 'superstorm' floods New York's subway.",
+"A K-pop video becomes the first to hit 1 billion YouTube views."
+],
+"h": "Oppa ___ style.",
+"e": "2012 — the Diamond Jubilee, Hurricane Sandy, Gangnam Style."
+},
+{
+"y": 2013,
+"m": [
+{
+"t": "img",
+"src": "media/q31-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q31-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q31-3.jpg"
+}
+],
+"c": [
+"The first Pope from the Americas is elected.",
+"A meteor explodes over a Russian city, caught on dashcams.",
+"A British man wins Wimbledon for the first time in 77 years."
+],
+"h": "Early-to-mid 2010s.",
+"e": "2013 — Pope Francis, the Chelyabinsk meteor, Murray's Wimbledon."
+},
+{
+"y": 2013,
+"m": [
+{
+"t": "img",
+"src": "media/q32-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q32-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q32-3.jpg"
+}
+],
+"c": [
+"A contractor leaks secret NSA files.",
+"A future king is born.",
+"A super typhoon devastates the Philippines.",
+"Nelson Mandela dies."
+],
+"h": "Early-to-mid 2010s.",
+"e": "2013 — the Snowden leaks, Prince George born, Typhoon Haiyan, Mandela's death."
+},
+{
+"y": 2014,
+"m": [
+{
+"t": "img",
+"src": "media/q33-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q33-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q33-3.jpg"
+},
+{
+"t": "video",
+"src": "media/q33-4.webm",
+"poster": "media/q33-4-poster.jpg"
+}
+],
+"c": [
+"A probe lands on a comet.",
+"People pour iced water over their heads for charity.",
+"Germany win the World Cup in Brazil (and beat the hosts 7–1)."
+],
+"h": "Mid-2010s.",
+"e": "2014 — Philae, the Ice Bucket Challenge, Germany won in Brazil."
+},
+{
+"y": 2015,
+"m": [
+{
+"t": "img",
+"src": "media/q34-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q34-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q34-3.jpg"
+}
+],
+"c": [
+"A probe sends back the first close-up photos of Pluto.",
+"A huge earthquake strikes Nepal.",
+"Nearly 200 nations sign a climate deal in Paris."
+],
+"h": "Mid-2010s.",
+"e": "2015 — New Horizons at Pluto, the Nepal earthquake, the Paris Agreement."
+},
+{
+"y": 2015,
+"m": [
+{
+"t": "img",
+"src": "media/q35-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q35-2.jpg"
+},
+{
+"t": "video",
+"src": "media/q35-3.webm",
+"poster": "media/q35-3-poster.jpg"
+}
+],
+"c": [
+"A rocket booster lands upright back on Earth for the first time.",
+"A famous lion is killed in Zimbabwe.",
+"A midfielder scores a hat-trick in 16 minutes in a Women's World Cup final."
+],
+"h": "Mid-2010s.",
+"e": "2015 — SpaceX's first booster landing, Cecil the lion, the USA won the Women's World Cup."
+},
+{
+"y": 2016,
+"m": [
+{
+"t": "img",
+"src": "media/q36-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q36-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q36-3.jpg"
+},
+{
+"t": "video",
+"src": "media/q36-4.webm",
+"poster": "media/q36-4-poster.jpg"
+}
+],
+"c": [
+"A probe enters orbit around Jupiter.",
+"5000-1 outsiders Leicester City win the Premier League.",
+"The UK votes to leave the EU.",
+"People chase virtual creatures through the streets on their phones."
+],
+"h": "The Brexit referendum.",
+"e": "2016 — Juno at Jupiter, Leicester champions, the Brexit vote, Pokémon Go, the Rio Olympics."
+},
+{
+"y": 2017,
+"m": [
+{
+"t": "img",
+"src": "media/q37-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q37-2.jpg"
+},
+{
+"t": "video",
+"src": "media/q37-3.webm",
+"poster": "media/q37-3-poster.jpg"
+}
+],
+"c": [
+"A 'Great American Eclipse' crosses the USA coast to coast.",
+"A hurricane dumps record rain on Houston.",
+"A probe dives into Saturn to end its mission."
+],
+"h": "Late 2010s.",
+"e": "2017 — the Great American Eclipse, Hurricane Harvey, Cassini's Grand Finale."
+},
+{
+"y": 2017,
+"m": [
+{
+"t": "img",
+"src": "media/q38-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q38-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q38-3.jpg"
+}
+],
+"c": [
+"A 39-year-old becomes France's youngest president.",
+"Spinning toys take over classrooms.",
+"A Swiss legend wins his 8th Wimbledon.",
+"'Despacito' is the song of the summer."
+],
+"h": "Late 2010s.",
+"e": "2017 — Macron elected, fidget spinners, Federer's 8th Wimbledon, Despacito."
+},
+{
+"y": 2018,
+"m": [
+{
+"t": "img",
+"src": "media/q39-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q39-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q39-3.jpg"
+},
+{
+"t": "video",
+"src": "media/q39-4.webm",
+"poster": "media/q39-4-poster.jpg"
+}
+],
+"c": [
+"A boys' football team is rescued from a flooded cave in Thailand.",
+"A rocket sends a red sports car into space.",
+"France win the World Cup in Russia.",
+"Prince Harry marries Meghan Markle."
+],
+"h": "Late 2010s.",
+"e": "2018 — the Thai cave rescue, Falcon Heavy's Tesla, France won in Russia, the Harry & Meghan wedding."
+},
+{
+"y": 2019,
+"m": [
+{
+"t": "img",
+"src": "media/q40-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q40-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q40-3.jpg"
+}
+],
+"c": [
+"A cathedral's spire collapses in a fire in Paris.",
+"The first-ever photo of a black hole.",
+"A teenage activist sails across the Atlantic."
+],
+"h": "Just before a pandemic.",
+"e": "2019 — the Notre-Dame fire, the first black hole image, Greta's Atlantic crossing."
+},
+{
+"y": 2019,
+"m": [
+{
+"t": "img",
+"src": "media/q41-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q41-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q41-3.jpg"
+}
+],
+"c": [
+"The USA win a second straight Women's World Cup in France.",
+"England win the Cricket World Cup on a super over.",
+"A new UK prime minister promises to 'Get Brexit Done'."
+],
+"h": "Just before a pandemic.",
+"e": "2019 — the Women's World Cup, England's cricket win, Boris Johnson became PM."
+},
+{
+"y": 2020,
+"m": [
+{
+"t": "img",
+"src": "media/q42-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q42-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q42-3.jpg"
+}
+],
+"c": [
+"The world goes into lockdown.",
+"A private spacecraft takes astronauts to the ISS.",
+"A basketball legend dies in a helicopter crash.",
+"The Tokyo Olympics are postponed."
+],
+"h": "You definitely remember this one…",
+"e": "2020 — COVID-19 lockdowns, SpaceX Demo-2, Kobe Bryant's death."
+},
+{
+"y": 2021,
+"m": [
+{
+"t": "img",
+"src": "media/q43-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q43-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q43-3.jpg"
+},
+{
+"t": "video",
+"src": "media/q43-4.webm",
+"poster": "media/q43-4-poster.jpg"
+}
+],
+"c": [
+"A giant container ship gets stuck in the Suez Canal.",
+"A rover lands on Mars carrying a small helicopter.",
+"Delayed Olympics are held with empty stands."
+],
+"h": "A year late for the Olympics.",
+"e": "2021 — the Ever Given, Perseverance landed, Tokyo 2020 held in 2021."
+},
+{
+"y": 2021,
+"m": [
+{
+"t": "img",
+"src": "media/q44-1.jpg"
+},
+{
+"t": "video",
+"src": "media/q44-2.webm",
+"poster": "media/q44-2-poster.jpg"
+}
+],
+"c": [
+"A billionaire rides his own rocket to space.",
+"The first all-civilian crew orbits Earth.",
+"The first powered flight on another planet."
+],
+"h": "The billionaire space race.",
+"e": "2021 — Bezos on New Shepard, Inspiration4, Ingenuity's first flight on Mars."
+},
+{
+"y": 2022,
+"m": [
+{
+"t": "img",
+"src": "media/q45-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q45-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q45-3.jpg"
+}
+],
+"c": [
+"A new space telescope releases its first deep-field images.",
+"Argentina win the World Cup in Qatar.",
+"Britain's longest-reigning monarch dies."
+],
+"h": "Very recent.",
+"e": "2022 — JWST's first images, Argentina won in Qatar, Queen Elizabeth II died."
+},
+{
+"y": 2022,
+"m": [
+{
+"t": "img",
+"src": "media/q46-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q46-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q46-3.jpg"
+},
+{
+"t": "video",
+"src": "media/q46-4.webm",
+"poster": "media/q46-4-poster.jpg"
+}
+],
+"c": [
+"NASA crashes a spacecraft into an asteroid on purpose.",
+"A giant new Moon rocket flies an uncrewed capsule around the Moon.",
+"A billionaire buys Twitter.",
+"A chatbot called ChatGPT is released."
+],
+"h": "Very recent.",
+"e": "2022 — DART, Artemis I, Musk bought Twitter, ChatGPT launched."
+},
+{
+"y": 2023,
+"m": [
+{
+"t": "img",
+"src": "media/q47-1.webp"
+},
+{
+"t": "img",
+"src": "media/q47-2.jpg"
+},
+{
+"t": "video",
+"src": "media/q47-3.webm",
+"poster": "media/q47-3-poster.jpg"
+}
+],
+"c": [
+"India lands a spacecraft near the Moon's south pole.",
+"A king is crowned at Westminster Abbey.",
+"A submersible is lost on a dive to the Titanic."
+],
+"h": "Very recent.",
+"e": "2023 — Chandrayaan-3, Charles III's coronation, the Titan submersible."
+},
+{
+"y": 2023,
+"m": [
+{
+"t": "img",
+"src": "media/q48-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q48-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q48-3.jpg"
+}
+],
+"c": [
+"Huge earthquakes strike Turkey and Syria.",
+"AI chatbots go mainstream.",
+"A record-breaking stadium tour; a pink-and-atomic 'Barbenheimer' summer."
+],
+"h": "Very recent.",
+"e": "2023 — the Turkey–Syria earthquakes, the AI boom, the Eras Tour and Barbenheimer."
+},
+{
+"y": 2024,
+"m": [
+{
+"t": "img",
+"src": "media/q49-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q49-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q49-3.jpg"
+},
+{
+"t": "video",
+"src": "media/q49-4.webm",
+"poster": "media/q49-4-poster.jpg"
+}
+],
+"c": [
+"A total eclipse crosses Mexico, the USA and Canada.",
+"A container ship knocks down a bridge in Baltimore.",
+"Paris hosts the Olympics, with an opening ceremony on the Seine.",
+"A giant rocket booster is caught by 'chopsticks'."
+],
+"h": "Paris Olympics year.",
+"e": "2024 — the North American eclipse, the Baltimore bridge collapse, the Paris Olympics, Starship's booster catch."
+},
+{
+"y": 2025,
+"m": [
+{
+"t": "img",
+"src": "media/q50-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q50-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q50-3.jpg"
+},
+{
+"t": "img",
+"src": "media/q50-4.jpg"
+}
+],
+"c": [
+"The first American Pope is elected.",
+"Wildfires burn through Los Angeles in January.",
+"A president returns for a second, non-consecutive term."
+],
+"h": "Last year.",
+"e": "2025 — Pope Leo XIV, the LA wildfires, Trump's second inauguration."
+},
+{
+"y": 2025,
+"m": [
+{
+"t": "img",
+"src": "media/q51-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q51-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q51-3.jpg"
+}
+],
+"c": [
+"A private lander touches down on the Moon.",
+"Liverpool win the Premier League in their new manager's first season.",
+"Thieves steal crown jewels from the world's most-visited museum."
+],
+"h": "Last year.",
+"e": "2025 — Blue Ghost landed on the Moon, Liverpool champions, the Louvre jewel heist."
+},
+{
+"y": 2026,
+"m": [
+{
+"t": "img",
+"src": "media/q52-1.jpg"
+},
+{
+"t": "img",
+"src": "media/q52-2.jpg"
+},
+{
+"t": "img",
+"src": "media/q52-3.jpg"
+}
+],
+"c": [
+"Milan and Cortina host the Winter Olympics.",
+"The first 48-team World Cup is played across the USA, Canada and Mexico.",
+"The USA marks its 250th birthday."
+],
+"h": "This year!",
+"e": "2026 — Milano Cortina Winter Olympics, the 48-team World Cup, America's 250th."
+}
+];
+
+const TIMER_SECONDS = 60;
+const stage=document.getElementById('stage'), dotsWrap=document.getElementById('dots'),
+      prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn'),
+      progress=document.getElementById('progress'), lightbox=document.getElementById('lightbox');
+let current=-1, timerId=null;
+const revealed = GAME.map(()=>false);      // answer shown?
+const clueCount = GAME.map(()=>1);         // headline clues unlocked (first one free)
+const esc = s => String(s).replace(/[&<>"]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+
+function mediaHTML(m, k){
+  const badge = m.t==='video' ? '<span class="badge">▶ Clip</span>' : m.t==='gif' ? '<span class="badge">GIF</span>' : '';
+  const inner = m.t==='video'
+    ? `<video src="${esc(m.src)}" muted loop playsinline preload="metadata" ${m.poster?`poster="${esc(m.poster)}"`:''}></video>`
+    : `<img src="${esc(m.src)}" alt="Photo clue ${k+1}" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.polaroid').remove()">`;
+  return `<figure class="polaroid" data-k="${k}" style="margin:0"><div class="ph">${inner}</div>${badge}<figcaption class="cap">Exhibit ${String.fromCharCode(65+k)}</figcaption></figure>`;
+}
+
+function buildSlides(){
+  const intro=document.createElement('section');
+  intro.className='slide'; intro.dataset.i=-1;
+  intro.innerHTML=`
+    <div class="sheet intro">
+      <div class="kicker">★ Special Edition · 1990 – 2026 ★</div>
+      <h1>Identify the <span>Year</span></h1>
+      <p class="lead">Every round is a page torn from history. Study the photos, clips and headlines, then shout out the <b>year</b> it all happened. Everything is from <b>1990 to 2026</b>, so you lived through all of it!</p>
+      <ul class="rules">
+        <li><b>👆 Add players first:</b> use <b>＋ Add Player</b> in the scorecard above and type each name.</li>
+        <li><b>📷 Exhibits:</b> each round shows real photos (and sometimes a GIF or video clip). Click any photo to enlarge it.</li>
+        <li><b>📰 Headlines:</b> one headline is shown at the start. The host presses <b>Next Clue</b> to reveal more.</li>
+        <li><b>⏱ ${TIMER_SECONDS} seconds</b> per round. The timer starts when the round appears.</li>
+        <li><b>💡 Hint</b> narrows down the era. <b>🗓 Reveal Year</b> stamps the answer with the story behind it.</li>
+        <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year, 1 pt for ±1 year.</li>
+      </ul>
+      <button class="act begin" id="beginBtn">▶ Start the Time Machine</button>
+      <div class="foot">Keys: ← → navigate · C next clue · H hint · A reveal year · Esc closes photo</div>
+    </div>`;
+  stage.appendChild(intro);
+
+  GAME.forEach((q,i)=>{
+    const s=document.createElement('section');
+    s.className='slide'; s.dataset.i=i;
+    const n=Math.min(q.m.length,4);
+    s.innerHTML=`
+      <div class="sheet">
+        <div class="qhead">
+          <span class="edition">Round ${i+1} of ${GAME.length}</span>
+          <span class="timer" data-timer><span class="dial"><b>${TIMER_SECONDS}</b></span></span>
+        </div>
+        <h2 class="qtitle">What <em>year</em> was this?</h2>
+        <p class="qsub">Study the exhibits and headlines. Everything below happened in the same year.</p>
+        <div class="wall" style="--n:${n}">${q.m.map(mediaHTML).join('')}</div>
+        <div class="clips">${q.c.map((c,k)=>`<div class="clip ${k>0?'locked':''}" data-clip="${k}"><span class="n">${k+1}</span><span>${esc(c)}</span></div>`).join('')}</div>
+        <div class="actions">
+          <button class="act clue" data-a="clue">📰 Next Clue</button>
+          <button class="act hint" data-a="hint">💡 Hint</button>
+          <button class="act answer" data-a="answer">🗓 Reveal Year</button>
+          <span class="feedback" data-fb></span>
+        </div>
+        <div class="hintbox" data-hint>💡 ${esc(q.h)}</div>
+        <div class="answerbox" data-ans><div class="stampyear">${q.y}</div><p>${esc(q.e)}</p></div>
+      </div>`;
+    stage.appendChild(s);
+    s.querySelector('[data-a="clue"]').onclick=()=>nextClue(i);
+    s.querySelector('[data-a="hint"]').onclick=()=>s.querySelector('[data-hint]').classList.toggle('show');
+    s.querySelector('[data-a="answer"]').onclick=()=>revealAnswer(i);
+    s.querySelectorAll('.polaroid').forEach(p=>p.onclick=()=>openLightbox(p));
+    s.querySelectorAll('video').forEach(v=>{ v.onmouseenter=()=>v.play().catch(()=>{}); });
+  });
+
+  const t=document.createElement('section');
+  t.className='slide'; t.dataset.i=GAME.length;
+  t.innerHTML=`
+    <div class="sheet tally">
+      <div class="kicker">★ Final Edition ★</div>
+      <div class="winner" id="winnerName">—</div>
+      <div class="winner-sub" id="winnerSub">Final Scores</div>
+      <div class="ranklist" id="rankBody"></div>
+      <div class="actions" style="justify-content:center">
+        <button class="act" id="restartBtn">↺ Back to Round 1 (keep scores)</button>
+        <button class="act" id="clearBtn">✕ Reset all scores</button>
+      </div>
+    </div>`;
+  stage.appendChild(t);
+  intro.querySelector('#beginBtn').onclick=()=>showSlide(0);
+  t.querySelector('#restartBtn').onclick=()=>showSlide(0);
+  t.querySelector('#clearBtn').onclick=()=>{ if(confirm('Reset every player score to 0?')){ players.forEach(p=>p.score=0); save(); renderPlayers(); renderTally(); } };
+
+  buildDots();
+  showSlide(-1);
+}
+
+function slideEl(i){ return stage.querySelector(`.slide[data-i="${i}"]`); }
+function nextClue(i){
+  const s=slideEl(i), q=GAME[i];
+  if(clueCount[i]>=q.c.length) return;
+  const el=s.querySelector(`[data-clip="${clueCount[i]}"]`);
+  el.classList.remove('locked'); el.classList.add('fresh');
+  clueCount[i]++;
+  s.querySelector('[data-a="clue"]').disabled = clueCount[i]>=q.c.length;
+}
+function revealAnswer(i){
+  const s=slideEl(i);
+  while(clueCount[i]<GAME[i].c.length) nextClue(i);
+  s.querySelector('[data-ans]').classList.add('show');
+  revealed[i]=true; stopTimer(); markDots();
+  const fb=s.querySelector('[data-fb]'); fb.textContent='';
+}
+function openLightbox(p){
+  const media=p.querySelector('img,video'); if(!media) return;
+  lightbox.innerHTML='';
+  const clone = media.tagName==='VIDEO'
+    ? Object.assign(document.createElement('video'),{src:media.src,controls:true,autoplay:true,loop:true})
+    : Object.assign(document.createElement('img'),{src:media.currentSrc||media.src});
+  if(clone.tagName==='IMG') clone.referrerPolicy='no-referrer';
+  lightbox.appendChild(clone); lightbox.classList.add('show');
+}
+lightbox.onclick=e=>{ if(e.target.tagName!=='VIDEO'){ lightbox.classList.remove('show'); lightbox.innerHTML=''; } };
+
+/* ---------- dots ---------- */
+function buildDots(){
+  dotsWrap.innerHTML='';
+  for(let i=0;i<=GAME.length;i++){
+    const d=document.createElement('div'); d.className='dot'; d.title= i<GAME.length?`Round ${i+1}`:'Final scores';
+    d.onclick=()=>showSlide(i); dotsWrap.appendChild(d);
+  }
+}
+function markDots(){
+  [...dotsWrap.children].forEach((d,i)=>{ d.classList.toggle('active',i===current); d.classList.toggle('done',!!revealed[i]); });
+}
+
+/* ---------- timer ---------- */
+function stopTimer(){ if(timerId){ clearInterval(timerId); timerId=null; } }
+function startTimer(i){
+  stopTimer();
+  const s=slideEl(i), wrap=s.querySelector('[data-timer]'), dial=wrap.querySelector('.dial'), num=dial.querySelector('b'), fb=s.querySelector('[data-fb]');
+  let left=TIMER_SECONDS;
+  const paint=()=>{ num.textContent=left; dial.style.setProperty('--p', left/TIMER_SECONDS*100);
+    wrap.classList.toggle('warn',left<=10&&left>0); wrap.classList.toggle('done',left<=0); };
+  fb.textContent='';
+  if(revealed[i]){ left=0; paint(); wrap.classList.remove('done'); return; }
+  paint();
+  timerId=setInterval(()=>{ left--; paint(); if(left<=0){ stopTimer(); fb.textContent="⏱ Time's up! Lock in your answers."; } },1000);
+}
+
+/* ---------- navigation ---------- */
+function showSlide(i){
+  stopTimer(); current=i;
+  const isIntro=i===-1, isTally=i===GAME.length;
+  stage.querySelectorAll('.slide').forEach(s=>s.classList.toggle('active',+s.dataset.i===i));
+  stage.querySelectorAll('video').forEach(v=>v.pause());
+  const act=slideEl(i); if(act) act.querySelectorAll('video').forEach(v=>v.play().catch(()=>{}));
+  prevBtn.style.visibility=isIntro?'hidden':'visible';
+  nextBtn.style.visibility=isIntro?'hidden':'visible';
+  nextBtn.disabled=isTally;
+  nextBtn.textContent= i===GAME.length-1 ? 'Final Scores ›' : isTally ? 'Done' : 'Next ›';
+  progress.textContent= isIntro ? 'Instructions' : isTally ? 'Final Scores' : `Round ${i+1} / ${GAME.length}`;
+  document.getElementById('scorecard').classList.toggle('tally-mode',isTally);
+  if(isTally) renderTally();
+  if(i>=0 && i<GAME.length) startTimer(i);
+  markDots();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+prevBtn.onclick=()=>{ if(current>0) showSlide(current-1); else if(current===0) showSlide(-1); };
+nextBtn.onclick=()=>{ if(current<GAME.length) showSlide(current+1); };
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT') return;
+  if(e.key==='Escape'){ lightbox.classList.remove('show'); lightbox.innerHTML=''; return; }
+  if(e.key==='ArrowRight') nextBtn.click();
+  if(e.key==='ArrowLeft') prevBtn.click();
+  if(current>=0 && current<GAME.length){
+    const k=e.key.toLowerCase(), s=slideEl(current);
+    if(k==='c') nextClue(current);
+    if(k==='h') s.querySelector('[data-hint]').classList.toggle('show');
+    if(k==='a') revealAnswer(current);
+  }
+});
+
+/* ---------- scorecard (saved in this browser) ---------- */
+let players;
+try{ players=JSON.parse(localStorage.getItem('ity-players')) }catch(e){}
+if(!Array.isArray(players)||!players.length) players=[{name:'',score:0},{name:'',score:0}];
+function save(){ try{ localStorage.setItem('ity-players',JSON.stringify(players)); }catch(e){} }
+const playersEl=document.getElementById('players');
+function renderPlayers(){
+  const max=Math.max(...players.map(p=>p.score),0);
+  playersEl.innerHTML='';
+  players.forEach((p,i)=>{
+    const el=document.createElement('div');
+    el.className='player'+(p.score>0&&p.score===max?' lead':'');
+    el.innerHTML=`<input class="pname" value="${esc(p.name)}" placeholder="Player ${i+1}" aria-label="Player name"/>
+      <button class="sbtn minus" title="Decrease">−</button><span class="score">${p.score}</span>
+      <button class="sbtn plus" title="Increase">+</button><button class="pdel" title="Remove player">✕</button>`;
+    const inp=el.querySelector('.pname');
+    inp.oninput=()=>{ p.name=inp.value; save(); };
+    inp.onkeydown=e=>{ if(e.key==='Enter') inp.blur(); };
+    el.querySelector('.plus').onclick=()=>{ p.score++; save(); renderPlayers(); };
+    el.querySelector('.minus').onclick=()=>{ p.score--; save(); renderPlayers(); };
+    el.querySelector('.pdel').onclick=()=>{ if(p.score===0||confirm(`Remove ${p.name||'Player '+(i+1)}?`)){ players.splice(i,1); save(); renderPlayers(); } };
+    playersEl.appendChild(el);
+  });
+}
+document.getElementById('addPlayer').onclick=()=>{
+  players.push({name:'',score:0}); save(); renderPlayers();
+  const ins=playersEl.querySelectorAll('.pname'); ins[ins.length-1].focus();
+};
+function renderTally(){
+  const body=document.getElementById('rankBody'), wn=document.getElementById('winnerName'), ws=document.getElementById('winnerSub');
+  const list=players.map((p,i)=>({...p,display:p.name.trim()||`Player ${i+1}`})).sort((a,b)=>b.score-a.score);
+  body.innerHTML='';
+  if(!list.length){ wn.textContent='No players'; ws.textContent=''; return; }
+  const top=list[0].score, winners=list.filter(p=>p.score===top);
+  if(top===0 && winners.length===list.length){ wn.textContent='Final Standings'; ws.textContent='No points scored yet!'; }
+  else if(winners.length===1){ wn.textContent=winners[0].display; ws.textContent=`Wins with ${top} points 🎉`; }
+  else if(winners.length===2){ wn.textContent=winners.map(w=>w.display).join(' & '); ws.textContent=`Tied at ${top} points!`; }
+  else { wn.textContent="It's a Tie!"; ws.textContent=`${winners.length} players tied at ${top} points`; }
+  const medals=['🥇','🥈','🥉'];
+  list.forEach((p,i)=>{
+    const r=document.createElement('div'); r.className='rankrow'+(p.score===top&&top>0?' first':'');
+    r.innerHTML=`<span class="rk">${medals[i]||'#'+(i+1)}</span><span class="nm">${esc(p.display)}</span><span class="sc">${p.score}</span>`;
+    body.appendChild(r);
+  });
+}
+
+renderPlayers();
+buildSlides();
+</script>
+</body>
+</html>
