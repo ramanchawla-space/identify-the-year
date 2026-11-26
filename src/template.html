@@ -57,18 +57,18 @@
   #scorecard.tally-mode .sc-label{display:block}
 
   /* ---------- Stage ---------- */
-  #stage{max-width:1100px;margin:22px auto;padding:0 20px 40px}
+  #stage{max-width:1180px;margin:14px auto;padding:0 20px 96px}
   .slide{display:none;animation:fade .35s ease}
   .slide.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .sheet{background:var(--card);border:1px solid var(--rule);box-shadow:var(--shadow);padding:22px 28px 26px;position:relative}
+  .sheet{background:var(--card);border:1px solid var(--rule);box-shadow:var(--shadow);padding:16px 24px 18px;position:relative}
   .sheet::before{content:"";position:absolute;inset:6px;border:1px solid var(--rule);pointer-events:none}
 
   .qhead{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:6px}
   .edition{font-family:"Special Elite",monospace;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
-  .qtitle{font-family:"Playfair Display",serif;font-weight:900;font-size:2rem;margin:10px 0 2px;letter-spacing:-.01em}
+  .qtitle{font-family:"Playfair Display",serif;font-weight:900;font-size:clamp(1.3rem,3.2vh,2rem);margin:6px 0 0;letter-spacing:-.01em}
   .qtitle em{color:var(--red);font-style:italic}
-  .qsub{color:var(--ink2);margin:0 0 16px;font-size:.95rem}
+  .qsub{color:var(--ink2);margin:0 0 6px;font-size:.9rem}
 
   /* film-countdown timer */
   .timer{display:flex;align-items:center;gap:8px;font-weight:800}
@@ -82,8 +82,8 @@
   @keyframes pulse{50%{transform:scale(1.08)}}
 
   /* polaroid photo wall */
-  .wall{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:22px;padding:14px 6px 6px}
-  .polaroid{background:#fff;padding:10px 10px 30px;box-shadow:0 6px 16px rgba(40,30,10,.22);cursor:zoom-in;position:relative;
+  .wall{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:20px;padding:12px 6px 4px}
+  .polaroid{background:#fff;padding:8px 8px 26px;box-shadow:0 6px 16px rgba(40,30,10,.22);cursor:zoom-in;position:relative;
     transition:transform .2s ease, box-shadow .2s ease}
   .polaroid:nth-child(3n+1){transform:rotate(-2deg)}
   .polaroid:nth-child(3n+2){transform:rotate(1.4deg)}
@@ -91,27 +91,31 @@
   .polaroid:hover{transform:rotate(0) scale(1.03);z-index:2;box-shadow:0 12px 28px rgba(40,30,10,.3)}
   .polaroid::before{content:"";position:absolute;top:-10px;left:50%;width:80px;height:22px;transform:translateX(-50%) rotate(-3deg);
     background:rgba(230,215,170,.75);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-  .polaroid .ph{aspect-ratio:4/3;background:#222;overflow:hidden;display:grid;place-items:center}
+  .polaroid .ph{aspect-ratio:4/3;max-height:calc(100vh - 560px);min-height:120px;width:100%;background:#222;overflow:hidden;display:grid;place-items:center}
   .polaroid img,.polaroid video{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.92) contrast(1.02)}
   .polaroid .cap{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-family:"Special Elite",monospace;font-size:.8rem;color:var(--ink2)}
-  .polaroid .badge{position:absolute;top:16px;right:16px;background:var(--red);color:#fff;font-size:.68rem;font-weight:800;letter-spacing:.08em;
+  .polaroid .play{position:absolute;inset:8px 8px 26px;display:grid;place-items:center;pointer-events:none}
+  .polaroid .play span{background:rgba(192,57,43,.92);color:#fff;font-weight:800;padding:10px 14px;border-radius:999px;font-size:.9rem;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  .polaroid .badge{position:absolute;top:14px;right:14px;background:var(--red);color:#fff;font-size:.68rem;font-weight:800;letter-spacing:.08em;
     padding:3px 7px;border-radius:3px;text-transform:uppercase}
 
   /* headline clue clippings */
-  .clips{margin-top:20px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-  .clip{background:var(--paper);border-left:4px solid var(--ink);padding:10px 14px;font-family:"Special Elite",monospace;font-size:1rem;line-height:1.35;
+  .clips{margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .clip{background:var(--paper);border-left:4px solid var(--ink);padding:7px 12px;font-family:"Special Elite",monospace;font-size:.95rem;line-height:1.3;
     display:flex;gap:10px;align-items:flex-start}
   .clip .n{font-family:"Playfair Display",serif;font-weight:900;color:var(--red);font-size:1.1rem;line-height:1.1}
   .clip.locked{color:transparent;user-select:none;background:repeating-linear-gradient(-45deg,var(--paper2),var(--paper2) 8px,var(--paper) 8px,var(--paper) 16px);border-left-color:var(--rule)}
   .clip.locked .n{color:var(--muted)}
-  .clip.locked::after{content:"Headline hidden — press 📰 Next Clue";color:var(--muted);font-family:Inter,sans-serif;font-size:.85rem}
+  .clip.locked::after{content:"Clue hidden — press 📰 Next Clue";color:var(--muted);font-family:Inter,sans-serif;font-size:.85rem}
   .clip.locked span:not(.n){display:none}
+  .cat{display:inline-block;font-family:Inter,sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;margin-right:8px;vertical-align:2px;color:#fff}
+  .cat-world{background:var(--teal)}.cat-aus{background:#1a7a3a}.cat-tech{background:#3b4a8c}.cat-ent{background:#9a3a7a}
   .clip.fresh{animation:stamp .4s ease}
   @keyframes stamp{from{transform:scale(1.04);background:#fff4d6}to{transform:none}}
 
   /* controls */
-  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;align-items:center}
-  .act{cursor:pointer;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);border-radius:4px;padding:10px 16px;font-weight:700;font-size:.95rem;
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
+  .act{cursor:pointer;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);border-radius:4px;padding:8px 14px;font-weight:700;font-size:.95rem;
     box-shadow:2px 2px 0 var(--ink);transition:transform .08s}
   .act:active{transform:translate(2px,2px);box-shadow:none}
   .act.clue{background:var(--ink);color:var(--paper)}
@@ -141,10 +145,11 @@
   .intro .foot{font-family:"Special Elite",monospace;color:var(--muted);margin-top:14px;font-size:.85rem}
 
   /* nav */
-  #nav{max-width:1100px;margin:0 auto 30px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .navbtn{cursor:pointer;background:var(--card);border:1.5px solid var(--ink);border-radius:4px;padding:11px 20px;font-weight:700;box-shadow:2px 2px 0 var(--ink)}
+  #nav{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:8px max(20px,calc((100vw - 1180px)/2 + 20px));display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:rgba(243,236,220,.96);backdrop-filter:blur(6px);border-top:3px double var(--ink);box-shadow:0 -4px 18px rgba(60,45,20,.12)}
+  .navbtn{cursor:pointer;background:var(--card);border:1.5px solid var(--ink);border-radius:4px;padding:9px 20px;font-weight:700;box-shadow:2px 2px 0 var(--ink)}
   .navbtn:disabled{opacity:.35;cursor:not-allowed}
-  .mid{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .mid{display:flex;flex-direction:column;align-items:center;gap:5px}
   .progress{font-family:"Special Elite",monospace;color:var(--ink2);letter-spacing:.08em}
   .dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:620px}
   .dot{width:9px;height:9px;border-radius:50%;background:var(--rule);cursor:pointer}
@@ -166,10 +171,12 @@
   /* lightbox */
   #lightbox{position:fixed;inset:0;background:rgba(20,16,10,.88);display:none;align-items:center;justify-content:center;z-index:200;padding:30px;cursor:zoom-out}
   #lightbox.show{display:flex}
+  #lightbox .lbhint{position:absolute;top:14px;left:0;right:0;text-align:center;color:#fff;font-weight:700}
   #lightbox img,#lightbox video{max-width:96vw;max-height:88vh;background:#fff;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 
   .hidden{display:none!important}
   @media (max-width:760px){
+    .polaroid .ph{max-height:none}
     .players{grid-template-columns:repeat(2,1fr)}
     .wall{grid-template-columns:1fr 1fr}
     .clips,.rules,.ranklist{grid-template-columns:1fr}
@@ -216,14 +223,16 @@ const stage=document.getElementById('stage'), dotsWrap=document.getElementById('
 let current=-1, timerId=null;
 const revealed = GAME.map(()=>false);      // answer shown?
 const clueCount = GAME.map(()=>1);         // headline clues unlocked (first one free)
+const CATS={world:['🌍','World'],aus:['🇦🇺','Australia'],tech:['💻','Tech'],ent:['🎬','Entertainment']};
+const catTag=c=>CATS[c]?`<span class="cat cat-${c}">${CATS[c][0]} ${CATS[c][1]}</span>`:'';
 const esc = s => String(s).replace(/[&<>"]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
 
 function mediaHTML(m, k){
-  const badge = m.t==='video' ? '<span class="badge">▶ Clip</span>' : m.t==='gif' ? '<span class="badge">GIF</span>' : '';
+  const badge = m.t==='video' ? '<span class="badge">🔊 Sound clip</span><div class="play"><span>▶ Click to play with sound</span></div>' : m.t==='gif' ? '<span class="badge">GIF</span>' : '';
   const inner = m.t==='video'
-    ? `<video src="${esc(m.src)}" muted loop playsinline preload="metadata" ${m.poster?`poster="${esc(m.poster)}"`:''}></video>`
+    ? `<video src="${esc(m.src)}${m.start?'#t='+m.start:''}" playsinline preload="metadata" ${m.poster?`poster="${esc(m.poster)}"`:''}></video>`
     : `<img src="${esc(m.src)}" alt="Photo clue ${k+1}" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.polaroid').remove()">`;
-  return `<figure class="polaroid" data-k="${k}" style="margin:0"><div class="ph">${inner}</div>${badge}<figcaption class="cap">Exhibit ${String.fromCharCode(65+k)}</figcaption></figure>`;
+  return `<figure class="polaroid" data-k="${k}" style="margin:0"><div class="ph">${inner}</div>${badge}<figcaption class="cap">Exhibit ${k+1}${m.cat?' · '+CATS[m.cat][1]:''}</figcaption></figure>`;
 }
 
 function buildSlides(){
@@ -233,11 +242,12 @@ function buildSlides(){
     <div class="sheet intro">
       <div class="kicker">★ Special Edition · 1990 – 2026 ★</div>
       <h1>Identify the <span>Year</span></h1>
-      <p class="lead">Every round is a page torn from history. Study the photos, clips and headlines, then shout out the <b>year</b> it all happened. Everything is from <b>1990 to 2026</b>, so you lived through all of it!</p>
+      <p class="lead">Every round is a page torn from history, with plenty from home in Australia. Study the photos, clips and clues, then shout out the <b>year</b> it all happened. Everything is from <b>1990 to 2026</b>, so you lived through all of it!</p>
       <ul class="rules">
         <li><b>👆 Add players first:</b> use <b>＋ Add Player</b> in the scorecard above and type each name.</li>
-        <li><b>📷 Exhibits:</b> each round shows real photos (and sometimes a GIF or video clip). Click any photo to enlarge it.</li>
-        <li><b>📰 Headlines:</b> one headline is shown at the start. The host presses <b>Next Clue</b> to reveal more.</li>
+        <li><b>🗞 Four desks per round:</b> 🌍 World, 🇦🇺 Australia, 💻 Tech and 🎬 Entertainment news.</li>
+        <li><b>📷 Exhibits:</b> each round has four numbered exhibits, including a 🔊 video clip with sound. Click any exhibit to enlarge or play it (turn your speakers up!).</li>
+        <li><b>📰 Clues:</b> each numbered clue matches the exhibit with the same number. One is shown at the start; the host presses <b>Next Clue</b> for more.</li>
         <li><b>⏱ ${TIMER_SECONDS} seconds</b> per round. The timer starts when the round appears.</li>
         <li><b>💡 Hint</b> narrows down the era. <b>🗓 Reveal Year</b> stamps the answer with the story behind it.</li>
         <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year, 1 pt for ±1 year.</li>
@@ -258,9 +268,9 @@ function buildSlides(){
           <span class="timer" data-timer><span class="dial"><b>${TIMER_SECONDS}</b></span></span>
         </div>
         <h2 class="qtitle">What <em>year</em> was this?</h2>
-        <p class="qsub">Study the exhibits and headlines. Everything below happened in the same year.</p>
+        <p class="qsub">Study the exhibits and clues. Everything below happened in the same year.</p>
         <div class="wall" style="--n:${n}">${q.m.map(mediaHTML).join('')}</div>
-        <div class="clips">${q.c.map((c,k)=>`<div class="clip ${k>0?'locked':''}" data-clip="${k}"><span class="n">${k+1}</span><span>${esc(c)}</span></div>`).join('')}</div>
+        <div class="clips">${q.c.map((c,k)=>`<div class="clip ${k>0?'locked':''}" data-clip="${k}"><span class="n">${k+1}</span><span>${catTag((q.m[k]||{}).cat)}${esc(c)}</span></div>`).join('')}</div>
         <div class="actions">
           <button class="act clue" data-a="clue">📰 Next Clue</button>
           <button class="act hint" data-a="hint">💡 Hint</button>
@@ -275,7 +285,6 @@ function buildSlides(){
     s.querySelector('[data-a="hint"]').onclick=()=>s.querySelector('[data-hint]').classList.toggle('show');
     s.querySelector('[data-a="answer"]').onclick=()=>revealAnswer(i);
     s.querySelectorAll('.polaroid').forEach(p=>p.onclick=()=>openLightbox(p));
-    s.querySelectorAll('video').forEach(v=>{ v.onmouseenter=()=>v.play().catch(()=>{}); });
   });
 
   const t=document.createElement('section');
@@ -297,7 +306,8 @@ function buildSlides(){
   t.querySelector('#clearBtn').onclick=()=>{ if(confirm('Reset every player score to 0?')){ players.forEach(p=>p.score=0); save(); renderPlayers(); renderTally(); } };
 
   buildDots();
-  showSlide(-1);
+  const hm=location.hash.match(/^#r(\d+)$/);
+  showSlide(hm ? Math.min(Math.max(+hm[1]-1,0),GAME.length-1) : -1);
 }
 
 function slideEl(i){ return stage.querySelector(`.slide[data-i="${i}"]`); }
@@ -320,10 +330,12 @@ function openLightbox(p){
   const media=p.querySelector('img,video'); if(!media) return;
   lightbox.innerHTML='';
   const clone = media.tagName==='VIDEO'
-    ? Object.assign(document.createElement('video'),{src:media.src,controls:true,autoplay:true,loop:true})
+    ? Object.assign(document.createElement('video'),{src:media.src,controls:true,autoplay:true,muted:false,volume:1,playsInline:true})
     : Object.assign(document.createElement('img'),{src:media.currentSrc||media.src});
   if(clone.tagName==='IMG') clone.referrerPolicy='no-referrer';
   lightbox.appendChild(clone); lightbox.classList.add('show');
+  if(clone.tagName==='VIDEO'){ clone.muted=false; clone.volume=1; clone.play().catch(()=>{});
+    const h=document.createElement('div'); h.className='lbhint'; h.textContent='🔊 Sound on. Click outside the video or press Esc to close'; lightbox.appendChild(h); }
 }
 lightbox.onclick=e=>{ if(e.target.tagName!=='VIDEO'){ lightbox.classList.remove('show'); lightbox.innerHTML=''; } };
 
@@ -356,10 +368,10 @@ function startTimer(i){
 /* ---------- navigation ---------- */
 function showSlide(i){
   stopTimer(); current=i;
+  try{ history.replaceState(null,'', i>=0&&i<GAME.length ? '#r'+(i+1) : location.pathname); }catch(e){}
   const isIntro=i===-1, isTally=i===GAME.length;
   stage.querySelectorAll('.slide').forEach(s=>s.classList.toggle('active',+s.dataset.i===i));
   stage.querySelectorAll('video').forEach(v=>v.pause());
-  const act=slideEl(i); if(act) act.querySelectorAll('video').forEach(v=>v.play().catch(()=>{}));
   prevBtn.style.visibility=isIntro?'hidden':'visible';
   nextBtn.style.visibility=isIntro?'hidden':'visible';
   nextBtn.disabled=isTally;
@@ -369,7 +381,7 @@ function showSlide(i){
   if(isTally) renderTally();
   if(i>=0 && i<GAME.length) startTimer(i);
   markDots();
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({top:0});
 }
 prevBtn.onclick=()=>{ if(current>0) showSlide(current-1); else if(current===0) showSlide(-1); };
 nextBtn.onclick=()=>{ if(current<GAME.length) showSlide(current+1); };

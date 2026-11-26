@@ -1,3 +1,7 @@
 .vscode/
 .DS_Store
 src/dl.log
+src/*.log
+src/tmp/
+src/sheets/
+src/originals/

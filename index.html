@@ -57,18 +57,18 @@
   #scorecard.tally-mode .sc-label{display:block}
 
   /* ---------- Stage ---------- */
-  #stage{max-width:1100px;margin:22px auto;padding:0 20px 40px}
+  #stage{max-width:1180px;margin:14px auto;padding:0 20px 96px}
   .slide{display:none;animation:fade .35s ease}
   .slide.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-  .sheet{background:var(--card);border:1px solid var(--rule);box-shadow:var(--shadow);padding:22px 28px 26px;position:relative}
+  .sheet{background:var(--card);border:1px solid var(--rule);box-shadow:var(--shadow);padding:16px 24px 18px;position:relative}
   .sheet::before{content:"";position:absolute;inset:6px;border:1px solid var(--rule);pointer-events:none}
 
   .qhead{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:6px}
   .edition{font-family:"Special Elite",monospace;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
-  .qtitle{font-family:"Playfair Display",serif;font-weight:900;font-size:2rem;margin:10px 0 2px;letter-spacing:-.01em}
+  .qtitle{font-family:"Playfair Display",serif;font-weight:900;font-size:clamp(1.3rem,3.2vh,2rem);margin:6px 0 0;letter-spacing:-.01em}
   .qtitle em{color:var(--red);font-style:italic}
-  .qsub{color:var(--ink2);margin:0 0 16px;font-size:.95rem}
+  .qsub{color:var(--ink2);margin:0 0 6px;font-size:.9rem}
 
   /* film-countdown timer */
   .timer{display:flex;align-items:center;gap:8px;font-weight:800}
@@ -82,8 +82,8 @@
   @keyframes pulse{50%{transform:scale(1.08)}}
 
   /* polaroid photo wall */
-  .wall{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:22px;padding:14px 6px 6px}
-  .polaroid{background:#fff;padding:10px 10px 30px;box-shadow:0 6px 16px rgba(40,30,10,.22);cursor:zoom-in;position:relative;
+  .wall{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:20px;padding:12px 6px 4px}
+  .polaroid{background:#fff;padding:8px 8px 26px;box-shadow:0 6px 16px rgba(40,30,10,.22);cursor:zoom-in;position:relative;
     transition:transform .2s ease, box-shadow .2s ease}
   .polaroid:nth-child(3n+1){transform:rotate(-2deg)}
   .polaroid:nth-child(3n+2){transform:rotate(1.4deg)}
@@ -91,27 +91,31 @@
   .polaroid:hover{transform:rotate(0) scale(1.03);z-index:2;box-shadow:0 12px 28px rgba(40,30,10,.3)}
   .polaroid::before{content:"";position:absolute;top:-10px;left:50%;width:80px;height:22px;transform:translateX(-50%) rotate(-3deg);
     background:rgba(230,215,170,.75);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-  .polaroid .ph{aspect-ratio:4/3;background:#222;overflow:hidden;display:grid;place-items:center}
+  .polaroid .ph{aspect-ratio:4/3;max-height:calc(100vh - 560px);min-height:120px;width:100%;background:#222;overflow:hidden;display:grid;place-items:center}
   .polaroid img,.polaroid video{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.92) contrast(1.02)}
   .polaroid .cap{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-family:"Special Elite",monospace;font-size:.8rem;color:var(--ink2)}
-  .polaroid .badge{position:absolute;top:16px;right:16px;background:var(--red);color:#fff;font-size:.68rem;font-weight:800;letter-spacing:.08em;
+  .polaroid .play{position:absolute;inset:8px 8px 26px;display:grid;place-items:center;pointer-events:none}
+  .polaroid .play span{background:rgba(192,57,43,.92);color:#fff;font-weight:800;padding:10px 14px;border-radius:999px;font-size:.9rem;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  .polaroid .badge{position:absolute;top:14px;right:14px;background:var(--red);color:#fff;font-size:.68rem;font-weight:800;letter-spacing:.08em;
     padding:3px 7px;border-radius:3px;text-transform:uppercase}
 
   /* headline clue clippings */
-  .clips{margin-top:20px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-  .clip{background:var(--paper);border-left:4px solid var(--ink);padding:10px 14px;font-family:"Special Elite",monospace;font-size:1rem;line-height:1.35;
+  .clips{margin-top:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .clip{background:var(--paper);border-left:4px solid var(--ink);padding:7px 12px;font-family:"Special Elite",monospace;font-size:.95rem;line-height:1.3;
     display:flex;gap:10px;align-items:flex-start}
   .clip .n{font-family:"Playfair Display",serif;font-weight:900;color:var(--red);font-size:1.1rem;line-height:1.1}
   .clip.locked{color:transparent;user-select:none;background:repeating-linear-gradient(-45deg,var(--paper2),var(--paper2) 8px,var(--paper) 8px,var(--paper) 16px);border-left-color:var(--rule)}
   .clip.locked .n{color:var(--muted)}
-  .clip.locked::after{content:"Headline hidden — press 📰 Next Clue";color:var(--muted);font-family:Inter,sans-serif;font-size:.85rem}
+  .clip.locked::after{content:"Clue hidden — press 📰 Next Clue";color:var(--muted);font-family:Inter,sans-serif;font-size:.85rem}
   .clip.locked span:not(.n){display:none}
+  .cat{display:inline-block;font-family:Inter,sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;margin-right:8px;vertical-align:2px;color:#fff}
+  .cat-world{background:var(--teal)}.cat-aus{background:#1a7a3a}.cat-tech{background:#3b4a8c}.cat-ent{background:#9a3a7a}
   .clip.fresh{animation:stamp .4s ease}
   @keyframes stamp{from{transform:scale(1.04);background:#fff4d6}to{transform:none}}
 
   /* controls */
-  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;align-items:center}
-  .act{cursor:pointer;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);border-radius:4px;padding:10px 16px;font-weight:700;font-size:.95rem;
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
+  .act{cursor:pointer;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);border-radius:4px;padding:8px 14px;font-weight:700;font-size:.95rem;
     box-shadow:2px 2px 0 var(--ink);transition:transform .08s}
   .act:active{transform:translate(2px,2px);box-shadow:none}
   .act.clue{background:var(--ink);color:var(--paper)}
@@ -141,10 +145,11 @@
   .intro .foot{font-family:"Special Elite",monospace;color:var(--muted);margin-top:14px;font-size:.85rem}
 
   /* nav */
-  #nav{max-width:1100px;margin:0 auto 30px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .navbtn{cursor:pointer;background:var(--card);border:1.5px solid var(--ink);border-radius:4px;padding:11px 20px;font-weight:700;box-shadow:2px 2px 0 var(--ink)}
+  #nav{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:8px max(20px,calc((100vw - 1180px)/2 + 20px));display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:rgba(243,236,220,.96);backdrop-filter:blur(6px);border-top:3px double var(--ink);box-shadow:0 -4px 18px rgba(60,45,20,.12)}
+  .navbtn{cursor:pointer;background:var(--card);border:1.5px solid var(--ink);border-radius:4px;padding:9px 20px;font-weight:700;box-shadow:2px 2px 0 var(--ink)}
   .navbtn:disabled{opacity:.35;cursor:not-allowed}
-  .mid{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .mid{display:flex;flex-direction:column;align-items:center;gap:5px}
   .progress{font-family:"Special Elite",monospace;color:var(--ink2);letter-spacing:.08em}
   .dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:620px}
   .dot{width:9px;height:9px;border-radius:50%;background:var(--rule);cursor:pointer}
@@ -166,10 +171,12 @@
   /* lightbox */
   #lightbox{position:fixed;inset:0;background:rgba(20,16,10,.88);display:none;align-items:center;justify-content:center;z-index:200;padding:30px;cursor:zoom-out}
   #lightbox.show{display:flex}
+  #lightbox .lbhint{position:absolute;top:14px;left:0;right:0;text-align:center;color:#fff;font-weight:700}
   #lightbox img,#lightbox video{max-width:96vw;max-height:88vh;background:#fff;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 
   .hidden{display:none!important}
   @media (max-width:760px){
+    .polaroid .ph{max-height:none}
     .players{grid-template-columns:repeat(2,1fr)}
     .wall{grid-template-columns:1fr 1fr}
     .clips,.rules,.ranklist{grid-template-columns:1fr}
@@ -209,1320 +216,1772 @@
    ========================================================================= */
 const GAME = [
 {
-"y": 1990,
+"y": 2001,
 "m": [
-{
-"t": "img",
-"src": "media/q01-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q01-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q01-3.jpg"
-}
-],
-"c": [
-"A political prisoner walks free after 27 years.",
-"A space telescope launches — with a blurry mirror.",
-"East and West Germany become one country again."
-],
-"h": "The very start of the decade.",
-"e": "1990 — Mandela released (Feb), Hubble launched (Apr), German reunification (Oct)."
-},
-{
-"y": 1991,
-"m": [
-{
-"t": "img",
-"src": "media/q02-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q02-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q02-3.jpg"
-},
 {
 "t": "video",
-"src": "media/q02-4.webm",
-"poster": "media/q02-4-poster.jpg"
+"src": "media/r14-1.mp4",
+"cat": "world",
+"poster": "media/r14-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r14-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r14-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r14-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"The USSR ceases to exist on Boxing Day.",
-"A Philippine volcano erupts and cools the whole planet.",
-"Operation Desert Storm."
+"A US president addresses the nation on the evening of the September 11 attacks.",
+"Nicole Kidman stars in Baz Luhrmann's Moulin Rouge!",
+"Dennis Tito pays $20 million to become the first space tourist.",
+"Kylie Minogue's 'Can't Get You Out of My Head' tops the charts around the world."
 ],
-"h": "Early 90s.",
-"e": "1991 — Gulf War (Desert Storm), Pinatubo erupted, the Soviet Union dissolved."
-},
-{
-"y": 1992,
-"m": [
-{
-"t": "img",
-"src": "media/q03-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q03-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q03-3.jpg"
-}
-],
-"c": [
-"NBA stars play at the Olympics for the first time in Barcelona.",
-"'Euro Disney' opens near Paris.",
-"A Category 5 hurricane flattens southern Florida.",
-"The Queen calls it her 'annus horribilis'."
-],
-"h": "Early 90s — Barcelona.",
-"e": "1992 — the Dream Team at Barcelona, Euro Disney opened, Hurricane Andrew."
-},
-{
-"y": 1993,
-"m": [
-{
-"t": "img",
-"src": "media/q04-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q04-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q04-3.jpg"
-}
-],
-"c": [
-"A famous handshake on the White House lawn.",
-"A truck bomb explodes under the World Trade Center.",
-"A 51-day standoff in Texas.",
-"Dinosaurs come back to life in a Spielberg blockbuster."
-],
-"h": "Early 90s.",
-"e": "1993 — the Oslo Accords handshake, first WTC bombing, Waco siege, Jurassic Park."
-},
-{
-"y": 1994,
-"m": [
-{
-"t": "img",
-"src": "media/q05-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q05-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q05-3.jpg"
-}
-],
-"c": [
-"A tunnel under the sea links England and France.",
-"A former prisoner becomes South Africa's president.",
-"Sony's first games console launches in Japan.",
-"Brazil win the World Cup in the USA."
-],
-"h": "Mid-90s.",
-"e": "1994 — Channel Tunnel opened, Mandela became president, PlayStation launched, USA '94."
+"h": "The first year of the 21st century, strictly speaking.",
+"e": "2001: Dennis Tito's space trip (Apr), Moulin Rouge! (May), Can't Get You Out of My Head (Sep), 9/11 (Sep). The first iPod also arrived."
 },
 {
 "y": 1995,
 "m": [
 {
-"t": "img",
-"src": "media/q06-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q06-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q06-3.jpg"
-}
-],
-"c": [
-"Mandela, in a Springbok jersey, hands over the Rugby World Cup.",
-"A truck bomb destroys a federal building in Oklahoma.",
-"An online auction site is founded.",
-"Microsoft launches Windows with a 'Start' button."
-],
-"h": "Mid-90s.",
-"e": "1995 — the Rugby World Cup in South Africa, Oklahoma City bombing, eBay founded, Windows 95."
-},
-{
-"y": 1996,
-"m": [
-{
-"t": "img",
-"src": "media/q07-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q07-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q07-3.jpg"
-}
-],
-"c": [
-"The first mammal cloned from an adult cell is born.",
-"A chess computer beats the world champion in a game.",
-"Atlanta hosts the Centennial Olympics."
-],
-"h": "Mid-90s.",
-"e": "1996 — Dolly the sheep, Deep Blue beat Kasparov in a game, the Atlanta Olympics."
-},
-{
-"y": 1996,
-"m": [
-{
-"t": "img",
-"src": "media/q08-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q08-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q08-3.jpg"
-}
-],
-"c": [
-"'I'll tell you what I want, what I really really want…'",
-"A console with a 3-pronged controller launches.",
-"'Football's coming home' — England host the Euros."
-],
-"h": "Girl power.",
-"e": "1996 — Wannabe, the Nintendo 64, Euro 96 in England."
-},
-{
-"y": 1997,
-"m": [
-{
-"t": "img",
-"src": "media/q09-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q09-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q09-3.jpg"
-}
-],
-"c": [
-"Britain hands Hong Kong back to China.",
-"A small rover trundles across Mars.",
-"A 21-year-old wins the Masters by 12 strokes.",
-"A princess dies in a car crash in Paris."
-],
-"h": "Late 90s.",
-"e": "1997 — Hong Kong handover, Mars Pathfinder, Tiger's first Masters, Diana's death."
-},
-{
-"y": 1998,
-"m": [
-{
-"t": "img",
-"src": "media/q10-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q10-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q10-3.jpg"
-}
-],
-"c": [
-"The first module of the International Space Station launches.",
-"France win the World Cup at home.",
-"Two Stanford students found a search company in a garage.",
-"The Good Friday Agreement is signed."
-],
-"h": "Late 90s.",
-"e": "1998 — Zarya launched, France won the World Cup, Google founded, the Good Friday Agreement."
-},
-{
-"y": 1999,
-"m": [
-{
-"t": "img",
-"src": "media/q11-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q11-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q11-3.jpg"
-},
-{
 "t": "video",
-"src": "media/q11-4.webm",
-"poster": "media/q11-4-poster.jpg"
+"src": "media/r06-1.mp4",
+"cat": "world",
+"poster": "media/r06-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r06-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r06-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r06-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A sail-shaped hotel opens in Dubai.",
-"A total solar eclipse crosses Europe.",
-"Everyone worries about the Y2K bug.",
-"The euro launches as a currency."
+"A US president speaks to the nation after the Oklahoma City bombing.",
+"Newcastle teenagers Silverchair storm the charts with 'Tomorrow' and the album 'Frogstomp'.",
+"Microsoft launches a new Windows with a brand-new 'Start' button.",
+"Friends is TV's hottest show, and 'The Rachel' haircut is everywhere."
 ],
-"h": "Party like it's…",
-"e": "1999 — Burj Al Arab opened, the European eclipse, the euro, Y2K, and Putin became acting president."
-},
-{
-"y": 2000,
-"m": [
-{
-"t": "img",
-"src": "media/q12-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q12-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q12-3.jpg"
-}
-],
-"c": [
-"An Aboriginal sprinter lights the cauldron and wins 400 m gold in Sydney.",
-"The first crew moves into the International Space Station.",
-"A giant dome opens in London to mark the new millennium."
-],
-"h": "The Y2K bug didn't bite.",
-"e": "2000 — Sydney Olympics, Expedition 1 on the ISS, the Millennium Dome."
-},
-{
-"y": 2000,
-"m": [
-{
-"t": "img",
-"src": "media/q13-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q13-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q13-3.jpg"
-}
-],
-"c": [
-"A Concorde crashes after take-off from Paris.",
-"A console that doubled as a DVD player launches.",
-"Fireworks over a harbour bridge open a new millennium of Olympics."
-],
-"h": "A brand-new millennium (sort of).",
-"e": "2000 — the Concorde crash, PlayStation 2 launched, the Sydney Olympics."
-},
-{
-"y": 2001,
-"m": [
-{
-"t": "img",
-"src": "media/q14-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q14-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q14-3.jpg"
-}
-],
-"c": [
-"Hijacked planes hit the Twin Towers.",
-"The first paying space tourist visits the ISS.",
-"A Russian space station is brought down into the Pacific.",
-"Apple launches the iPod; Wikipedia goes live."
-],
-"h": "A new millennium starts properly.",
-"e": "2001 — 9/11, Dennis Tito, Mir deorbited, the iPod and Wikipedia."
-},
-{
-"y": 2002,
-"m": [
-{
-"t": "img",
-"src": "media/q15-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q15-2.jpg"
-}
-],
-"c": [
-"Twelve countries start paying with new notes and coins.",
-"Brazil win the first World Cup held in Asia.",
-"The Queen celebrates 50 years on the throne."
-],
-"h": "Early 2000s.",
-"e": "2002 — euro notes and coins circulate, Brazil win in Japan/Korea, the Golden Jubilee."
-},
-{
-"y": 2003,
-"m": [
-{
-"t": "img",
-"src": "media/q16-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q16-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q16-3.jpg"
-}
-],
-"c": [
-"Supersonic airliners make their last commercial flights.",
-"A space shuttle breaks up on re-entry.",
-"A dictator's statue is pulled down in Baghdad.",
-"The Human Genome Project is completed."
-],
-"h": "Early 2000s.",
-"e": "2003 — Concorde retired, Columbia lost, the Iraq War, the human genome completed."
-},
-{
-"y": 2004,
-"m": [
-{
-"t": "img",
-"src": "media/q17-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q17-2.jpg"
-},
-{
-"t": "video",
-"src": "media/q17-3.webm",
-"poster": "media/q17-3-poster.jpg"
-}
-],
-"c": [
-"A Boxing Day tsunami devastates coasts around the Indian Ocean.",
-"A Harvard student launches a social network.",
-"Twin rovers land on Mars.",
-"The Olympics return to Athens."
-],
-"h": "Athens Olympics year.",
-"e": "2004 — the Indian Ocean tsunami, Facebook, Spirit & Opportunity, Athens 2004."
-},
-{
-"y": 2005,
-"m": [
-{
-"t": "img",
-"src": "media/q18-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q18-2.jpg"
-},
-{
-"t": "video",
-"src": "media/q18-3.webm",
-"poster": "media/q18-3-poster.jpg"
-}
-],
-"c": [
-"A hurricane floods New Orleans.",
-"The world's largest passenger jet makes its first flight.",
-"'Me at the zoo' is the first video on a new website."
-],
-"h": "Mid-2000s.",
-"e": "2005 — Hurricane Katrina, the A380's first flight, YouTube."
-},
-{
-"y": 2005,
-"m": [
-{
-"t": "img",
-"src": "media/q19-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q19-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q19-3.jpg"
-}
-],
-"c": [
-"A German cardinal becomes Pope.",
-"Liverpool come back from 3–0 down in Istanbul.",
-"Concerts around the world to 'Make Poverty History'."
-],
-"h": "Mid-2000s.",
-"e": "2005 — Benedict XVI elected, the Miracle of Istanbul, Live 8."
-},
-{
-"y": 2006,
-"m": [
-{
-"t": "img",
-"src": "media/q20-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q20-2.jpg"
-}
-],
-"c": [
-"Astronomers decide Pluto is no longer a planet.",
-"A console with a motion-sensing remote launches.",
-"Italy win the World Cup in Germany after a famous headbutt.",
-"The first tweet is sent."
-],
-"h": "Mid-2000s.",
-"e": "2006 — Pluto demoted, the Wii, Italy won the World Cup (Zidane's headbutt), Twitter."
+"h": "Toy Story becomes the first fully computer-animated feature film.",
+"e": "1995: the Oklahoma City bombing (Apr), Silverchair's 'Frogstomp' (Mar), Windows 95 (Aug), Friends mania. Also eBay was founded."
 },
 {
 "y": 2007,
 "m": [
 {
 "t": "img",
-"src": "media/q21-1.jpg"
+"src": "media/r21-1.jpg",
+"cat": "world"
 },
 {
 "t": "img",
-"src": "media/q21-2.jpg"
+"src": "media/r21-2.jpg",
+"cat": "aus"
+},
+{
+"t": "video",
+"src": "media/r21-3.mp4",
+"cat": "tech",
+"poster": "media/r21-3-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q21-3.jpg"
+"src": "media/r21-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"'An iPod, a phone, and an internet communicator.'",
-"The 'New 7 Wonders of the World' are announced.",
-"The final Harry Potter book is published."
+"Pakistan's Benazir Bhutto returns from exile, and is assassinated weeks later.",
+"Sydney switches off its lights for the very first Earth Hour.",
+"Space Shuttle Atlantis does a backflip before docking with the space station.",
+"Fans queue at midnight for the final Harry Potter book."
 ],
-"h": "Just before the financial crisis.",
-"e": "2007 — the iPhone, the New 7 Wonders, Harry Potter and the Deathly Hallows."
+"h": "Steve Jobs unveils a phone with no keyboard.",
+"e": "2007: the iPhone unveiled (Jan), the first Earth Hour (Mar), Atlantis docked with the ISS (Jun), the last Harry Potter book (Jul), Bhutto assassinated (Dec)."
 },
 {
-"y": 2008,
+"y": 2017,
+"m": [
+{
+"t": "video",
+"src": "media/r37-1.mp4",
+"cat": "world",
+"poster": "media/r37-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r37-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r37-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r37-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"A total solar eclipse crosses the entire United States.",
+"Roger Federer beats Rafael Nadal in an epic Australian Open final in Melbourne.",
+"Nintendo launches the Switch, a console you can take with you.",
+"Wonder Woman becomes a box-office smash."
+],
+"h": "Cassini dives into Saturn to end its mission.",
+"e": "2017: the Federer–Nadal Australian Open final (Jan), the Nintendo Switch (Mar), Wonder Woman (Jun), the Great American Eclipse (Aug)."
+},
+{
+"y": 2011,
+"m": [
+{
+"t": "video",
+"src": "media/r27-1.mp4",
+"cat": "world",
+"poster": "media/r27-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r27-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r27-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r27-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"Tokyo shakes as a magnitude-9 earthquake hits Japan.",
+"Floodwaters swamp Brisbane after weeks of record rain.",
+"Apple fans leave tributes after Steve Jobs dies.",
+"Adele's '21' and 'Someone Like You' rule the charts."
+],
+"h": "Prince William marries Kate Middleton.",
+"e": "2011: the Brisbane floods (Jan), the Tōhoku earthquake & Fukushima (Mar), Adele's '21', Steve Jobs' death (Oct). Also the Arab Spring."
+},
+{
+"y": 1996,
 "m": [
 {
 "t": "img",
-"src": "media/q22-1.jpg"
+"src": "media/r07-1.jpg",
+"cat": "world"
 },
 {
 "t": "img",
-"src": "media/q22-2.jpg"
+"src": "media/r07-2.jpg",
+"cat": "aus"
+},
+{
+"t": "video",
+"src": "media/r07-3.mp4",
+"cat": "tech",
+"poster": "media/r07-3-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q22-3.jpg"
+"src": "media/r07-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"The Olympics open in a 'Bird's Nest' stadium.",
-"A Jamaican sprinter sets world records while celebrating.",
-"A giant investment bank collapses."
+"Dolly the sheep is born, the first mammal cloned from an adult cell.",
+"After the Port Arthur massacre in Tasmania, Australia hands in its guns in a famous buyback.",
+"NASA launches Mars Pathfinder, carrying a tiny rover.",
+"The whole world dances the Macarena."
 ],
-"h": "A global financial crisis.",
-"e": "2008 — Beijing Olympics, Usain Bolt, Lehman Brothers collapsed."
+"h": "Atlanta hosts the Olympic Games.",
+"e": "1996: the Port Arthur massacre (Apr), Dolly the sheep born (Jul), the Macarena craze, Mars Pathfinder launched (Dec). Deep Blue also beat Kasparov in a game."
 },
 {
-"y": 2008,
+"y": 2022,
 "m": [
 {
-"t": "img",
-"src": "media/q23-1.jpg"
+"t": "video",
+"src": "media/r45-1.mp4",
+"cat": "world",
+"poster": "media/r45-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q23-2.jpg"
+"src": "media/r45-2.jpg",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q23-3.jpg"
+"src": "media/r45-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r45-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"The world's biggest particle collider is switched on.",
-"A swimmer wins 8 golds at one Games.",
-"America elects its first Black president."
+"Queen Elizabeth II dies after 70 years on the throne.",
+"Shane Warne dies suddenly at 52, and fans flock to his statue at the MCG.",
+"The James Webb Space Telescope releases its first pictures.",
+"Top Gun: Maverick flies past a billion dollars at the box office."
 ],
-"h": "'Yes we can.'",
-"e": "2008 — the LHC switched on, Phelps's 8 golds, Obama elected."
+"h": "Lionel Messi finally wins the World Cup.",
+"e": "2022: Shane Warne's death (Mar), Top Gun: Maverick (May), Webb's first images (Jul), the Queen's death (Sep)."
+},
+{
+"y": 2012,
+"m": [
+{
+"t": "video",
+"src": "media/r30-1.mp4",
+"cat": "world",
+"poster": "media/r30-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r30-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r30-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r30-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"Hurricane Sandy batters the US East Coast.",
+"Sally Pearson wins Olympic gold in the 100m hurdles.",
+"Felix Baumgartner jumps from the edge of space and breaks the sound barrier.",
+"'Gangnam Style' becomes the first YouTube video to reach a billion views."
+],
+"h": "The Queen celebrates her Diamond Jubilee.",
+"e": "2012: Sally Pearson's gold (Aug), the Red Bull Stratos jump (Oct), Hurricane Sandy (Oct), Gangnam Style's billion views (Dec)."
 },
 {
 "y": 2009,
 "m": [
 {
-"t": "img",
-"src": "media/q24-1.jpg"
+"t": "video",
+"src": "media/r24-1.mp4",
+"cat": "world",
+"poster": "media/r24-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q24-2.jpg"
+"src": "media/r24-2.jpg",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q24-3.jpg"
+"src": "media/r24-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r24-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A pilot lands a jet on the Hudson River.",
-"The King of Pop dies.",
-"A record crowd watches a presidential inauguration.",
-"The first Bitcoin is mined."
+"A crowd fills the National Mall for a concert on the eve of a historic inauguration.",
+"The Black Saturday bushfires kill 173 people in Victoria.",
+"NASA launches Kepler to hunt for Earth-like planets.",
+"The world says goodbye to Michael Jackson at a memorial in Los Angeles."
 ],
-"h": "The end of the 2000s.",
-"e": "2009 — Miracle on the Hudson, Michael Jackson died, Obama inaugurated, Bitcoin."
+"h": "A plane lands safely on the Hudson River.",
+"e": "2009: the 'We Are One' concert and Obama's inauguration (Jan), Black Saturday (Feb), Kepler launched (Mar), Michael Jackson died (Jun)."
 },
 {
-"y": 2010,
+"y": 1999,
 "m": [
 {
-"t": "img",
-"src": "media/q25-1.jpg"
+"t": "video",
+"src": "media/r11-1.mp4",
+"cat": "world",
+"poster": "media/r11-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q25-2.jpg"
+"src": "media/r11-2.png",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q25-3.jpg"
+"src": "media/r11-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r11-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"The world's tallest building opens.",
-"An Icelandic volcano grounds flights across Europe.",
-"33 Chilean miners are rescued after 69 days.",
-"Apple launches the iPad."
+"NATO bombs Yugoslavia over Kosovo, and a US president explains why.",
+"Steve Waugh's Australians win the Cricket World Cup at Lord's.",
+"Governments and companies race to fix the 'Y2K bug' before midnight on New Year's Eve.",
+"'...Baby One More Time' makes Britney Spears a superstar."
 ],
-"h": "A new decade begins.",
-"e": "2010 — Burj Khalifa, Eyjafjallajökull, the Chilean miners, the iPad."
+"h": "The last year before the 'millennium bug' was due to strike.",
+"e": "1999: NATO's Kosovo campaign (Mar), Britney's breakthrough, Australia won the Cricket World Cup (Jun), the European eclipse (Aug), Y2K preparations. Putin became acting president on 31 December."
 },
 {
-"y": 2010,
+"y": 2015,
 "m": [
 {
-"t": "img",
-"src": "media/q26-1.jpg"
+"t": "video",
+"src": "media/r34-1.mp4",
+"cat": "world",
+"poster": "media/r34-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q26-2.jpg"
+"src": "media/r34-2.jpg",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q26-3.jpg"
+"src": "media/r34-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r34-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"Plastic horns drone through a World Cup in Africa.",
-"Spain win their first World Cup.",
-"An oil rig explodes in the Gulf of Mexico."
+"World leaders gather in Paris to strike a deal on climate change.",
+"Australia beat New Zealand at the MCG to win the Cricket World Cup.",
+"New Horizons sends back the first close-up pictures of Pluto.",
+"Star Wars: The Force Awakens premieres in Hollywood."
 ],
-"h": "Waka Waka.",
-"e": "2010 — the South Africa World Cup, Spain champions, Deepwater Horizon."
+"h": "A spacecraft flies past Pluto for the first time.",
+"e": "2015: Australia's Cricket World Cup (Mar), New Horizons at Pluto (Jul), The Force Awakens (Dec), the Paris climate agreement (Dec)."
 },
 {
-"y": 2011,
+"y": 2003,
 "m": [
 {
 "t": "img",
-"src": "media/q27-1.jpg"
+"src": "media/r16-1.jpg",
+"cat": "world"
 },
 {
 "t": "img",
-"src": "media/q27-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q27-3.jpg"
-}
-],
-"c": [
-"A royal wedding at Westminster Abbey.",
-"An earthquake and tsunami hit a Japanese nuclear plant.",
-"Protests sweep across the Arab world."
-],
-"h": "Early 2010s.",
-"e": "2011 — William & Kate married, Fukushima, the Arab Spring."
-},
-{
-"y": 2011,
-"m": [
-{
-"t": "img",
-"src": "media/q28-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q28-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q28-3.jpg"
+"src": "media/r16-2.jpg",
+"cat": "aus"
 },
 {
 "t": "video",
-"src": "media/q28-4.webm",
-"poster": "media/q28-4-poster.jpg"
+"src": "media/r16-3.mp4",
+"cat": "tech",
+"poster": "media/r16-3-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r16-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"Officials watch a raid in Pakistan from the White House.",
-"The Space Shuttle flies for the last time.",
-"India win the Cricket World Cup at home with a six.",
-"Steve Jobs dies."
+"A statue of Saddam Hussein is pulled down in Baghdad.",
+"A firestorm tears into Canberra's suburbs, destroying nearly 500 homes.",
+"The Space Shuttle Columbia crew speak from orbit, days before the shuttle breaks up on re-entry.",
+"The Return of the King premieres. It will win 11 Oscars."
 ],
-"h": "Early 2010s.",
-"e": "2011 — the bin Laden raid, the last shuttle flight, India won the Cricket World Cup."
+"h": "Concorde makes its final commercial flight.",
+"e": "2003: the Canberra firestorm (Jan), Columbia lost (Feb), Saddam's statue toppled (Apr), The Return of the King (Dec). Also Jonny Wilkinson's World Cup drop goal in Sydney."
 },
 {
-"y": 2012,
+"y": 2021,
 "m": [
 {
-"t": "img",
-"src": "media/q29-1.jpg"
+"t": "video",
+"src": "media/r43-1.mp4",
+"cat": "world",
+"poster": "media/r43-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q29-2.jpg"
+"src": "media/r43-2.jpg",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q29-3.jpg"
+"src": "media/r43-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r43-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A car-sized rover lands on Mars using a 'sky crane'.",
-"A skydiver jumps from the edge of space.",
-"London hosts the Olympics for a third time."
+"The giant Ever Given container ship gets stuck in the Suez Canal.",
+"Melbourne becomes one of the most locked-down cities on Earth.",
+"NASA's Perseverance rover lands on Mars.",
+"Squid Game becomes Netflix's biggest show ever."
 ],
-"h": "The Mayan calendar 'ended'.",
-"e": "2012 — Curiosity landed, Red Bull Stratos, the London Olympics."
+"h": "The 'Tokyo 2020' Olympics are held, a year late.",
+"e": "2021: Perseverance landed (Feb), the Ever Given (Mar), Melbourne's lockdowns, Squid Game (Sep)."
 },
 {
-"y": 2012,
+"y": 2010,
 "m": [
 {
-"t": "img",
-"src": "media/q30-1.jpg"
+"t": "video",
+"src": "media/r26-1.mp4",
+"cat": "world",
+"poster": "media/r26-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q30-2.jpg"
+"src": "media/r26-2.jpg",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q30-3.jpg"
+"src": "media/r26-3.jpg",
+"cat": "tech"
 },
 {
 "t": "img",
-"src": "media/q30-4.jpg"
+"src": "media/r26-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"The Queen celebrates 60 years on the throne.",
-"A 'superstorm' floods New York's subway.",
-"A K-pop video becomes the first to hit 1 billion YouTube views."
+"Rescuers scrub oil off birds after the Deepwater Horizon spill in the Gulf of Mexico.",
+"16-year-old Jessica Watson sails into Sydney after sailing solo around the world.",
+"The iPhone 4 arrives with FaceTime, and 'Antennagate'.",
+"The droning vuvuzela becomes the sound of the World Cup in South Africa."
 ],
-"h": "Oppa ___ style.",
-"e": "2012 — the Diamond Jubilee, Hurricane Sandy, Gangnam Style."
+"h": "Spain win the World Cup for the first time.",
+"e": "2010: Deepwater Horizon (Apr), Jessica Watson home (May), the iPhone 4 (Jun), vuvuzelas at the South Africa World Cup (Jun–Jul)."
+},
+{
+"y": 1991,
+"m": [
+{
+"t": "video",
+"src": "media/r02-1.mp4",
+"cat": "world",
+"poster": "media/r02-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r02-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r02-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r02-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"A US president addresses the nation as the ground war to free Kuwait begins.",
+"David Campese stars as the Wallabies win the Rugby World Cup at Twickenham.",
+"This NeXT computer at CERN runs the world's first website, which opens to the public.",
+"Queen frontman Freddie Mercury dies, a day after revealing he has AIDS."
+],
+"h": "The Soviet Union doesn't make it to the end of this year.",
+"e": "1991: the Desert Storm ground war (Feb), the Web went public (Aug), the Wallabies won the Rugby World Cup (Nov), Freddie Mercury died (Nov). Pinatubo erupted and the USSR dissolved."
 },
 {
 "y": 2013,
 "m": [
 {
-"t": "img",
-"src": "media/q31-1.jpg"
+"t": "video",
+"src": "media/r32-1.mp4",
+"cat": "world",
+"poster": "media/r32-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q31-2.jpg"
+"src": "media/r32-2.jpg",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q31-3.jpg"
+"src": "media/r32-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r32-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"The first Pope from the Americas is elected.",
-"A meteor explodes over a Russian city, caught on dashcams.",
-"A British man wins Wimbledon for the first time in 77 years."
+"Edward Snowden, holed up in Moscow after leaking NSA secrets.",
+"Vivid lights up the Sydney Opera House, which turns 40 this year.",
+"Microsoft launches the Xbox One.",
+"Miley Cyrus swings in on a 'Wrecking Ball'."
 ],
-"h": "Early-to-mid 2010s.",
-"e": "2013 — Pope Francis, the Chelyabinsk meteor, Murray's Wimbledon."
+"h": "Prince George is born.",
+"e": "2013: Vivid Sydney and the Opera House's 40th birthday, Snowden's leaks (Jun), Miley's 'Wrecking Ball' (Aug), the Xbox One (Nov). Also Typhoon Haiyan."
 },
 {
-"y": 2013,
+"y": 2002,
+"m": [
+{
+"t": "video",
+"src": "media/r15-1.mp4",
+"cat": "world",
+"poster": "media/r15-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r15-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r15-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r15-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"Concorde and the Red Arrows fly over London for the Queen's Golden Jubilee.",
+"Bombings at Bali nightclubs kill 202 people, including 88 Australians.",
+"Spacewalking astronauts give Hubble a new camera and new solar wings.",
+"Avril Lavigne becomes a 'Sk8er Boi' superstar with 'Complicated'."
+],
+"h": "Brazil win the World Cup in Japan and South Korea.",
+"e": "2002: euro notes & coins arrived (Jan), Hubble's servicing mission (Mar), the Golden Jubilee (Jun), Avril Lavigne's breakthrough, the Bali bombings (Oct)."
+},
+{
+"y": 2021,
 "m": [
 {
 "t": "img",
-"src": "media/q32-1.jpg"
+"src": "media/r44-1.jpg",
+"cat": "world"
 },
 {
 "t": "img",
-"src": "media/q32-2.jpg"
+"src": "media/r44-2.jpg",
+"cat": "aus"
+},
+{
+"t": "video",
+"src": "media/r44-3.mp4",
+"cat": "tech",
+"poster": "media/r44-3-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q32-3.jpg"
+"src": "media/r44-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A contractor leaks secret NSA files.",
-"A future king is born.",
-"A super typhoon devastates the Philippines.",
-"Nelson Mandela dies."
+"Rioters storm the US Capitol.",
+"Ash Barty wins Wimbledon, 50 years after Evonne Goolagong's first title.",
+"The Ingenuity helicopter makes the first powered flight on another planet. Listen to it hum on Mars!",
+"Olivia Rodrigo's 'Drivers License' breaks streaming records."
 ],
-"h": "Early-to-mid 2010s.",
-"e": "2013 — the Snowden leaks, Prince George born, Typhoon Haiyan, Mandela's death."
+"h": "The first all-civilian crew orbits the Earth.",
+"e": "2021: the Capitol riot (Jan), Drivers License (Jan), Ingenuity's first flight (Apr), Barty's Wimbledon (Jul). Inspiration4 also flew."
 },
 {
 "y": 2014,
 "m": [
 {
 "t": "img",
-"src": "media/q33-1.jpg"
+"src": "media/r33-1.jpg",
+"cat": "world"
 },
 {
 "t": "img",
-"src": "media/q33-2.jpg"
+"src": "media/r33-2.jpg",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q33-3.jpg"
+"src": "media/r33-3.jpg",
+"cat": "tech"
 },
 {
 "t": "video",
-"src": "media/q33-4.webm",
-"poster": "media/q33-4-poster.jpg"
+"src": "media/r33-4.mp4",
+"cat": "ent",
+"poster": "media/r33-4-poster.jpg"
 }
 ],
 "c": [
-"A probe lands on a comet.",
-"People pour iced water over their heads for charity.",
-"Germany win the World Cup in Brazil (and beat the hosts 7–1)."
+"Germany beat Argentina in Rio to win the World Cup.",
+"A gunman takes hostages at the Lindt Café in Sydney's Martin Place.",
+"Rosetta reaches a comet and drops the Philae lander onto it.",
+"Everyone is tipping ice water over their heads for the ALS Ice Bucket Challenge."
 ],
-"h": "Mid-2010s.",
-"e": "2014 — Philae, the Ice Bucket Challenge, Germany won in Brazil."
+"h": "Brazil host the World Cup and lose 7–1 to Germany.",
+"e": "2014: the World Cup in Brazil (Jun–Jul), the Ice Bucket Challenge (Aug), Philae lands on a comet (Nov), the Lindt Café siege (Dec)."
 },
 {
-"y": 2015,
+"y": 1994,
 "m": [
-{
-"t": "img",
-"src": "media/q34-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q34-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q34-3.jpg"
-}
-],
-"c": [
-"A probe sends back the first close-up photos of Pluto.",
-"A huge earthquake strikes Nepal.",
-"Nearly 200 nations sign a climate deal in Paris."
-],
-"h": "Mid-2010s.",
-"e": "2015 — New Horizons at Pluto, the Nepal earthquake, the Paris Agreement."
-},
-{
-"y": 2015,
-"m": [
-{
-"t": "img",
-"src": "media/q35-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q35-2.jpg"
-},
 {
 "t": "video",
-"src": "media/q35-3.webm",
-"poster": "media/q35-3-poster.jpg"
+"src": "media/r05-1.mp4",
+"cat": "world",
+"poster": "media/r05-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r05-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r05-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r05-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A rocket booster lands upright back on Earth for the first time.",
-"A famous lion is killed in Zimbabwe.",
-"A midfielder scores a hat-trick in 16 minutes in a Women's World Cup final."
+"Clinton, Yeltsin and Ukraine's Kravchuk sign a deal for Ukraine to give up its nuclear weapons.",
+"Bushfires sweep through Sydney's suburbs and the Blue Mountains in January.",
+"Sony launches its very first PlayStation in Japan.",
+"Woodstock returns for its 25th anniversary, mud and all."
 ],
-"h": "Mid-2010s.",
-"e": "2015 — SpaceX's first booster landing, Cecil the lion, the USA won the Women's World Cup."
+"h": "The Channel Tunnel opens between England and France.",
+"e": "1994: the Ukraine nuclear deal (Jan), Sydney's bushfires (Jan), Woodstock '94 (Aug), PlayStation launched (Dec). Mandela also became president."
 },
 {
-"y": 2016,
+"y": 2006,
 "m": [
 {
-"t": "img",
-"src": "media/q36-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q36-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q36-3.jpg"
-},
-{
 "t": "video",
-"src": "media/q36-4.webm",
-"poster": "media/q36-4-poster.jpg"
+"src": "media/r20-1.mp4",
+"cat": "world",
+"poster": "media/r20-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r20-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r20-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r20-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A probe enters orbit around Jupiter.",
-"5000-1 outsiders Leicester City win the Premier League.",
-"The UK votes to leave the EU.",
-"People chase virtual creatures through the streets on their phones."
+"Venezuela's Hugo Chávez calls the US president 'the devil' at the UN: 'it still smells of sulphur'.",
+"'Crocodile Hunter' Steve Irwin is killed by a stingray on the Great Barrier Reef.",
+"Nintendo shows off the Wii, a console you control by waving a remote.",
+"Daniel Craig makes his debut as James Bond in Casino Royale."
 ],
-"h": "The Brexit referendum.",
-"e": "2016 — Juno at Jupiter, Leicester champions, the Brexit vote, Pokémon Go, the Rio Olympics."
+"h": "Pluto loses its status as a planet.",
+"e": "2006: the Wii unveiled at E3 (May), Chávez at the UN (Sep), Steve Irwin's death (Sep), Casino Royale (Nov). Italy also won the World Cup."
+},
+{
+"y": 2025,
+"m": [
+{
+"t": "video",
+"src": "media/r51-1.mp4",
+"cat": "world",
+"poster": "media/r51-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r51-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r51-3.png",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r51-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"Firefighting 'Super Scooper' planes battle the Palisades fire in Los Angeles.",
+"Oscar Piastri leads the Formula 1 championship for much of the season.",
+"A NASA orbiter photographs Firefly's Blue Ghost, the first private lander to touch down upright on the Moon.",
+"Arne Slot's Liverpool win the Premier League in his first season."
+],
+"h": "Nintendo releases the Switch 2.",
+"e": "2025: the LA wildfires (Jan), Blue Ghost on the Moon (Mar), Liverpool champions (Apr), the Switch 2 (Jun), Piastri's title fight. Also the Louvre jewel heist (Oct)."
+},
+{
+"y": 1997,
+"m": [
+{
+"t": "video",
+"src": "media/r09-1.mp4",
+"cat": "world",
+"poster": "media/r09-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r09-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r09-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r09-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"Britain's new Prime Minister Tony Blair hosts a US president after a Labour landslide.",
+"A landslide at Thredbo ski village kills 18; Stuart Diver is pulled out alive.",
+"The Sojourner rover becomes the first wheeled vehicle on Mars.",
+"James Cameron's Titanic sails into cinemas and becomes the biggest film ever."
+],
+"h": "Hong Kong is handed back to China.",
+"e": "1997: Blair's landslide (May), the Thredbo landslide (Jul), Pathfinder on Mars (Jul), Titanic released (Dec). Also the Hong Kong handover and Diana's death."
 },
 {
 "y": 2017,
 "m": [
 {
-"t": "img",
-"src": "media/q37-1.jpg"
+"t": "video",
+"src": "media/r38-1.mp4",
+"cat": "world",
+"poster": "media/r38-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q37-2.jpg"
+"src": "media/r38-2.jpg",
+"cat": "aus"
 },
+{
+"t": "img",
+"src": "media/r38-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r38-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"France's youngest-ever president, Emmanuel Macron, makes his first trip abroad.",
+"Cyclone Debbie batters Queensland's Whitsundays.",
+"The fidget spinner becomes the must-have gadget in every school.",
+"Ed Sheeran's 'Shape of You' is the biggest song of the year."
+],
+"h": "'Despacito' becomes the most-watched video on YouTube.",
+"e": "2017: Cyclone Debbie (Mar), Macron elected (May), the fidget-spinner craze, Ed Sheeran's 'Shape of You'."
+},
+{
+"y": 1998,
+"m": [
 {
 "t": "video",
-"src": "media/q37-3.webm",
-"poster": "media/q37-3-poster.jpg"
+"src": "media/r10-1.mp4",
+"cat": "world",
+"poster": "media/r10-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r10-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r10-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r10-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A 'Great American Eclipse' crosses the USA coast to coast.",
-"A hurricane dumps record rain on Houston.",
-"A probe dives into Saturn to end its mission."
+"World leaders gather for the G8 summit in Birmingham, England.",
+"A savage storm hits the Sydney to Hobart yacht race; six sailors die.",
+"Two Stanford students found a search engine called Google.",
+"Titanic wins 11 Oscars and Celine Dion's 'My Heart Will Go On' is everywhere."
 ],
-"h": "Late 2010s.",
-"e": "2017 — the Great American Eclipse, Hurricane Harvey, Cassini's Grand Finale."
+"h": "France win the football World Cup on home soil.",
+"e": "1998: Titanic's 11 Oscars (Mar), the Birmingham G8 (May), Google founded (Sep), the Sydney to Hobart tragedy (Dec)."
 },
 {
-"y": 2017,
+"y": 1992,
 "m": [
-{
-"t": "img",
-"src": "media/q38-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q38-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q38-3.jpg"
-}
-],
-"c": [
-"A 39-year-old becomes France's youngest president.",
-"Spinning toys take over classrooms.",
-"A Swiss legend wins his 8th Wimbledon.",
-"'Despacito' is the song of the summer."
-],
-"h": "Late 2010s.",
-"e": "2017 — Macron elected, fidget spinners, Federer's 8th Wimbledon, Despacito."
-},
-{
-"y": 2018,
-"m": [
-{
-"t": "img",
-"src": "media/q39-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q39-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q39-3.jpg"
-},
 {
 "t": "video",
-"src": "media/q39-4.webm",
-"poster": "media/q39-4-poster.jpg"
+"src": "media/r03-1.mp4",
+"cat": "world",
+"poster": "media/r03-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r03-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r03-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r03-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A boys' football team is rescued from a flooded cave in Thailand.",
-"A rocket sends a red sports car into space.",
-"France win the World Cup in Russia.",
-"Prince Harry marries Meghan Markle."
+"George Bush, Bill Clinton and Ross Perot face off in a three-way presidential debate.",
+"Australia and New Zealand host the Cricket World Cup; Imran Khan's Pakistan win the final at the MCG.",
+"Space Shuttle Endeavour flies for the first time, and astronauts grab a stranded satellite by hand.",
+"Euro Disney opens its gates outside Paris."
 ],
-"h": "Late 2010s.",
-"e": "2018 — the Thai cave rescue, Falcon Heavy's Tesla, France won in Russia, the Harry & Meghan wedding."
+"h": "Barcelona hosts the Olympics and the 'Dream Team'.",
+"e": "1992: the Cricket World Cup in Australia & NZ (Feb–Mar), Euro Disney opened (Apr), Endeavour's first flight (May), the Bush–Clinton–Perot debates (Oct). Hurricane Andrew hit Florida (Aug)."
 },
 {
-"y": 2019,
+"y": 2015,
 "m": [
 {
-"t": "img",
-"src": "media/q40-1.jpg"
+"t": "video",
+"src": "media/r35-1.mp4",
+"cat": "world",
+"poster": "media/r35-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q40-2.jpg"
+"src": "media/r35-2.jpg",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q40-3.jpg"
+"src": "media/r35-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r35-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A cathedral's spire collapses in a fire in Paris.",
-"The first-ever photo of a black hole.",
-"A teenage activist sails across the Atlantic."
+"A US president phones the newly crowned Women's World Cup champions.",
+"The Socceroos win the Asian Cup on home soil.",
+"SpaceX lands an orbital rocket booster upright for the first time.",
+"Hamilton opens on Broadway."
 ],
-"h": "Just before a pandemic.",
-"e": "2019 — the Notre-Dame fire, the first black hole image, Greta's Atlantic crossing."
+"h": "Cecil the lion is killed by a trophy hunter in Zimbabwe.",
+"e": "2015: the Socceroos won the Asian Cup (Jan), Cecil the lion (Jul), Hamilton on Broadway (Aug), SpaceX's first booster landing (Dec)."
 },
 {
-"y": 2019,
+"y": 2026,
 "m": [
 {
-"t": "img",
-"src": "media/q41-1.jpg"
+"t": "video",
+"src": "media/r52-1.mp4",
+"cat": "world",
+"poster": "media/r52-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q41-2.jpg"
+"src": "media/r52-2.jpg",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q41-3.jpg"
+"src": "media/r52-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r52-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"The USA win a second straight Women's World Cup in France.",
-"England win the Cricket World Cup on a super over.",
-"A new UK prime minister promises to 'Get Brexit Done'."
+"Mexico City parties after a win at the first 48-team World Cup.",
+"Australia hosts the Women's Asian Cup.",
+"Artemis II flies four astronauts around the Moon, the first crewed lunar trip in over 50 years.",
+"Bad Bunny headlines the Super Bowl halftime show."
 ],
-"h": "Just before a pandemic.",
-"e": "2019 — the Women's World Cup, England's cricket win, Boris Johnson became PM."
+"h": "Milan and Cortina host the Winter Olympics.",
+"e": "2026: Bad Bunny's halftime show (Feb), the Women's Asian Cup in Australia (Mar), Artemis II (Apr), the 48-team World Cup (Jun–Jul), America's 250th (Jul)."
 },
 {
 "y": 2020,
 "m": [
 {
 "t": "img",
-"src": "media/q42-1.jpg"
+"src": "media/r42-1.jpg",
+"cat": "world"
 },
 {
 "t": "img",
-"src": "media/q42-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q42-3.jpg"
-}
-],
-"c": [
-"The world goes into lockdown.",
-"A private spacecraft takes astronauts to the ISS.",
-"A basketball legend dies in a helicopter crash.",
-"The Tokyo Olympics are postponed."
-],
-"h": "You definitely remember this one…",
-"e": "2020 — COVID-19 lockdowns, SpaceX Demo-2, Kobe Bryant's death."
-},
-{
-"y": 2021,
-"m": [
-{
-"t": "img",
-"src": "media/q43-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q43-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q43-3.jpg"
+"src": "media/r42-2.jpg",
+"cat": "aus"
 },
 {
 "t": "video",
-"src": "media/q43-4.webm",
-"poster": "media/q43-4-poster.jpg"
+"src": "media/r42-3.mp4",
+"cat": "tech",
+"poster": "media/r42-3-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r42-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A giant container ship gets stuck in the Suez Canal.",
-"A rover lands on Mars carrying a small helicopter.",
-"Delayed Olympics are held with empty stands."
+"The world locks down as COVID-19 spreads.",
+"Smoke from Australia's Black Summer bushfires can be seen from space.",
+"SpaceX flies NASA astronauts to the space station, the first crewed launch from the US in nine years.",
+"Fans mourn basketball legend Kobe Bryant after a helicopter crash."
 ],
-"h": "A year late for the Olympics.",
-"e": "2021 — the Ever Given, Perseverance landed, Tokyo 2020 held in 2021."
+"h": "'You're on mute' becomes the phrase of the year.",
+"e": "2020: the Black Summer bushfires (Jan), Kobe Bryant's death (Jan), COVID lockdowns (Mar), SpaceX's Demo-2 (May)."
 },
 {
-"y": 2021,
+"y": 2025,
+"m": [
+{
+"t": "video",
+"src": "media/r50-1.mp4",
+"cat": "world",
+"poster": "media/r50-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r50-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r50-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r50-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"Robert Prevost becomes Pope Leo XIV, the first American pope.",
+"Cyclone Alfred bears down on Brisbane and floods northern NSW.",
+"China's DeepSeek AI app stuns Silicon Valley.",
+"Oasis reunite for their first tour in 16 years."
+],
+"h": "Thieves steal crown jewels from the Louvre in broad daylight.",
+"e": "2025: DeepSeek (Jan), Cyclone Alfred (Mar), Pope Leo XIV (May), the Oasis reunion tour. Also Trump's second inauguration (Jan)."
+},
+{
+"y": 2004,
 "m": [
 {
 "t": "img",
-"src": "media/q44-1.jpg"
+"src": "media/r17-1.jpg",
+"cat": "world"
+},
+{
+"t": "img",
+"src": "media/r17-2.jpg",
+"cat": "aus"
 },
 {
 "t": "video",
-"src": "media/q44-2.webm",
-"poster": "media/q44-2-poster.jpg"
+"src": "media/r17-3.mp4",
+"cat": "tech",
+"poster": "media/r17-3-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r17-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A billionaire rides his own rocket to space.",
-"The first all-civilian crew orbits Earth.",
-"The first powered flight on another planet."
+"A Boxing Day earthquake triggers a tsunami across the Indian Ocean.",
+"Ian Thorpe, the 'Thorpedo', wins 200m and 400m freestyle gold in Athens.",
+"Twin rovers Spirit and Opportunity land on Mars and send back these pictures.",
+"Usher's 'Yeah!' is the biggest song of the year."
 ],
-"h": "The billionaire space race.",
-"e": "2021 — Bezos on New Shepard, Inspiration4, Ingenuity's first flight on Mars."
+"h": "Athens hosts the Olympic Games.",
+"e": "2004: Spirit & Opportunity on Mars (Jan), Usher's 'Yeah!', Thorpe's Athens golds (Aug), the Boxing Day tsunami (Dec). Facebook also launched."
 },
 {
-"y": 2022,
+"y": 2019,
 "m": [
-{
-"t": "img",
-"src": "media/q45-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q45-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q45-3.jpg"
-}
-],
-"c": [
-"A new space telescope releases its first deep-field images.",
-"Argentina win the World Cup in Qatar.",
-"Britain's longest-reigning monarch dies."
-],
-"h": "Very recent.",
-"e": "2022 — JWST's first images, Argentina won in Qatar, Queen Elizabeth II died."
-},
-{
-"y": 2022,
-"m": [
-{
-"t": "img",
-"src": "media/q46-1.jpg"
-},
-{
-"t": "img",
-"src": "media/q46-2.jpg"
-},
-{
-"t": "img",
-"src": "media/q46-3.jpg"
-},
 {
 "t": "video",
-"src": "media/q46-4.webm",
-"poster": "media/q46-4-poster.jpg"
+"src": "media/r41-1.mp4",
+"cat": "world",
+"poster": "media/r41-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r41-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r41-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r41-4.png",
+"cat": "ent"
 }
 ],
 "c": [
-"NASA crashes a spacecraft into an asteroid on purpose.",
-"A giant new Moon rocket flies an uncrewed capsule around the Moon.",
-"A billionaire buys Twitter.",
-"A chatbot called ChatGPT is released."
+"NATO's chief meets Britain's new Prime Minister, Boris Johnson.",
+"Bushfire smoke smothers Canberra as the 'Black Summer' begins.",
+"The first 5G phones go on sale.",
+"Billie Eilish's 'Bad Guy' hits No. 1."
 ],
-"h": "Very recent.",
-"e": "2022 — DART, Artemis I, Musk bought Twitter, ChatGPT launched."
+"h": "England win the Cricket World Cup on a super over.",
+"e": "2019: the first 5G phones (Apr), Billie Eilish's 'Bad Guy', Boris Johnson became PM (Jul), the start of the Black Summer (Dec)."
+},
+{
+"y": 2016,
+"m": [
+{
+"t": "video",
+"src": "media/r36-1.mp4",
+"cat": "world",
+"poster": "media/r36-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r36-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r36-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r36-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"The European Commission's president reacts as Britain votes to leave the EU.",
+"The worst coral bleaching on record hits the Great Barrier Reef.",
+"NASA's Juno spacecraft goes into orbit around Jupiter.",
+"Fans leave flowers for David Bowie, who dies two days after releasing his last album."
+],
+"h": "Leicester City win the Premier League at 5000–1.",
+"e": "2016: David Bowie's death (Jan), reef bleaching (Mar), the Brexit vote (Jun), Juno at Jupiter (Jul). Also Pokémon Go and the Rio Olympics."
+},
+{
+"y": 2019,
+"m": [
+{
+"t": "video",
+"src": "media/r40-1.mp4",
+"cat": "world",
+"poster": "media/r40-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r40-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r40-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r40-4.png",
+"cat": "ent"
+}
+],
+"c": [
+"Greta Thunberg leads millions of students on school strikes for the climate.",
+"Ash Barty wins the French Open and becomes world No. 1.",
+"Scientists reveal the first-ever picture of a black hole.",
+"Avengers: Endgame becomes the highest-grossing film of all time."
+],
+"h": "Notre-Dame cathedral in Paris catches fire.",
+"e": "2019: the Notre-Dame fire (Apr), the first black hole image (Apr), Endgame (Apr), Barty's French Open (Jun)."
+},
+{
+"y": 1993,
+"m": [
+{
+"t": "video",
+"src": "media/r04-1.mp4",
+"cat": "world",
+"poster": "media/r04-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r04-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r04-3.png",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r04-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"The FBI's 51-day siege of the Branch Davidian compound in Waco, Texas ends in fire. Listen to the agents' radio.",
+"Shane Warne bowls Mike Gatting with the 'Ball of the Century' in his first Ashes Test.",
+"Intel launches its very first Pentium processor.",
+"Whitney Houston's 'I Will Always Love You' from The Bodyguard is the biggest song of the year."
+],
+"h": "Bill Clinton's first year in the White House.",
+"e": "1993: Pentium launched (Mar), the Waco siege ended (Apr), Warne's 'Ball of the Century' (Jun), and 'I Will Always Love You' ruled the charts. Also the Oslo Accords handshake and Sydney winning the 2000 Olympics."
 },
 {
 "y": 2023,
 "m": [
 {
-"t": "img",
-"src": "media/q47-1.webp"
-},
-{
-"t": "img",
-"src": "media/q47-2.jpg"
-},
-{
 "t": "video",
-"src": "media/q47-3.webm",
-"poster": "media/q47-3-poster.jpg"
+"src": "media/r47-1.mp4",
+"cat": "world",
+"poster": "media/r47-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r47-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r47-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r47-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"India lands a spacecraft near the Moon's south pole.",
-"A king is crowned at Westminster Abbey.",
-"A submersible is lost on a dive to the Titanic."
+"Church bells ring out as King Charles III is crowned.",
+"The Matildas reach the World Cup semi-finals; the nation stops for their penalty shootout.",
+"India's Chandrayaan-3 lands near the Moon's south pole.",
+"Barbie and Oppenheimer open on the same day: 'Barbenheimer'."
 ],
-"h": "Very recent.",
-"e": "2023 — Chandrayaan-3, Charles III's coronation, the Titan submersible."
+"h": "The Titan submersible is lost on a dive to the Titanic.",
+"e": "2023: the coronation (May), Barbenheimer (Jul), the Matildas' World Cup run (Aug), Chandrayaan-3 (Aug)."
 },
 {
-"y": 2023,
+"y": 2011,
 "m": [
 {
 "t": "img",
-"src": "media/q48-1.jpg"
+"src": "media/r28-1.jpg",
+"cat": "world"
 },
 {
 "t": "img",
-"src": "media/q48-2.jpg"
+"src": "media/r28-2.jpg",
+"cat": "aus"
+},
+{
+"t": "video",
+"src": "media/r28-3.mp4",
+"cat": "tech",
+"poster": "media/r28-3-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q48-3.jpg"
+"src": "media/r28-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"Huge earthquakes strike Turkey and Syria.",
-"AI chatbots go mainstream.",
-"A record-breaking stadium tour; a pink-and-atomic 'Barbenheimer' summer."
+"Osama bin Laden is killed in a US raid in Pakistan.",
+"Category 5 Cyclone Yasi slams into north Queensland.",
+"The final Space Shuttle mission lifts off.",
+"The last Harry Potter film premieres in London's Trafalgar Square."
 ],
-"h": "Very recent.",
-"e": "2023 — the Turkey–Syria earthquakes, the AI boom, the Eras Tour and Barbenheimer."
+"h": "India win the Cricket World Cup at home.",
+"e": "2011: Cyclone Yasi (Feb), bin Laden killed (May), the last shuttle launch (Jul), the final Harry Potter film (Jul)."
+},
+{
+"y": 2000,
+"m": [
+{
+"t": "video",
+"src": "media/r12-1.mp4",
+"cat": "world",
+"poster": "media/r12-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r12-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r12-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r12-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"Russia's new president faces tough questions after the Kursk submarine sinks.",
+"Cathy Freeman wins 400m gold in front of a home crowd.",
+"The first crew moves into the International Space Station.",
+"Russell Crowe's Gladiator is a box-office smash."
+],
+"h": "The Olympics come to Australia.",
+"e": "2000: Gladiator (May), the Kursk disaster (Aug), Cathy Freeman's gold in Sydney (Sep), the first ISS crew (Nov)."
+},
+{
+"y": 2012,
+"m": [
+{
+"t": "video",
+"src": "media/r29-1.mp4",
+"cat": "world",
+"poster": "media/r29-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r29-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r29-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r29-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"The Olympic torch relay makes its way around Britain.",
+"Gotye's 'Somebody That I Used to Know' hits No. 1 in America.",
+"The $35 Raspberry Pi computer goes on sale.",
+"Danny Boyle's opening ceremony features the Queen 'parachuting' in with James Bond."
+],
+"h": "London hosts the Olympics for a third time.",
+"e": "2012: the Raspberry Pi (Feb), Gotye's US No. 1 (Apr), the torch relay and Olympic opening ceremony (Jul), Curiosity landed on Mars (Aug)."
+},
+{
+"y": 2008,
+"m": [
+{
+"t": "video",
+"src": "media/r22-1.mp4",
+"cat": "world",
+"poster": "media/r22-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r22-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r22-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r22-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"Apache helicopters escort the Dutch team home from the Beijing Olympics.",
+"Fans leave flowers for Australian actor Heath Ledger, who dies at 28.",
+"The very first Android phone goes on sale.",
+"The Dark Knight premieres, with Ledger's Joker set to win a posthumous Oscar."
+],
+"h": "Beijing hosts the Olympics and Usain Bolt runs 9.69.",
+"e": "2008: Heath Ledger's death (Jan), The Dark Knight (Jul), the Beijing Olympics (Aug), the first Android phone (Sep), Lehman's collapse (Sep)."
+},
+{
+"y": 2005,
+"m": [
+{
+"t": "img",
+"src": "media/r18-1.jpg",
+"cat": "world"
+},
+{
+"t": "img",
+"src": "media/r18-2.jpg",
+"cat": "aus"
+},
+{
+"t": "video",
+"src": "media/r18-3.mp4",
+"cat": "tech",
+"poster": "media/r18-3-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r18-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"Hurricane Katrina floods New Orleans and the Gulf Coast.",
+"Riots break out on Cronulla Beach in Sydney's south.",
+"NASA gets Discovery ready for the shuttle's 'Return to Flight' after the Columbia disaster.",
+"Star Wars: Revenge of the Sith completes the prequel trilogy."
+],
+"h": "YouTube's very first video is uploaded.",
+"e": "2005: Revenge of the Sith (May), Discovery's Return to Flight (Jul), Hurricane Katrina (Aug), the Cronulla riots (Dec)."
+},
+{
+"y": 2000,
+"m": [
+{
+"t": "video",
+"src": "media/r13-1.mp4",
+"cat": "world",
+"poster": "media/r13-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r13-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r13-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r13-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"A US president comments on an election too close to call: Bush v Gore.",
+"The Olympic Games open with a spectacular ceremony at Stadium Australia.",
+"Sony's PlayStation 2 launches and doubles as a DVD player.",
+"Dr. Dre, Eminem and Snoop Dogg tour America on the Up in Smoke Tour."
+],
+"h": "The first year starting with a 2.",
+"e": "2000: Kylie's 'Spinning Around' (Jun), the Concorde crash (Jul), the Up in Smoke Tour, the Sydney Olympics (Sep), PlayStation 2, and Bush v Gore (Nov)."
+},
+{
+"y": 1990,
+"m": [
+{
+"t": "video",
+"src": "media/r01-1.mp4",
+"cat": "world",
+"poster": "media/r01-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r01-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r01-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r01-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"A US president announces that Panama's General Noriega is in American custody.",
+"INXS and Michael Hutchence tour the world with the album 'X' and 'Suicide Blonde'.",
+"The Hubble Space Telescope is released into orbit, and then found to have a flawed mirror.",
+"Madonna's Blond Ambition tour (cone bra and all) plays the world, and 'Vogue' tops the charts."
+],
+"h": "The very start of the decade.",
+"e": "1990: Noriega captured (Jan), Hubble launched (Apr), INXS's 'X' tour, and Madonna's Blond Ambition tour. Mandela was also freed (Feb) and Germany reunified (Oct)."
 },
 {
 "y": 2024,
 "m": [
 {
-"t": "img",
-"src": "media/q49-1.jpg"
+"t": "video",
+"src": "media/r49-1.mp4",
+"cat": "world",
+"poster": "media/r49-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q49-2.jpg"
+"src": "media/r49-2.jpg",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q49-3.jpg"
+"src": "media/r49-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r49-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"A total solar eclipse crosses North America.",
+"Australia wins a record 18 gold medals at the Olympics.",
+"SpaceX catches a Starship booster with giant 'chopsticks'.",
+"The Paris Olympics open with a parade of boats along the Seine."
+],
+"h": "A cargo ship knocks down Baltimore's Key Bridge.",
+"e": "2024: the North American eclipse (Apr), the Paris Olympics (Jul–Aug), Australia's 18 golds, Starship's booster catch (Oct)."
+},
+{
+"y": 2005,
+"m": [
+{
+"t": "img",
+"src": "media/r19-1.jpg",
+"cat": "world"
+},
+{
+"t": "img",
+"src": "media/r19-2.jpg",
+"cat": "aus"
 },
 {
 "t": "video",
-"src": "media/q49-4.webm",
-"poster": "media/q49-4-poster.jpg"
+"src": "media/r19-3.mp4",
+"cat": "tech",
+"poster": "media/r19-3-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r19-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A total eclipse crosses Mexico, the USA and Canada.",
-"A container ship knocks down a bridge in Baltimore.",
-"Paris hosts the Olympics, with an opening ceremony on the Seine.",
-"A giant rocket booster is caught by 'chopsticks'."
+"Cardinal Ratzinger is elected Pope Benedict XVI.",
+"The Socceroos beat Uruguay on penalties to reach their first World Cup in 32 years.",
+"T-minus 10... an Atlas V launches the Mars Reconnaissance Orbiter.",
+"Pink Floyd reunite at the Live 8 concert in Hyde Park."
 ],
-"h": "Paris Olympics year.",
-"e": "2024 — the North American eclipse, the Baltimore bridge collapse, the Paris Olympics, Starship's booster catch."
+"h": "Liverpool win the Champions League from 3–0 down in Istanbul.",
+"e": "2005: Benedict XVI (Apr), Live 8 (Jul), the Mars Reconnaissance Orbiter launch (Aug), the Socceroos reached the World Cup (Nov)."
 },
 {
-"y": 2025,
+"y": 2010,
+"m": [
+{
+"t": "video",
+"src": "media/r25-1.mp4",
+"cat": "world",
+"poster": "media/r25-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r25-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r25-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r25-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"An Icelandic volcano's ash cloud grounds flights across Europe.",
+"Mary MacKillop is declared Australia's first saint.",
+"Apple unveils the iPad.",
+"Christopher Nolan's Inception premieres."
+],
+"h": "33 trapped Chilean miners are rescued.",
+"e": "2010: the iPad (Jan), Eyjafjallajökull's ash cloud (Apr), Inception (Jul), Mary MacKillop canonised (Oct). Also the Burj Khalifa opened."
+},
+{
+"y": 1996,
+"m": [
+{
+"t": "video",
+"src": "media/r08-1.mp4",
+"cat": "world",
+"poster": "media/r08-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r08-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r08-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r08-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"Israel's newly elected Prime Minister Benjamin Netanyahu visits the White House.",
+"Australia's swimmers head to the Olympics, where Kieren Perkins wins the 1500m from lane eight.",
+"The Nintendo 64 launches with Super Mario 64.",
+"The Spice Girls tell you what they want, what they really really want."
+],
+"h": "England hosts Euro 96: 'football's coming home'.",
+"e": "1996: Wannabe (Jul), Netanyahu's White House visit (Jul), Kieren Perkins' lane-eight gold in Atlanta (Jul), Nintendo 64 (Jun)."
+},
+{
+"y": 2013,
+"m": [
+{
+"t": "video",
+"src": "media/r31-1.mp4",
+"cat": "world",
+"poster": "media/r31-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r31-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r31-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r31-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"A meteor explodes over Chelyabinsk, Russia, injuring about 1,500 people.",
+"Baz Luhrmann's The Great Gatsby, shot in Sydney, premieres.",
+"Sony launches the PlayStation 4.",
+"Beyoncé tours as 'Mrs Carter' and drops a surprise album overnight."
+],
+"h": "Andy Murray ends Britain's 77-year wait for a men's Wimbledon champion.",
+"e": "2013: the Chelyabinsk meteor (Feb), Pope Francis (Mar), The Great Gatsby (May), the PS4 (Nov), Beyoncé's surprise album (Dec)."
+},
+{
+"y": 2022,
 "m": [
 {
 "t": "img",
-"src": "media/q50-1.jpg"
+"src": "media/r46-1.jpg",
+"cat": "world"
 },
 {
 "t": "img",
-"src": "media/q50-2.jpg"
+"src": "media/r46-2.jpg",
+"cat": "aus"
+},
+{
+"t": "video",
+"src": "media/r46-3.mp4",
+"cat": "tech",
+"poster": "media/r46-3-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q50-3.jpg"
-},
-{
-"t": "img",
-"src": "media/q50-4.jpg"
+"src": "media/r46-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"The first American Pope is elected.",
-"Wildfires burn through Los Angeles in January.",
-"A president returns for a second, non-consecutive term."
+"Elon Musk buys Twitter for $44 billion.",
+"La Niña rains bring record floods to eastern Australia.",
+"NASA's Artemis I sends an uncrewed Orion around the Moon.",
+"Harry Styles' 'As It Was' is the biggest song of the year."
 ],
-"h": "Last year.",
-"e": "2025 — Pope Leo XIV, the LA wildfires, Trump's second inauguration."
+"h": "A chatbot called ChatGPT launches at the end of the year.",
+"e": "2022: the eastern Australia floods, 'As It Was', Musk bought Twitter (Oct), Artemis I (Nov), ChatGPT (Nov)."
 },
 {
-"y": 2025,
+"y": 2018,
 "m": [
 {
 "t": "img",
-"src": "media/q51-1.jpg"
+"src": "media/r39-1.jpg",
+"cat": "world"
 },
 {
 "t": "img",
-"src": "media/q51-2.jpg"
+"src": "media/r39-2.jpg",
+"cat": "aus"
+},
+{
+"t": "video",
+"src": "media/r39-3.mp4",
+"cat": "tech",
+"poster": "media/r39-3-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q51-3.jpg"
+"src": "media/r39-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"A private lander touches down on the Moon.",
-"Liverpool win the Premier League in their new manager's first season.",
-"Thieves steal crown jewels from the world's most-visited museum."
+"Prince Harry marries Meghan Markle at Windsor.",
+"Australian diving doctor Richard Harris helps rescue 12 boys and their coach from a flooded Thai cave.",
+"Falcon Heavy blasts off carrying a Tesla Roadster, and its twin boosters land side by side.",
+"Avengers: Infinity War ends with half the universe snapped away."
 ],
-"h": "Last year.",
-"e": "2025 — Blue Ghost landed on the Moon, Liverpool champions, the Louvre jewel heist."
+"h": "England reach a World Cup semi-final; France win it.",
+"e": "2018: Falcon Heavy (Feb), Infinity War (Apr), Harry & Meghan's wedding (May), the Thai cave rescue (Jul)."
 },
 {
-"y": 2026,
+"y": 2008,
 "m": [
 {
-"t": "img",
-"src": "media/q52-1.jpg"
+"t": "video",
+"src": "media/r23-1.mp4",
+"cat": "world",
+"poster": "media/r23-1-poster.jpg"
 },
 {
 "t": "img",
-"src": "media/q52-2.jpg"
+"src": "media/r23-2.jpg",
+"cat": "aus"
 },
 {
 "t": "img",
-"src": "media/q52-3.jpg"
+"src": "media/r23-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r23-4.jpg",
+"cat": "ent"
 }
 ],
 "c": [
-"Milan and Cortina host the Winter Olympics.",
-"The first 48-team World Cup is played across the USA, Canada and Mexico.",
-"The USA marks its 250th birthday."
+"Crowds pour into the streets of Washington as Barack Obama is elected president.",
+"Hundreds of thousands of pilgrims fill Sydney as the Pope arrives for World Youth Day.",
+"The Large Hadron Collider is switched on under the Swiss–French border.",
+"All four members of ABBA appear together at the Mamma Mia! movie premiere."
 ],
-"h": "This year!",
-"e": "2026 — Milano Cortina Winter Olympics, the 48-team World Cup, America's 250th."
+"h": "Michael Phelps wins eight gold medals at one Games.",
+"e": "2008: Mamma Mia! (Jul), World Youth Day in Sydney (Jul), the LHC switched on (Sep), Obama elected (Nov)."
+},
+{
+"y": 2023,
+"m": [
+{
+"t": "video",
+"src": "media/r48-1.mp4",
+"cat": "world",
+"poster": "media/r48-1-poster.jpg"
+},
+{
+"t": "img",
+"src": "media/r48-2.jpg",
+"cat": "aus"
+},
+{
+"t": "img",
+"src": "media/r48-3.jpg",
+"cat": "tech"
+},
+{
+"t": "img",
+"src": "media/r48-4.jpg",
+"cat": "ent"
+}
+],
+"c": [
+"Earthquakes devastate Turkey and Syria; rescuers pull survivors from the rubble.",
+"Sydney hosts WorldPride, the first in the southern hemisphere.",
+"ChatGPT sets off a worldwide AI boom.",
+"Taylor Swift's Eras Tour becomes the first tour to earn a billion dollars."
+],
+"h": "King Charles III is crowned.",
+"e": "2023: the Turkey–Syria earthquakes (Feb), Sydney WorldPride (Feb–Mar), the AI boom, the Eras Tour's billion dollars."
 }
 ];
 
@@ -1533,14 +1992,16 @@ const stage=document.getElementById('stage'), dotsWrap=document.getElementById('
 let current=-1, timerId=null;
 const revealed = GAME.map(()=>false);      // answer shown?
 const clueCount = GAME.map(()=>1);         // headline clues unlocked (first one free)
+const CATS={world:['🌍','World'],aus:['🇦🇺','Australia'],tech:['💻','Tech'],ent:['🎬','Entertainment']};
+const catTag=c=>CATS[c]?`<span class="cat cat-${c}">${CATS[c][0]} ${CATS[c][1]}</span>`:'';
 const esc = s => String(s).replace(/[&<>"]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
 
 function mediaHTML(m, k){
-  const badge = m.t==='video' ? '<span class="badge">▶ Clip</span>' : m.t==='gif' ? '<span class="badge">GIF</span>' : '';
+  const badge = m.t==='video' ? '<span class="badge">🔊 Sound clip</span><div class="play"><span>▶ Click to play with sound</span></div>' : m.t==='gif' ? '<span class="badge">GIF</span>' : '';
   const inner = m.t==='video'
-    ? `<video src="${esc(m.src)}" muted loop playsinline preload="metadata" ${m.poster?`poster="${esc(m.poster)}"`:''}></video>`
+    ? `<video src="${esc(m.src)}${m.start?'#t='+m.start:''}" playsinline preload="metadata" ${m.poster?`poster="${esc(m.poster)}"`:''}></video>`
     : `<img src="${esc(m.src)}" alt="Photo clue ${k+1}" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.polaroid').remove()">`;
-  return `<figure class="polaroid" data-k="${k}" style="margin:0"><div class="ph">${inner}</div>${badge}<figcaption class="cap">Exhibit ${String.fromCharCode(65+k)}</figcaption></figure>`;
+  return `<figure class="polaroid" data-k="${k}" style="margin:0"><div class="ph">${inner}</div>${badge}<figcaption class="cap">Exhibit ${k+1}${m.cat?' · '+CATS[m.cat][1]:''}</figcaption></figure>`;
 }
 
 function buildSlides(){
@@ -1550,11 +2011,12 @@ function buildSlides(){
     <div class="sheet intro">
       <div class="kicker">★ Special Edition · 1990 – 2026 ★</div>
       <h1>Identify the <span>Year</span></h1>
-      <p class="lead">Every round is a page torn from history. Study the photos, clips and headlines, then shout out the <b>year</b> it all happened. Everything is from <b>1990 to 2026</b>, so you lived through all of it!</p>
+      <p class="lead">Every round is a page torn from history, with plenty from home in Australia. Study the photos, clips and clues, then shout out the <b>year</b> it all happened. Everything is from <b>1990 to 2026</b>, so you lived through all of it!</p>
       <ul class="rules">
         <li><b>👆 Add players first:</b> use <b>＋ Add Player</b> in the scorecard above and type each name.</li>
-        <li><b>📷 Exhibits:</b> each round shows real photos (and sometimes a GIF or video clip). Click any photo to enlarge it.</li>
-        <li><b>📰 Headlines:</b> one headline is shown at the start. The host presses <b>Next Clue</b> to reveal more.</li>
+        <li><b>🗞 Four desks per round:</b> 🌍 World, 🇦🇺 Australia, 💻 Tech and 🎬 Entertainment news.</li>
+        <li><b>📷 Exhibits:</b> each round has four numbered exhibits, including a 🔊 video clip with sound. Click any exhibit to enlarge or play it (turn your speakers up!).</li>
+        <li><b>📰 Clues:</b> each numbered clue matches the exhibit with the same number. One is shown at the start; the host presses <b>Next Clue</b> for more.</li>
         <li><b>⏱ ${TIMER_SECONDS} seconds</b> per round. The timer starts when the round appears.</li>
         <li><b>💡 Hint</b> narrows down the era. <b>🗓 Reveal Year</b> stamps the answer with the story behind it.</li>
         <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year, 1 pt for ±1 year.</li>
@@ -1575,9 +2037,9 @@ function buildSlides(){
           <span class="timer" data-timer><span class="dial"><b>${TIMER_SECONDS}</b></span></span>
         </div>
         <h2 class="qtitle">What <em>year</em> was this?</h2>
-        <p class="qsub">Study the exhibits and headlines. Everything below happened in the same year.</p>
+        <p class="qsub">Study the exhibits and clues. Everything below happened in the same year.</p>
         <div class="wall" style="--n:${n}">${q.m.map(mediaHTML).join('')}</div>
-        <div class="clips">${q.c.map((c,k)=>`<div class="clip ${k>0?'locked':''}" data-clip="${k}"><span class="n">${k+1}</span><span>${esc(c)}</span></div>`).join('')}</div>
+        <div class="clips">${q.c.map((c,k)=>`<div class="clip ${k>0?'locked':''}" data-clip="${k}"><span class="n">${k+1}</span><span>${catTag((q.m[k]||{}).cat)}${esc(c)}</span></div>`).join('')}</div>
         <div class="actions">
           <button class="act clue" data-a="clue">📰 Next Clue</button>
           <button class="act hint" data-a="hint">💡 Hint</button>
@@ -1592,7 +2054,6 @@ function buildSlides(){
     s.querySelector('[data-a="hint"]').onclick=()=>s.querySelector('[data-hint]').classList.toggle('show');
     s.querySelector('[data-a="answer"]').onclick=()=>revealAnswer(i);
     s.querySelectorAll('.polaroid').forEach(p=>p.onclick=()=>openLightbox(p));
-    s.querySelectorAll('video').forEach(v=>{ v.onmouseenter=()=>v.play().catch(()=>{}); });
   });
 
   const t=document.createElement('section');
@@ -1614,7 +2075,8 @@ function buildSlides(){
   t.querySelector('#clearBtn').onclick=()=>{ if(confirm('Reset every player score to 0?')){ players.forEach(p=>p.score=0); save(); renderPlayers(); renderTally(); } };
 
   buildDots();
-  showSlide(-1);
+  const hm=location.hash.match(/^#r(\d+)$/);
+  showSlide(hm ? Math.min(Math.max(+hm[1]-1,0),GAME.length-1) : -1);
 }
 
 function slideEl(i){ return stage.querySelector(`.slide[data-i="${i}"]`); }
@@ -1637,10 +2099,12 @@ function openLightbox(p){
   const media=p.querySelector('img,video'); if(!media) return;
   lightbox.innerHTML='';
   const clone = media.tagName==='VIDEO'
-    ? Object.assign(document.createElement('video'),{src:media.src,controls:true,autoplay:true,loop:true})
+    ? Object.assign(document.createElement('video'),{src:media.src,controls:true,autoplay:true,muted:false,volume:1,playsInline:true})
     : Object.assign(document.createElement('img'),{src:media.currentSrc||media.src});
   if(clone.tagName==='IMG') clone.referrerPolicy='no-referrer';
   lightbox.appendChild(clone); lightbox.classList.add('show');
+  if(clone.tagName==='VIDEO'){ clone.muted=false; clone.volume=1; clone.play().catch(()=>{});
+    const h=document.createElement('div'); h.className='lbhint'; h.textContent='🔊 Sound on. Click outside the video or press Esc to close'; lightbox.appendChild(h); }
 }
 lightbox.onclick=e=>{ if(e.target.tagName!=='VIDEO'){ lightbox.classList.remove('show'); lightbox.innerHTML=''; } };
 
@@ -1673,10 +2137,10 @@ function startTimer(i){
 /* ---------- navigation ---------- */
 function showSlide(i){
   stopTimer(); current=i;
+  try{ history.replaceState(null,'', i>=0&&i<GAME.length ? '#r'+(i+1) : location.pathname); }catch(e){}
   const isIntro=i===-1, isTally=i===GAME.length;
   stage.querySelectorAll('.slide').forEach(s=>s.classList.toggle('active',+s.dataset.i===i));
   stage.querySelectorAll('video').forEach(v=>v.pause());
-  const act=slideEl(i); if(act) act.querySelectorAll('video').forEach(v=>v.play().catch(()=>{}));
   prevBtn.style.visibility=isIntro?'hidden':'visible';
   nextBtn.style.visibility=isIntro?'hidden':'visible';
   nextBtn.disabled=isTally;
@@ -1686,7 +2150,7 @@ function showSlide(i){
   if(isTally) renderTally();
   if(i>=0 && i<GAME.length) startTimer(i);
   markDots();
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({top:0});
 }
 prevBtn.onclick=()=>{ if(current>0) showSlide(current-1); else if(current===0) showSlide(-1); };
 nextBtn.onclick=()=>{ if(current<GAME.length) showSlide(current+1); };
