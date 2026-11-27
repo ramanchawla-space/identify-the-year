@@ -1605,11 +1605,7 @@ const stage=document.getElementById('stage'), dotsWrap=document.getElementById('
       progress=document.getElementById('progress'), lightbox=document.getElementById('lightbox');
 let current=-1, timerId=null;
 const revealed = GAME.map(()=>false);      // answer shown?
-// Clues are all shown, lettered A–D in a scrambled order; players match each one to an exhibit number.
-const clueOrder = GAME.map(q=>{ const n=q.c.length, idx=[...Array(n).keys()];
-  for(let t=0;t<50;t++){ for(let i=n-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; } if(idx.every((v,i)=>v!==i)) break; }
-  return idx; });
-const LETTERS='ABCDEFGH';
+// All clues are shown from the start: clue N describes Exhibit N.
 const CATS={world:['🌍','World'],aus:['🇦🇺','Australia'],tech:['💻','Tech'],ent:['🎬','Entertainment']};
 const catTag=c=>CATS[c]?`<span class="cat cat-${c}">${CATS[c][0]} ${CATS[c][1]}</span>`:'';
 const esc = s => String(s).replace(/[&<>"]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
@@ -1619,7 +1615,7 @@ function mediaHTML(m, k){
   const inner = m.t==='video'
     ? `<video src="${esc(m.src)}${m.start?'#t='+m.start:''}" playsinline preload="metadata" ${m.poster?`poster="${esc(m.poster)}"`:''}></video>`
     : `<img src="${esc(m.src)}" alt="Photo clue ${k+1}" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.polaroid').remove()">`;
-  return `<figure class="polaroid" data-k="${k}" style="margin:0"><div class="ph">${inner}</div>${badge}<figcaption class="cap">Exhibit ${k+1}</figcaption></figure>`;
+  return `<figure class="polaroid" data-k="${k}" style="margin:0"><div class="ph">${inner}</div>${badge}<figcaption class="cap">Exhibit ${k+1}${m.cat?' · '+CATS[m.cat][1]:''}</figcaption></figure>`;
 }
 
 function buildSlides(){
@@ -1634,10 +1630,10 @@ function buildSlides(){
         <li><b>👆 Add players first:</b> use <b>＋ Add Player</b> in the scorecard above and type each name.</li>
         <li><b>🗞 Four desks per round:</b> 🌍 World, 🇦🇺 Australia, 💻 Tech and 🎬 Entertainment news.</li>
         <li><b>📷 Exhibits:</b> each round has four numbered exhibits, including a 🔊 video clip with sound. Click any exhibit to enlarge or play it (turn your speakers up!).</li>
-        <li><b>📰 Clues:</b> all four clues (A–D) are on show, scrambled. Match each clue to its exhibit, then name the year.</li>
+        <li><b>📰 Clues:</b> all four clues are on show from the start. Clue 1 goes with Exhibit 1, clue 2 with Exhibit 2, and so on.</li>
         <li><b>⏱ ${TIMER_SECONDS} seconds</b> per round. The timer starts when the round appears.</li>
-        <li><b>💡 Hint</b> is a maths riddle that works out to the year, for when you're stuck. <b>🗓 Reveal Year</b> stamps the answer, shows which clue goes with which exhibit, and tells the story behind it.</li>
-        <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year (2 if you used the hint), 1 pt for ±1 year, +1 for matching all four clues.</li>
+        <li><b>💡 Hint</b> is a maths riddle that works out to the year, for when you're stuck. <b>🗓 Reveal Year</b> stamps the answer, and tells the story behind it.</li>
+        <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year (2 if you used the hint), 1 pt for ±1 year.</li>
       </ul>
       <button class="act begin" id="beginBtn">▶ Start the Time Machine</button>
       <button class="act" id="shuffleBtn" title="Deal the rounds in a new random order">🔀 Shuffle rounds</button>
@@ -1656,9 +1652,9 @@ function buildSlides(){
           <span class="timer" data-timer><span class="dial"><b>${TIMER_SECONDS}</b></span></span>
         </div>
         <h2 class="qtitle">What <em>year</em> was this?</h2>
-        <p class="qsub">Match each clue (A–D) to its exhibit (1–4), then name the year. Everything happened in the same year.</p>
+        <p class="qsub">Each numbered clue matches the exhibit with the same number. Everything happened in the same year.</p>
         <div class="wall" style="--n:${n}">${q.m.map(mediaHTML).join('')}</div>
-        <div class="clips">${clueOrder[i].map((k,pos)=>`<div class="clip" data-clip="${k}"><span class="n">${LETTERS[pos]}</span><span>${esc(q.c[k])}<span class="match">→ Exhibit ${k+1} ${catTag((q.m[k]||{}).cat)}</span></span></div>`).join('')}</div>
+        <div class="clips">${q.c.map((c,k)=>`<div class="clip" data-clip="${k}"><span class="n">${k+1}</span><span>${catTag((q.m[k]||{}).cat)}${esc(c)}</span></div>`).join('')}</div>
         <div class="actions">
           <button class="act hint" data-a="hint">💡 Hint</button>
           <button class="act answer" data-a="answer">🗓 Reveal Year</button>
