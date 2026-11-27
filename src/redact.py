@@ -1,7 +1,8 @@
 """Blur text in exhibits that would give the year away (dates on plaques, captions, discs, video overlays).
 Run after fetch_all.py and before build.py.  Untouched copies are kept in src/originals/unredacted/, so the
 blur is always applied to the original and re-running is safe.
-Regions are fractions of the frame: (x0, x1, y0, y1, [t0, t1]) with an optional time window in seconds for video."""
+Regions are fractions of the frame: (x0, x1, y0, y1, [t0, t1]) with an optional time window in seconds for video.
+CUTS removes stretches of a clip (seconds), e.g. computer animation, since every exhibit must be real footage."""
 import os, shutil, subprocess
 SP = os.path.dirname(os.path.abspath(__file__))
 MEDIA = os.path.join(SP, '..', 'media')
@@ -13,8 +14,10 @@ REDACT = {
     'r05-3.jpg': [(.64, .94, .49, .64), (.76, .96, .31, .40)],  # 1995: "Windows 95" and the (c) 1995 line on the CD
     'r12-2.jpg': [(.37, .60, .42, .48)],              # 2002: "Bali 12 Oktober 2002" on the memorial
     'r20-4.jpg': [(.37, .47, .40, .47)],              # 2010: "2010" on a banner
-    'r32-4.jpg': [(.01, .17, .54, .69)],              # 2020: Gianna Bryant's dates on a memorial sign
     'r33-1.mp4': [(.08, .32, .86, .95, 10.5, 23.5)],  # 2021: "29 March 2021" satellite label
+}
+CUTS = {
+    'r14-3.mp4': [(2.4, 6.4)],                        # 2004: "NASA Animation" of the rover
 }
 
 def chain(regions, w='iw', h='ih'):
@@ -28,16 +31,23 @@ def chain(regions, w='iw', h='ih'):
         last = f'o{i}'
     return ';'.join(parts), f'[{last}]'
 
-for name, regions in REDACT.items():
+for name in list(REDACT) + [n for n in CUTS if n not in REDACT]:
+    regions = REDACT.get(name, [])
     path, keep = os.path.join(MEDIA, name), os.path.join(KEEP, name)
     if not os.path.exists(path): print('missing', name); continue
     if not os.path.exists(keep): shutil.copy(path, keep)
-    graph, out = chain(regions)
+    graph, out = chain(regions) if regions else ('[0:v]null[o]', '[o]')
+    if name in CUTS:
+        keep_expr = '*'.join(f'not(between(t,{a},{b}))' for a, b in CUTS[name])
+        graph += f";{out}select='{keep_expr}',setpts=N/FRAME_RATE/TB[cv];[0:a]aselect='{keep_expr}',asetpts=N/SR/TB[ca]"
+        out = '[cv]'
     tmp = path + '.tmp' + os.path.splitext(name)[1]
     extra = ['-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23', '-pix_fmt', 'yuv420p', '-c:a', 'copy', '-movflags', '+faststart'] \
         if name.endswith('.mp4') else ['-frames:v', '1', '-q:v', '3']
+    amap = ['-map', '[ca]'] if name in CUTS else (['-map', '0:a?'] if name.endswith('.mp4') else [])
+    if name in CUTS: extra = [x if x != 'copy' else 'aac' for x in extra]
     r = subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-i', keep, '-filter_complex', graph,
-                        '-map', out, *(['-map', '0:a?'] if name.endswith('.mp4') else []), *extra, tmp], capture_output=True, text=True)
+                        '-map', out, *amap, *extra, tmp], capture_output=True, text=True)
     if r.returncode: print('FAILED', name, r.stderr[-300:]); continue
     os.replace(tmp, path)
-    print('blurred', name)
+    print('fixed', name)
