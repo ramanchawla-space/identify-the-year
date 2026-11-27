@@ -34,26 +34,34 @@
   .brand .t{font-family:"Playfair Display",serif;font-weight:900;font-size:1.45rem;letter-spacing:-.01em;white-space:nowrap}
   .brand .t span{color:var(--red)}
   .brand .s{font-family:"Special Elite",monospace;font-size:.72rem;color:var(--muted);letter-spacing:.12em;margin-top:4px;text-transform:uppercase}
-  .players{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;flex:1;min-width:280px}
-  .player{display:flex;align-items:center;gap:6px;min-width:0;background:var(--card);
-    border:1.5px solid var(--ink);border-radius:4px;padding:5px 4px 5px 10px;box-shadow:2px 2px 0 var(--ink)}
-  .player.lead{background:#fff4d6;border-color:var(--gold);box-shadow:2px 2px 0 var(--gold)}
+  /* one compact score card for any number of players */
+  .board{flex:1;min-width:300px;background:var(--card);border:1.5px solid var(--ink);border-radius:4px;box-shadow:2px 2px 0 var(--ink);padding:4px 8px 6px}
+  .board-head{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--ink);padding-bottom:3px;margin-bottom:3px}
+  .board-title{font-family:"Special Elite",monospace;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
+  .board-count{font-size:.72rem;color:var(--muted);margin-right:auto}
+  .players{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));column-gap:14px;max-height:92px;overflow-y:auto}
+  .player{display:flex;align-items:center;gap:3px;min-width:0;height:23px;border-bottom:1px dotted var(--rule)}
+  .player .pno{font-size:.68rem;color:var(--muted);width:16px;flex:none;text-align:right;margin-right:2px}
   .player.lead .pname{color:#7a5410}
-  .pname{background:transparent;border:none;color:var(--ink);font-weight:700;flex:1 1 auto;min-width:0;width:100%;font-size:.9rem;outline:none;font-family:inherit}
-  .pname::placeholder{color:var(--muted);font-weight:600}
+  .player.lead .score{color:#7a5410}
+  .player.lead .pno::before{content:"★";color:var(--gold)}
+  .player.lead .pno span{display:none}
+  .pname{background:transparent;border:none;color:var(--ink);font-weight:600;flex:1 1 auto;min-width:0;width:100%;font-size:.82rem;outline:none;font-family:inherit;padding:0}
+  .pname::placeholder{color:var(--muted);font-weight:500}
   .pname:focus{border-bottom:1px dashed var(--muted)}
-  .score{min-width:28px;text-align:center;font-weight:800;font-family:"Playfair Display",serif;font-size:1.1rem;color:var(--red)}
-  .sbtn{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--ink);font-weight:800;cursor:pointer;line-height:1;font-size:.95rem;flex:none;
-    transition:transform .08s}
-  .sbtn:active{transform:scale(.9)}
+  .score{min-width:22px;text-align:center;font-weight:800;font-variant-numeric:lining-nums tabular-nums;font-family:"Playfair Display",serif;font-size:.95rem;color:var(--red)}
+  .sbtn{width:17px;height:17px;border-radius:50%;border:1px solid var(--ink);font-weight:800;cursor:pointer;line-height:1;font-size:.72rem;flex:none;padding:0;
+    display:grid;place-items:center;transition:transform .08s}
+  .sbtn:active{transform:scale(.85)}
   .sbtn.plus{background:var(--teal);color:#fff;border-color:var(--teal)}
   .sbtn.minus{background:transparent;color:var(--ink)}
-  .pdel{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:3px 5px;border-radius:4px;flex:none}
-  .pdel:hover{color:var(--red);background:rgba(192,57,43,.08)}
-  .pbtn{cursor:pointer;background:var(--ink);color:var(--paper);border:none;border-radius:4px;padding:9px 14px;font-weight:700;white-space:nowrap;box-shadow:2px 2px 0 var(--red)}
+  .pdel{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.7rem;padding:0 2px;flex:none;visibility:hidden}
+  .player:hover .pdel{visibility:visible}
+  .pdel:hover{color:var(--red)}
+  .pbtn{cursor:pointer;background:var(--ink);color:var(--paper);border:none;border-radius:3px;padding:3px 10px;font-size:.78rem;font-weight:700;white-space:nowrap;box-shadow:1px 1px 0 var(--red)}
   .pbtn:hover{background:#000}
   .sc-label{display:none;font-family:"Special Elite",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);padding-top:8px}
-  #scorecard.tally-mode .players,#scorecard.tally-mode #addPlayer{display:none}
+  #scorecard.tally-mode .board{display:none}
   #scorecard.tally-mode .sc-label{display:block}
 
   /* ---------- Stage ---------- */
@@ -91,7 +99,7 @@
   .polaroid:hover{transform:rotate(0) scale(1.03);z-index:2;box-shadow:0 12px 28px rgba(40,30,10,.3)}
   .polaroid::before{content:"";position:absolute;top:-10px;left:50%;width:80px;height:22px;transform:translateX(-50%) rotate(-3deg);
     background:rgba(230,215,170,.75);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-  .polaroid .ph{aspect-ratio:4/3;max-height:calc(100vh - 560px);min-height:120px;width:100%;background:#222;overflow:hidden;display:grid;place-items:center}
+  .polaroid .ph{aspect-ratio:4/3;max-height:calc(100vh - 490px - var(--sch,70px));min-height:120px;width:100%;background:#222;overflow:hidden;display:grid;place-items:center}
   .polaroid img,.polaroid video{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.92) contrast(1.02)}
   .polaroid .cap{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-family:"Special Elite",monospace;font-size:.8rem;color:var(--ink2)}
   .polaroid .play{position:absolute;inset:8px 8px 26px;display:grid;place-items:center;pointer-events:none}
@@ -180,7 +188,6 @@
   .hidden{display:none!important}
   @media (max-width:760px){
     .polaroid .ph{max-height:none}
-    .players{grid-template-columns:repeat(2,1fr)}
     .wall{grid-template-columns:1fr 1fr}
     .clips,.rules,.ranklist{grid-template-columns:1fr}
     .qtitle{font-size:1.5rem}.intro h1{font-size:2.3rem}
@@ -195,8 +202,10 @@
 <div id="scorecard">
   <div class="sc-inner">
     <div class="brand"><div class="t">Identify the <span>Year</span></div><div class="s">The Team Time-Machine Quiz</div></div>
-    <div class="players" id="players"></div>
-    <button class="pbtn" id="addPlayer">＋ Add Player</button>
+    <div class="board">
+      <div class="board-head"><span class="board-title">Score Card</span><span class="board-count" id="pcount"></span><button class="pbtn" id="addPlayer">＋ Add Player</button></div>
+      <div class="players" id="players"></div>
+    </div>
     <div class="sc-label">Score Card</div>
   </div>
 </div>
@@ -346,20 +355,20 @@ const GAME = [
 }
 ],
 "c": [
-"A US president announces that Panama's General Noriega is in American custody.",
+"Nelson Mandela, freed after 27 years in prison, tours the world. Listen to him speak.",
 "INXS and Michael Hutchence tour the world with the album 'X' and 'Suicide Blonde'.",
 "The Hubble Space Telescope is released into orbit, and then found to have a flawed mirror.",
-"Madonna's Blond Ambition tour (cone bra and all) plays the world, and 'Vogue' tops the charts."
+"Home Alone: Kevin's family flies to Paris without him, and it becomes the year's biggest film."
 ],
 "h": "Double my last two digits and add 7. You get 187.",
-"e": "1990: Noriega captured (Jan), Hubble launched (Apr), INXS's 'X' tour, and Madonna's Blond Ambition tour. Mandela was also freed (Feb) and Germany reunified (Oct)."
+"e": "1990: Mandela freed (Feb) and on a world tour (Jun), Hubble launched (Apr), INXS's 'X' tour, Home Alone (Nov). Germany also reunified (Oct)."
 },
 {
 "y": 2022,
 "m": [
 {
 "t": "img",
-"src": "media/r35-1.png",
+"src": "media/r35-1.jpg",
 "cat": "world"
 },
 {
@@ -380,13 +389,13 @@ const GAME = [
 }
 ],
 "c": [
-"NASA deliberately crashes its DART spacecraft into an asteroid, the first test of planetary defence. This is DART's last photo before impact.",
+"Lionel Messi finally wins the World Cup as Argentina beat France on penalties in Qatar.",
 "Nick Kyrgios reaches the Wimbledon final.",
 "The James Webb Space Telescope releases its first pictures of the deep universe.",
 "Top Gun: Maverick flies past a billion dollars at the box office."
 ],
 "h": "My four digits add up to 6, and I end in 2.",
-"e": "2022: Top Gun: Maverick (May), Kyrgios in the Wimbledon final (Jul), Webb's first images (Jul), NASA's DART hit an asteroid (Sep)."
+"e": "2022: Top Gun: Maverick (May), Kyrgios in the Wimbledon final (Jul), Webb's first images (Jul), NASA's DART hit an asteroid (Sep), Messi's World Cup in Qatar (Dec)."
 },
 {
 "y": 1998,
@@ -450,11 +459,11 @@ const GAME = [
 "c": [
 "The giant Ever Given container ship gets stuck in the Suez Canal.",
 "Melbourne becomes one of the most locked-down cities on Earth.",
-"NASA's Perseverance rover lands on Mars.",
+"Tesla's shares soar until it is worth $1 trillion, and Elon Musk becomes the world's richest person.",
 "Squid Game becomes Netflix's biggest show ever."
 ],
 "h": "In Roman numerals I'm written MMXXI.",
-"e": "2021: Perseverance landed (Feb), the Ever Given (Mar), Melbourne's lockdowns, Squid Game (Sep)."
+"e": "2021: Perseverance landed (Feb), Tesla hit $1 trillion (Oct), the Ever Given (Mar), Melbourne's lockdowns, Squid Game (Sep)."
 },
 {
 "y": 1997,
@@ -655,10 +664,10 @@ const GAME = [
 "The FBI's 51-day siege of the Branch Davidian compound in Waco, Texas ends in fire. Listen to the agents' radio.",
 "Shane Warne bowls Mike Gatting with the 'Ball of the Century' in his first Ashes Test.",
 "Intel launches its very first Pentium processor.",
-"Whitney Houston's 'I Will Always Love You' from The Bodyguard is the biggest song of the year."
+"Steven Spielberg's Jurassic Park brings dinosaurs back to life and becomes the biggest film ever made (so far)."
 ],
 "h": "I'm a prime number, and my digits add up to 22.",
-"e": "1993: Pentium launched (Mar), the Waco siege ended (Apr), Warne's 'Ball of the Century' (Jun), and 'I Will Always Love You' ruled the charts. Also the Oslo Accords handshake and Sydney winning the 2000 Olympics."
+"e": "1993: Pentium launched (Mar), the Waco siege ended (Apr), Warne's 'Ball of the Century' (Jun), and Jurassic Park ruled the box office (Jun). Also the Oslo Accords handshake and Sydney winning the 2000 Olympics."
 },
 {
 "y": 2000,
@@ -722,19 +731,20 @@ const GAME = [
 "c": [
 "Germany beat Argentina in Rio to win the World Cup.",
 "A gunman takes hostages at the Lindt Café in Sydney's Martin Place.",
-"The selfie stick becomes the must-have gadget for every tourist.",
+"Apple goes big with the iPhone 6 and 6 Plus, then 'Bendgate' follows.",
 "Everyone is tipping ice water over their heads for the ALS Ice Bucket Challenge."
 ],
 "h": "Flip my last two digits and you get 41; all four of my digits add up to 7.",
-"e": "2014: MH370 vanished (Mar), the World Cup in Brazil (Jun–Jul), the Ice Bucket Challenge (Aug), the selfie-stick craze, the Lindt Café siege (Dec)."
+"e": "2014: MH370 vanished (Mar), the World Cup in Brazil (Jun–Jul), the Ice Bucket Challenge (Aug), the iPhone 6 (Sep), the Lindt Café siege (Dec)."
 },
 {
 "y": 2020,
 "m": [
 {
-"t": "img",
-"src": "media/r32-1.jpg",
-"cat": "world"
+"t": "video",
+"src": "media/r32-1.mp4",
+"cat": "world",
+"poster": "media/r32-1-poster.jpg"
 },
 {
 "t": "img",
@@ -742,10 +752,9 @@ const GAME = [
 "cat": "aus"
 },
 {
-"t": "video",
-"src": "media/r32-3.mp4",
-"cat": "tech",
-"poster": "media/r32-3-poster.jpg"
+"t": "img",
+"src": "media/r32-3.png",
+"cat": "tech"
 },
 {
 "t": "img",
@@ -754,13 +763,13 @@ const GAME = [
 }
 ],
 "c": [
-"The world locks down as COVID-19 spreads.",
+"COVID-19 locks down the world. Paris falls silent, and people clap for health workers from their balconies.",
 "Smoke from Australia's Black Summer bushfires can be seen from space.",
-"SpaceX flies NASA astronauts to the space station, the first crewed launch from the US in nine years.",
+"Zoom goes from 10 million to 300 million daily meeting users as offices, schools and family catch-ups move online.",
 "Bong Joon-ho's Parasite becomes the first film not in English to win the Best Picture Oscar."
 ],
 "h": "Add 25 to me and divide by 5: you get 409.",
-"e": "2020: the Black Summer bushfires (Jan), Parasite's Best Picture Oscar (Feb), COVID lockdowns (Mar), SpaceX's Demo-2 (May)."
+"e": "2020: the Black Summer bushfires (Jan), Parasite's Best Picture Oscar (Feb), COVID lockdowns (Mar) and the Zoom boom, SpaceX's Demo-2 (May)."
 },
 {
 "y": 2023,
@@ -856,13 +865,13 @@ const GAME = [
 }
 ],
 "c": [
-"A US president explains why NATO is about to bomb Yugoslavia over Kosovo.",
+"The last total solar eclipse of the millennium sweeps across Europe, from Cornwall to Hungary. Listen to the crowd as day turns to night.",
 "Steve Waugh's Australians win the Cricket World Cup at Lord's.",
 "Governments and companies race to fix the 'Y2K bug' before midnight on New Year's Eve.",
 "'...Baby One More Time' makes Britney Spears a superstar."
 ],
 "h": "I am 44 squared plus 63. (Hint: 44 × 44 = 1,936)",
-"e": "1999: NATO's Kosovo campaign (Mar), Britney's breakthrough, Australia won the Cricket World Cup (Jun), the European eclipse (Aug), Y2K preparations. Putin became acting president on 31 December."
+"e": "1999: the euro launched (Jan), Europe's total eclipse (Aug), Britney's breakthrough, Australia won the Cricket World Cup (Jun), Y2K preparations. Putin became acting president on 31 December."
 },
 {
 "y": 2015,
@@ -892,11 +901,11 @@ const GAME = [
 "c": [
 "World leaders gather in Paris to strike a deal on climate change.",
 "Australia beat New Zealand at the MCG to win the Cricket World Cup.",
-"New Horizons sends back the first close-up pictures of Pluto.",
+"The Apple Watch goes on sale.",
 "Star Wars: The Force Awakens premieres in Hollywood."
 ],
 "h": "Multiply my last two digits by 3, then subtract 4. You get 41.",
-"e": "2015: 'the dress' (Feb), Australia's Cricket World Cup (Mar), New Horizons at Pluto (Jul), The Force Awakens (Dec), the Paris climate agreement (Dec)."
+"e": "2015: 'the dress' (Feb), Australia's Cricket World Cup (Mar), the Apple Watch (Apr), New Horizons at Pluto (Jul), The Force Awakens (Dec), the Paris climate agreement (Dec)."
 },
 {
 "y": 2012,
@@ -926,11 +935,11 @@ const GAME = [
 "c": [
 "Hurricane Sandy batters the US East Coast.",
 "Gotye's 'Somebody That I Used to Know' hits No. 1 in America.",
-"Felix Baumgartner jumps from the edge of space and breaks the sound barrier.",
+"Facebook lists on the Nasdaq stock exchange, valued at over $100 billion, the biggest tech share sale ever.",
 "'Gangnam Style' becomes the first YouTube video to reach a billion views."
 ],
 "h": "I am 44 squared plus 76. (Hint: 44 × 44 = 1,936)",
-"e": "2012: Gotye's US No. 1 (Apr), the London Olympics (Jul–Aug), the Red Bull Stratos jump (Oct), Hurricane Sandy (Oct), Gangnam Style's billion views (Dec)."
+"e": "2012: Gotye's US No. 1 (Apr), Facebook's Nasdaq listing (May), the London Olympics (Jul–Aug), Hurricane Sandy (Oct), Gangnam Style's billion views (Dec)."
 },
 {
 "y": 2008,
@@ -961,10 +970,10 @@ const GAME = [
 "Crowds pour into the streets of Washington as Barack Obama is elected president.",
 "Swimmer Stephanie Rice wins three gold medals at the Beijing Olympics, all in world-record times.",
 "The very first Android phone goes on sale.",
-"All four members of ABBA appear together at the Mamma Mia! movie premiere."
+"Cricket's Indian Premier League plays its first season, and Shane Warne's Rajasthan Royals win it."
 ],
 "h": "Half of me is 1,004.",
-"e": "2008: Mamma Mia! (Jul), Stephanie Rice's three golds at the Beijing Olympics (Aug), the first Android phone (Oct), Obama elected (Nov)."
+"e": "2008: the first IPL (Apr–Jun), Stephanie Rice's three golds at the Beijing Olympics (Aug), the first Android phone (Oct), Obama elected (Nov)."
 },
 {
 "y": 2018,
@@ -1128,13 +1137,13 @@ const GAME = [
 }
 ],
 "c": [
-"A US president addresses the nation as the ground war to free Kuwait begins.",
+"The Gulf War: a coalition of 35 countries launches Operation Desert Storm to drive Iraq out of Kuwait.",
 "David Campese stars as the Wallabies win the Rugby World Cup at Twickenham.",
 "This NeXT computer at CERN runs the world's first website, which opens to the public.",
-"Bryan Adams' '(Everything I Do) I Do It for You' spends a record 16 weeks at No. 1 in the UK."
+"'Hasta la vista, baby': Arnold Schwarzenegger's Terminator 2 is the year's biggest film."
 ],
 "h": "In Roman numerals I'm written MCMXCI.",
-"e": "1991: the Desert Storm ground war (Feb), the Web went public (Aug), the Wallabies won the Rugby World Cup (Nov), Bryan Adams spent 16 weeks at No. 1 in the UK (Jul–Oct). Pinatubo erupted and the USSR dissolved."
+"e": "1991: the Desert Storm ground war (Feb), the Web went public (Aug), the Wallabies won the Rugby World Cup (Nov), Terminator 2 (Jul). Pinatubo erupted and the USSR dissolved (Dec)."
 },
 {
 "y": 2004,
@@ -1165,10 +1174,10 @@ const GAME = [
 "A Boxing Day earthquake triggers a tsunami across the Indian Ocean.",
 "Ian Thorpe, the 'Thorpedo', wins 200m and 400m freestyle gold in Athens.",
 "Twin rovers Spirit and Opportunity land on Mars and send back these pictures.",
-"Usher's 'Yeah!' is the biggest song of the year."
+"Brian Lara scores 400 not out against England in Antigua, still the highest Test innings ever."
 ],
 "h": "Flip my last two digits and you get 40; all four of my digits add up to 6.",
-"e": "2004: Spirit & Opportunity on Mars (Jan), Usher's 'Yeah!', Thorpe's Athens golds (Aug), the Boxing Day tsunami (Dec). Facebook also launched."
+"e": "2004: Spirit & Opportunity on Mars (Jan), Lara's 400 (Apr), Thorpe's Athens golds (Aug), the Boxing Day tsunami (Dec). Facebook also launched."
 },
 {
 "y": 2010,
@@ -1199,10 +1208,10 @@ const GAME = [
 "Rescuers scrub oil off birds after the Deepwater Horizon spill in the Gulf of Mexico.",
 "16-year-old Jessica Watson sails into Sydney after sailing solo around the world.",
 "The iPhone 4 arrives with FaceTime, and 'Antennagate'.",
-"The droning vuvuzela becomes the sound of the World Cup in South Africa, and of street parties everywhere."
+"Sachin Tendulkar scores the first-ever double century in a one-day international."
 ],
 "h": "Add 25 to me and divide by 5: you get 407.",
-"e": "2010: Deepwater Horizon (Apr), Jessica Watson home (May), the iPhone 4 (Jun), vuvuzelas at the South Africa World Cup (Jun–Jul)."
+"e": "2010: Sachin's ODI 200 (Feb), Deepwater Horizon (Apr), Jessica Watson home (May), the iPhone 4 (Jun), vuvuzelas at the South Africa World Cup (Jun–Jul)."
 },
 {
 "y": 2019,
@@ -1230,13 +1239,13 @@ const GAME = [
 }
 ],
 "c": [
-"Greta Thunberg leads millions of students on school strikes for the climate.",
+"Fire tears through Notre-Dame cathedral in Paris, bringing down its famous spire. Drones survey the damage.",
 "Ash Barty wins the French Open and becomes world No. 1.",
 "Scientists reveal the first-ever picture of a black hole.",
 "Avengers: Endgame becomes the highest-grossing film of all time."
 ],
 "h": "I am 44 squared plus 83. (Hint: 44 × 44 = 1,936)",
-"e": "2019: the Notre-Dame fire (Apr), the first black hole image (Apr), Endgame (Apr), Barty's French Open (Jun)."
+"e": "2019: the Notre-Dame fire (Apr), Greta Thunberg's school strikes, the first black hole image (Apr), Endgame (Apr), Barty's French Open (Jun)."
 },
 {
 "y": 2026,
@@ -1437,19 +1446,18 @@ const GAME = [
 "Concorde and the Red Arrows fly over London for the Queen's Golden Jubilee.",
 "Bombings at Bali nightclubs kill 202 people, including 88 Australians.",
 "iRobot's Roomba robot vacuum cleaner goes on sale.",
-"Avril Lavigne becomes a 'Sk8er Boi' superstar with 'Complicated'."
+"Tobey Maguire's Spider-Man becomes the first film to take $100 million in its opening weekend."
 ],
 "h": "In Roman numerals I'm written MMII.",
-"e": "2002: euro notes & coins arrived (Jan), the Golden Jubilee (Jun), Avril Lavigne's breakthrough, the Roomba (Sep), the Bali bombings (Oct)."
+"e": "2002: euro notes & coins arrived (Jan), the Golden Jubilee (Jun), Spider-Man (May), the Roomba (Sep), the Bali bombings (Oct)."
 },
 {
 "y": 2024,
 "m": [
 {
-"t": "video",
-"src": "media/r38-1.mp4",
-"cat": "world",
-"poster": "media/r38-1-poster.jpg"
+"t": "img",
+"src": "media/r38-1.jpg",
+"cat": "world"
 },
 {
 "t": "img",
@@ -1462,19 +1470,20 @@ const GAME = [
 "cat": "tech"
 },
 {
-"t": "img",
-"src": "media/r38-4.jpg",
-"cat": "ent"
+"t": "video",
+"src": "media/r38-4.mp4",
+"cat": "ent",
+"poster": "media/r38-4-poster.jpg"
 }
 ],
 "c": [
-"A total solar eclipse crosses North America.",
+"Paris hosts the Olympics, opening with a parade of boats along the Seine.",
 "Australia wins a record 18 gold medals at the Olympics.",
-"SpaceX catches a Starship booster with giant 'chopsticks'.",
-"The Paris Olympics open with a parade of boats along the Seine."
+"AI chip maker Nvidia, led by Jensen Huang, becomes the world's most valuable company.",
+"India win cricket's T20 World Cup, and fans pour into the streets to celebrate."
 ],
 "h": "I am 44 × 46.",
-"e": "2024: the North American eclipse (Apr), the Paris Olympics (Jul–Aug), Australia's 18 golds, Starship's booster catch (Oct)."
+"e": "2024: Nvidia became the world's most valuable company (Jun), India won the T20 World Cup (Jun), the Paris Olympics (Jul–Aug) and Australia's 18 golds."
 },
 {
 "y": 1996,
@@ -1505,10 +1514,10 @@ const GAME = [
 "Dolly the sheep is born, the first mammal cloned from an adult cell.",
 "After the Port Arthur massacre in Tasmania, Australia hands in its guns in a famous buyback.",
 "NASA launches Mars Pathfinder, which will put the first rover on Mars.",
-"The Spice Girls tell you what they want, what they really really want."
+"Arjuna Ranatunga's Sri Lanka beat Australia in Lahore to win the Cricket World Cup."
 ],
 "h": "My four digits add up to 25, and I end in 6.",
-"e": "1996: the Port Arthur massacre (Apr), Dolly the sheep born (Jul), the Spice Girls' 'Wannabe' (Jul), Mars Pathfinder launched (Dec)."
+"e": "1996: the Port Arthur massacre (Apr), Dolly the sheep born (Jul), Sri Lanka's Cricket World Cup (Mar), Mars Pathfinder launched (Dec)."
 },
 {
 "y": 2001,
@@ -1573,10 +1582,10 @@ const GAME = [
 "Tokyo shakes as a magnitude-9 earthquake hits Japan.",
 "Floodwaters swamp Brisbane after weeks of record rain.",
 "Apple's iPhone 4S arrives with Siri, a voice assistant you can simply talk to.",
-"Adele's '21' and 'Someone Like You' rule the charts."
+"MS Dhoni hits a six to win the Cricket World Cup for India in Mumbai, and the whole country parties all night."
 ],
 "h": "In Roman numerals I'm written MMXI.",
-"e": "2011: the Brisbane floods (Jan), the Tōhoku earthquake & Fukushima (Mar), Adele's '21', Siri arrived on the iPhone 4S (Oct). Also the Arab Spring."
+"e": "2011: the Brisbane floods (Jan), the Tōhoku earthquake & Fukushima (Mar), India's Cricket World Cup (Apr), Siri arrived on the iPhone 4S (Oct). Also the Arab Spring."
 }
 ];
 
@@ -1627,13 +1636,13 @@ function buildSlides(){
       <h1>Identify the <span>Year</span></h1>
       <p class="lead">Every round is a page torn from history, with plenty from home in Australia. Study the photos, clips and clues, then shout out the <b>year</b> it all happened. Everything is from <b>1990 to 2026</b>, so you lived through all of it!</p>
       <ul class="rules">
-        <li><b>👆 Add players first:</b> use <b>＋ Add Player</b> in the scorecard above and type each name.</li>
+        <li><b>👆 Add players first:</b> use <b>＋ Add Player</b> on the score card above and type each name. Any number of players fits.</li>
         <li><b>🗞 Four desks per round:</b> 🌍 World, 🇦🇺 Australia, 💻 Tech and 🎬 Entertainment news.</li>
         <li><b>📷 Exhibits:</b> each round has four numbered exhibits, including a 🔊 video clip with sound. Click any exhibit to enlarge or play it (turn your speakers up!).</li>
         <li><b>📰 Clues:</b> all four clues are on show from the start. Clue 1 goes with Exhibit 1, clue 2 with Exhibit 2, and so on.</li>
         <li><b>⏱ ${TIMER_SECONDS} seconds</b> per round. The timer starts when the round appears.</li>
         <li><b>💡 Hint</b> is a maths riddle that works out to the year, for when you're stuck. <b>🗓 Reveal Year</b> stamps the answer, and tells the story behind it.</li>
-        <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year (2 if you used the hint), 1 pt for ±1 year.</li>
+        <li><b>Scoring:</b> the host gives points with the small + and − next to each name. Suggestion: 3 pts for the exact year (2 if you used the hint), 1 pt for ±1 year.</li>
       </ul>
       <button class="act begin" id="beginBtn">▶ Start the Time Machine</button>
       <button class="act" id="shuffleBtn" title="Deal the rounds in a new random order">🔀 Shuffle rounds</button>
@@ -1784,9 +1793,9 @@ function renderPlayers(){
   players.forEach((p,i)=>{
     const el=document.createElement('div');
     el.className='player'+(p.score>0&&p.score===max?' lead':'');
-    el.innerHTML=`<input class="pname" value="${esc(p.name)}" placeholder="Player ${i+1}" aria-label="Player name"/>
-      <button class="sbtn minus" title="Decrease">−</button><span class="score">${p.score}</span>
-      <button class="sbtn plus" title="Increase">+</button><button class="pdel" title="Remove player">✕</button>`;
+    el.innerHTML=`<span class="pno"><span>${i+1}</span></span><input class="pname" value="${esc(p.name)}" placeholder="Player ${i+1}" aria-label="Player name"/>
+      <button class="sbtn minus" title="Take a point off">−</button><span class="score">${p.score}</span>
+      <button class="sbtn plus" title="Add a point">+</button><button class="pdel" title="Remove player">✕</button>`;
     const inp=el.querySelector('.pname');
     inp.oninput=()=>{ p.name=inp.value; save(); };
     inp.onkeydown=e=>{ if(e.key==='Enter') inp.blur(); };
@@ -1795,7 +1804,12 @@ function renderPlayers(){
     el.querySelector('.pdel').onclick=()=>{ if(p.score===0||confirm(`Remove ${p.name||'Player '+(i+1)}?`)){ players.splice(i,1); save(); renderPlayers(); } };
     playersEl.appendChild(el);
   });
+  document.getElementById('pcount').textContent=players.length===1?'1 player':`${players.length} players`;
+  fitPhotos();
 }
+/* photos shrink to leave room for the score card, so Prev/Next always stay on screen */
+function fitPhotos(){ document.documentElement.style.setProperty('--sch', document.getElementById('scorecard').offsetHeight+'px'); }
+window.addEventListener('resize',fitPhotos);
 document.getElementById('addPlayer').onclick=()=>{
   players.push({name:'',score:0}); save(); renderPlayers();
   const ins=playersEl.querySelectorAll('.pname'); ins[ins.length-1].focus();

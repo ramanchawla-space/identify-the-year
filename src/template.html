@@ -34,26 +34,34 @@
   .brand .t{font-family:"Playfair Display",serif;font-weight:900;font-size:1.45rem;letter-spacing:-.01em;white-space:nowrap}
   .brand .t span{color:var(--red)}
   .brand .s{font-family:"Special Elite",monospace;font-size:.72rem;color:var(--muted);letter-spacing:.12em;margin-top:4px;text-transform:uppercase}
-  .players{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;flex:1;min-width:280px}
-  .player{display:flex;align-items:center;gap:6px;min-width:0;background:var(--card);
-    border:1.5px solid var(--ink);border-radius:4px;padding:5px 4px 5px 10px;box-shadow:2px 2px 0 var(--ink)}
-  .player.lead{background:#fff4d6;border-color:var(--gold);box-shadow:2px 2px 0 var(--gold)}
+  /* one compact score card for any number of players */
+  .board{flex:1;min-width:300px;background:var(--card);border:1.5px solid var(--ink);border-radius:4px;box-shadow:2px 2px 0 var(--ink);padding:4px 8px 6px}
+  .board-head{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--ink);padding-bottom:3px;margin-bottom:3px}
+  .board-title{font-family:"Special Elite",monospace;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2)}
+  .board-count{font-size:.72rem;color:var(--muted);margin-right:auto}
+  .players{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));column-gap:14px;max-height:92px;overflow-y:auto}
+  .player{display:flex;align-items:center;gap:3px;min-width:0;height:23px;border-bottom:1px dotted var(--rule)}
+  .player .pno{font-size:.68rem;color:var(--muted);width:16px;flex:none;text-align:right;margin-right:2px}
   .player.lead .pname{color:#7a5410}
-  .pname{background:transparent;border:none;color:var(--ink);font-weight:700;flex:1 1 auto;min-width:0;width:100%;font-size:.9rem;outline:none;font-family:inherit}
-  .pname::placeholder{color:var(--muted);font-weight:600}
+  .player.lead .score{color:#7a5410}
+  .player.lead .pno::before{content:"★";color:var(--gold)}
+  .player.lead .pno span{display:none}
+  .pname{background:transparent;border:none;color:var(--ink);font-weight:600;flex:1 1 auto;min-width:0;width:100%;font-size:.82rem;outline:none;font-family:inherit;padding:0}
+  .pname::placeholder{color:var(--muted);font-weight:500}
   .pname:focus{border-bottom:1px dashed var(--muted)}
-  .score{min-width:28px;text-align:center;font-weight:800;font-family:"Playfair Display",serif;font-size:1.1rem;color:var(--red)}
-  .sbtn{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--ink);font-weight:800;cursor:pointer;line-height:1;font-size:.95rem;flex:none;
-    transition:transform .08s}
-  .sbtn:active{transform:scale(.9)}
+  .score{min-width:22px;text-align:center;font-weight:800;font-variant-numeric:lining-nums tabular-nums;font-family:"Playfair Display",serif;font-size:.95rem;color:var(--red)}
+  .sbtn{width:17px;height:17px;border-radius:50%;border:1px solid var(--ink);font-weight:800;cursor:pointer;line-height:1;font-size:.72rem;flex:none;padding:0;
+    display:grid;place-items:center;transition:transform .08s}
+  .sbtn:active{transform:scale(.85)}
   .sbtn.plus{background:var(--teal);color:#fff;border-color:var(--teal)}
   .sbtn.minus{background:transparent;color:var(--ink)}
-  .pdel{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;padding:3px 5px;border-radius:4px;flex:none}
-  .pdel:hover{color:var(--red);background:rgba(192,57,43,.08)}
-  .pbtn{cursor:pointer;background:var(--ink);color:var(--paper);border:none;border-radius:4px;padding:9px 14px;font-weight:700;white-space:nowrap;box-shadow:2px 2px 0 var(--red)}
+  .pdel{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.7rem;padding:0 2px;flex:none;visibility:hidden}
+  .player:hover .pdel{visibility:visible}
+  .pdel:hover{color:var(--red)}
+  .pbtn{cursor:pointer;background:var(--ink);color:var(--paper);border:none;border-radius:3px;padding:3px 10px;font-size:.78rem;font-weight:700;white-space:nowrap;box-shadow:1px 1px 0 var(--red)}
   .pbtn:hover{background:#000}
   .sc-label{display:none;font-family:"Special Elite",monospace;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);padding-top:8px}
-  #scorecard.tally-mode .players,#scorecard.tally-mode #addPlayer{display:none}
+  #scorecard.tally-mode .board{display:none}
   #scorecard.tally-mode .sc-label{display:block}
 
   /* ---------- Stage ---------- */
@@ -91,7 +99,7 @@
   .polaroid:hover{transform:rotate(0) scale(1.03);z-index:2;box-shadow:0 12px 28px rgba(40,30,10,.3)}
   .polaroid::before{content:"";position:absolute;top:-10px;left:50%;width:80px;height:22px;transform:translateX(-50%) rotate(-3deg);
     background:rgba(230,215,170,.75);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-  .polaroid .ph{aspect-ratio:4/3;max-height:calc(100vh - 560px);min-height:120px;width:100%;background:#222;overflow:hidden;display:grid;place-items:center}
+  .polaroid .ph{aspect-ratio:4/3;max-height:calc(100vh - 490px - var(--sch,70px));min-height:120px;width:100%;background:#222;overflow:hidden;display:grid;place-items:center}
   .polaroid img,.polaroid video{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.92) contrast(1.02)}
   .polaroid .cap{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-family:"Special Elite",monospace;font-size:.8rem;color:var(--ink2)}
   .polaroid .play{position:absolute;inset:8px 8px 26px;display:grid;place-items:center;pointer-events:none}
@@ -180,7 +188,6 @@
   .hidden{display:none!important}
   @media (max-width:760px){
     .polaroid .ph{max-height:none}
-    .players{grid-template-columns:repeat(2,1fr)}
     .wall{grid-template-columns:1fr 1fr}
     .clips,.rules,.ranklist{grid-template-columns:1fr}
     .qtitle{font-size:1.5rem}.intro h1{font-size:2.3rem}
@@ -195,8 +202,10 @@
 <div id="scorecard">
   <div class="sc-inner">
     <div class="brand"><div class="t">Identify the <span>Year</span></div><div class="s">The Team Time-Machine Quiz</div></div>
-    <div class="players" id="players"></div>
-    <button class="pbtn" id="addPlayer">＋ Add Player</button>
+    <div class="board">
+      <div class="board-head"><span class="board-title">Score Card</span><span class="board-count" id="pcount"></span><button class="pbtn" id="addPlayer">＋ Add Player</button></div>
+      <div class="players" id="players"></div>
+    </div>
     <div class="sc-label">Score Card</div>
   </div>
 </div>
@@ -266,13 +275,13 @@ function buildSlides(){
       <h1>Identify the <span>Year</span></h1>
       <p class="lead">Every round is a page torn from history, with plenty from home in Australia. Study the photos, clips and clues, then shout out the <b>year</b> it all happened. Everything is from <b>1990 to 2026</b>, so you lived through all of it!</p>
       <ul class="rules">
-        <li><b>👆 Add players first:</b> use <b>＋ Add Player</b> in the scorecard above and type each name.</li>
+        <li><b>👆 Add players first:</b> use <b>＋ Add Player</b> on the score card above and type each name. Any number of players fits.</li>
         <li><b>🗞 Four desks per round:</b> 🌍 World, 🇦🇺 Australia, 💻 Tech and 🎬 Entertainment news.</li>
         <li><b>📷 Exhibits:</b> each round has four numbered exhibits, including a 🔊 video clip with sound. Click any exhibit to enlarge or play it (turn your speakers up!).</li>
         <li><b>📰 Clues:</b> all four clues are on show from the start. Clue 1 goes with Exhibit 1, clue 2 with Exhibit 2, and so on.</li>
         <li><b>⏱ ${TIMER_SECONDS} seconds</b> per round. The timer starts when the round appears.</li>
         <li><b>💡 Hint</b> is a maths riddle that works out to the year, for when you're stuck. <b>🗓 Reveal Year</b> stamps the answer, and tells the story behind it.</li>
-        <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year (2 if you used the hint), 1 pt for ±1 year.</li>
+        <li><b>Scoring:</b> the host gives points with the small + and − next to each name. Suggestion: 3 pts for the exact year (2 if you used the hint), 1 pt for ±1 year.</li>
       </ul>
       <button class="act begin" id="beginBtn">▶ Start the Time Machine</button>
       <button class="act" id="shuffleBtn" title="Deal the rounds in a new random order">🔀 Shuffle rounds</button>
@@ -423,9 +432,9 @@ function renderPlayers(){
   players.forEach((p,i)=>{
     const el=document.createElement('div');
     el.className='player'+(p.score>0&&p.score===max?' lead':'');
-    el.innerHTML=`<input class="pname" value="${esc(p.name)}" placeholder="Player ${i+1}" aria-label="Player name"/>
-      <button class="sbtn minus" title="Decrease">−</button><span class="score">${p.score}</span>
-      <button class="sbtn plus" title="Increase">+</button><button class="pdel" title="Remove player">✕</button>`;
+    el.innerHTML=`<span class="pno"><span>${i+1}</span></span><input class="pname" value="${esc(p.name)}" placeholder="Player ${i+1}" aria-label="Player name"/>
+      <button class="sbtn minus" title="Take a point off">−</button><span class="score">${p.score}</span>
+      <button class="sbtn plus" title="Add a point">+</button><button class="pdel" title="Remove player">✕</button>`;
     const inp=el.querySelector('.pname');
     inp.oninput=()=>{ p.name=inp.value; save(); };
     inp.onkeydown=e=>{ if(e.key==='Enter') inp.blur(); };
@@ -434,7 +443,12 @@ function renderPlayers(){
     el.querySelector('.pdel').onclick=()=>{ if(p.score===0||confirm(`Remove ${p.name||'Player '+(i+1)}?`)){ players.splice(i,1); save(); renderPlayers(); } };
     playersEl.appendChild(el);
   });
+  document.getElementById('pcount').textContent=players.length===1?'1 player':`${players.length} players`;
+  fitPhotos();
 }
+/* photos shrink to leave room for the score card, so Prev/Next always stay on screen */
+function fitPhotos(){ document.documentElement.style.setProperty('--sch', document.getElementById('scorecard').offsetHeight+'px'); }
+window.addEventListener('resize',fitPhotos);
 document.getElementById('addPlayer').onclick=()=>{
   players.push({name:'',score:0}); save(); renderPlayers();
   const ins=playersEl.querySelectorAll('.pname'); ins[ins.length-1].focus();

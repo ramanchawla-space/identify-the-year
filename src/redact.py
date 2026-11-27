@@ -13,7 +13,7 @@ REDACT = {
     'r04-1.mp4': [(.15, .85, .85, .93)],              # 1993: Waco footage date/time stamp
     'r05-3.jpg': [(.64, .94, .49, .64), (.76, .96, .31, .40)],  # 1995: "Windows 95" and the (c) 1995 line on the CD
     'r12-2.jpg': [(.37, .60, .42, .48)],              # 2002: "Bali 12 Oktober 2002" on the memorial
-    'r20-4.jpg': [(.37, .47, .40, .47)],              # 2010: "2010" on a banner
+    'r23-3.jpg': [(.28, .66, .57, .73)],              # 2012: "MAY 18, 2012" on the Nasdaq billboard
     'r33-1.mp4': [(.08, .32, .86, .95, 10.5, 23.5)],  # 2021: "29 March 2021" satellite label
 }
 CUTS = {
