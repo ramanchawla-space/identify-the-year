@@ -216,6 +216,25 @@
    ========================================================================= */
 const GAME = /*__DATA__*/[];
 
+/* Random round order on every new visit. Neighbouring rounds are kept at least 3 years apart,
+   and the order is remembered for this tab so a refresh mid-game doesn't reshuffle. */
+(function shuffleRounds(){
+  const KEY='ity-order-v2', n=GAME.length;
+  let order=null;
+  try{ const s=JSON.parse(sessionStorage.getItem(KEY)); if(Array.isArray(s)&&s.length===n&&new Set(s).size===n) order=s; }catch(e){}
+  if(!order){
+    const idx=[...Array(n).keys()];
+    for(let attempt=0; attempt<5000; attempt++){
+      for(let i=n-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; }
+      if(idx.every((v,i)=>i===0||Math.abs(GAME[v].y-GAME[idx[i-1]].y)>=3)) break;
+    }
+    order=idx.slice();
+    try{ sessionStorage.setItem(KEY,JSON.stringify(order)); }catch(e){}
+  }
+  const copy=GAME.slice(); order.forEach((v,i)=>GAME[i]=copy[v]);
+})();
+function reshuffle(){ try{ sessionStorage.removeItem('ity-order-v2'); }catch(e){} location.href=location.pathname; }
+
 const TIMER_SECONDS = 60;
 const stage=document.getElementById('stage'), dotsWrap=document.getElementById('dots'),
       prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn'),
@@ -253,6 +272,7 @@ function buildSlides(){
         <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year, 1 pt for ±1 year.</li>
       </ul>
       <button class="act begin" id="beginBtn">▶ Start the Time Machine</button>
+      <button class="act" id="shuffleBtn" title="Deal the rounds in a new random order">🔀 Shuffle rounds</button>
       <div class="foot">Keys: ← → navigate · C next clue · H hint · A reveal year · Esc closes photo</div>
     </div>`;
   stage.appendChild(intro);
@@ -302,6 +322,7 @@ function buildSlides(){
     </div>`;
   stage.appendChild(t);
   intro.querySelector('#beginBtn').onclick=()=>showSlide(0);
+  intro.querySelector('#shuffleBtn').onclick=reshuffle;
   t.querySelector('#restartBtn').onclick=()=>showSlide(0);
   t.querySelector('#clearBtn').onclick=()=>{ if(confirm('Reset every player score to 0?')){ players.forEach(p=>p.score=0); save(); renderPlayers(); renderTally(); } };
 

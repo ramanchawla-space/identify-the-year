@@ -18,7 +18,7 @@ for i, q in enumerate(G, 1):
     assert any(m['t'] == 'video' for m in media), f"round {i} ({q['y']}): no sound clip"
     out.append({'y': q['y'], 'm': media, 'c': q['c'], 'h': q['h'], 'e': q['e']})
 
-# Fixed shuffle (same order every build) where neighbouring rounds are at least 3 years apart.
+# Base order (the page reshuffles on every visit) where neighbouring rounds are at least 3 years apart.
 rng = random.Random(2026)
 for attempt in range(100000):
     rng.shuffle(out)
