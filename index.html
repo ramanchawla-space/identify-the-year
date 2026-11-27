@@ -111,6 +111,9 @@
   .cat{display:inline-block;font-family:Inter,sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;margin-right:8px;vertical-align:2px;color:#fff}
   .cat-world{background:var(--teal)}.cat-aus{background:#1a7a3a}.cat-tech{background:#3b4a8c}.cat-ent{background:#9a3a7a}
   .clip.fresh{animation:stamp .4s ease}
+  .clip .match{display:none;margin-left:8px;font-family:Inter,sans-serif;font-size:.78rem;font-weight:800;color:var(--red);white-space:nowrap}
+  .clip .match .cat{margin:0 0 0 4px}
+  .slide.revealed .clip .match{display:inline}
   @keyframes stamp{from{transform:scale(1.04);background:#fff4d6}to{transform:none}}
 
   /* controls */
@@ -246,7 +249,7 @@ const GAME = [
 "The final Space Shuttle mission lifts off.",
 "The last Harry Potter film premieres in London's Trafalgar Square."
 ],
-"h": "India win the Cricket World Cup at home.",
+"h": "Double my last two digits and add 7. You get 29.",
 "e": "2011: Cyclone Yasi (Feb), bin Laden killed (May), the last shuttle launch (Jul), the final Harry Potter film (Jul)."
 },
 {
@@ -280,7 +283,7 @@ const GAME = [
 "Nintendo launches the Switch, a console you can take with you.",
 "Wonder Woman becomes a box-office smash."
 ],
-"h": "'Despacito' becomes the most-watched video on YouTube.",
+"h": "I'm a prime number, and my digits add up to 10.",
 "e": "2017: the Federer–Nadal Australian Open final (Jan), the Nintendo Switch (Mar), Wonder Woman (Jun), the Great American Eclipse (Aug)."
 },
 {
@@ -314,7 +317,7 @@ const GAME = [
 "The Space Shuttle Columbia crew speak from orbit, days before the shuttle breaks up on re-entry.",
 "The Return of the King premieres. It will win 11 Oscars."
 ],
-"h": "Concorde makes its final commercial flight.",
+"h": "I'm a prime number, and my digits add up to 5.",
 "e": "2003: the Canberra firestorm (Jan), Columbia lost (Feb), Saddam's statue toppled (Apr), The Return of the King (Dec). Also Jonny Wilkinson's World Cup drop goal in Sydney."
 },
 {
@@ -348,7 +351,7 @@ const GAME = [
 "The Hubble Space Telescope is released into orbit, and then found to have a flawed mirror.",
 "Madonna's Blond Ambition tour (cone bra and all) plays the world, and 'Vogue' tops the charts."
 ],
-"h": "Nelson Mandela walks free after 27 years in prison.",
+"h": "Double my last two digits and add 7. You get 187.",
 "e": "1990: Noriega captured (Jan), Hubble launched (Apr), INXS's 'X' tour, and Madonna's Blond Ambition tour. Mandela was also freed (Feb) and Germany reunified (Oct)."
 },
 {
@@ -382,7 +385,7 @@ const GAME = [
 "The James Webb Space Telescope releases its first pictures.",
 "Top Gun: Maverick flies past a billion dollars at the box office."
 ],
-"h": "Lionel Messi finally wins the World Cup.",
+"h": "My four digits add up to 6, and I end in 2.",
 "e": "2022: Shane Warne's death (Mar), Top Gun: Maverick (May), Webb's first images (Jul), the Queen's death (Sep)."
 },
 {
@@ -416,7 +419,7 @@ const GAME = [
 "Two Stanford students found a search engine called Google.",
 "Titanic wins 11 Oscars and Celine Dion's 'My Heart Will Go On' is everywhere."
 ],
-"h": "France win the football World Cup on home soil.",
+"h": "Half of me is 999.",
 "e": "1998: the Lewinsky scandal broke (Jan), Titanic's 11 Oscars (Mar), Google founded (Sep), the Sydney to Hobart tragedy (Dec). France also won the World Cup (Jul)."
 },
 {
@@ -450,7 +453,7 @@ const GAME = [
 "NASA's Perseverance rover lands on Mars.",
 "Squid Game becomes Netflix's biggest show ever."
 ],
-"h": "The 'Tokyo 2020' Olympics are held, a year late.",
+"h": "In Roman numerals I'm written MMXXI.",
 "e": "2021: Perseverance landed (Feb), the Ever Given (Mar), Melbourne's lockdowns, Squid Game (Sep)."
 },
 {
@@ -484,7 +487,7 @@ const GAME = [
 "IBM's Deep Blue computer beats world chess champion Garry Kasparov.",
 "James Cameron's Titanic sails into cinemas and becomes the biggest film ever."
 ],
-"h": "Hong Kong is handed back to China.",
+"h": "Flip my last two digits and you get 79; all four of my digits add up to 26.",
 "e": "1997: Deep Blue beat Kasparov (May), the Hong Kong handover (Jul), the Thredbo landslide (Jul), Princess Diana's death (Aug), Titanic released (Dec)."
 },
 {
@@ -518,7 +521,7 @@ const GAME = [
 "Nokia's first mass-produced GSM mobile phone goes on sale, and the first-ever text message is sent.",
 "Euro Disney opens its gates outside Paris."
 ],
-"h": "Barcelona hosts the Olympics and the 'Dream Team'.",
+"h": "I am 44 squared plus 56. (Hint: 44 × 44 = 1,936)",
 "e": "1992: the Cricket World Cup in Australia & NZ (Feb–Mar), Euro Disney opened (Apr), the Nokia 1011 went on sale (Nov), the Bush–Clinton–Perot debates (Oct) and the first text message: 'Merry Christmas' (Dec)."
 },
 {
@@ -552,7 +555,7 @@ const GAME = [
 "Space Shuttle Discovery returns to flight, the first launch since the Columbia disaster.",
 "Star Wars: Revenge of the Sith completes the prequel trilogy."
 ],
-"h": "YouTube's very first video is uploaded.",
+"h": "Multiply my last two digits by 3, then subtract 4. You get 11.",
 "e": "2005: Revenge of the Sith (May), Discovery's Return to Flight (Jul), Hurricane Katrina (Aug), the Socceroos reached the World Cup (Nov). YouTube also launched."
 },
 {
@@ -581,13 +584,13 @@ const GAME = [
 }
 ],
 "c": [
-"Robert Prevost becomes Pope Leo XIV, the first American pope.",
+"Firefighting 'Super Scooper' planes battle the Palisades fire in Los Angeles.",
 "Oscar Piastri leads the Formula 1 championship for much of the season.",
 "China's DeepSeek AI app stuns Silicon Valley.",
 "Oasis reunite for their first tour in 16 years."
 ],
-"h": "Thieves steal crown jewels from the Louvre in broad daylight.",
-"e": "2025: DeepSeek (Jan), Pope Leo XIV (May), the Oasis reunion tour, Piastri's title fight, the Louvre jewel heist (Oct)."
+"h": "Add 25 to me and divide by 5: you get 410.",
+"e": "2025: the LA wildfires (Jan), DeepSeek (Jan), the Oasis reunion tour, Piastri's title fight, the Louvre jewel heist (Oct)."
 },
 {
 "y": 2010,
@@ -616,12 +619,12 @@ const GAME = [
 ],
 "c": [
 "An Icelandic volcano's ash cloud grounds flights across Europe.",
-"Mary MacKillop is declared Australia's first saint.",
+"A Qantas A380's engine explodes after take-off from Singapore; the pilots land all 469 people safely.",
 "Apple unveils the iPad.",
 "Christopher Nolan's Inception premieres."
 ],
-"h": "33 trapped Chilean miners are rescued.",
-"e": "2010: the iPad (Jan), Eyjafjallajökull's ash cloud (Apr), Inception (Jul), Mary MacKillop canonised (Oct). Also the Burj Khalifa opened."
+"h": "Double my last two digits and add 7. You get 27.",
+"e": "2010: the iPad (Jan), Eyjafjallajökull's ash cloud (Apr), Inception (Jul), Qantas QF32's engine blew apart mid-air (Nov). Also the Burj Khalifa opened."
 },
 {
 "y": 1993,
@@ -654,7 +657,7 @@ const GAME = [
 "Intel launches its very first Pentium processor.",
 "Whitney Houston's 'I Will Always Love You' from The Bodyguard is the biggest song of the year."
 ],
-"h": "Bill Clinton's first year in the White House.",
+"h": "I'm a prime number, and my digits add up to 22.",
 "e": "1993: Pentium launched (Mar), the Waco siege ended (Apr), Warne's 'Ball of the Century' (Jun), and 'I Will Always Love You' ruled the charts. Also the Oslo Accords handshake and Sydney winning the 2000 Olympics."
 },
 {
@@ -688,7 +691,7 @@ const GAME = [
 "Sony's PlayStation 2 launches and doubles as a DVD player.",
 "Russell Crowe's Gladiator is a box-office smash."
 ],
-"h": "Concorde crashes on take-off near Paris.",
+"h": "Add 25 to me and divide by 5: you get 405.",
 "e": "2000: Gladiator (May), the Concorde crash (Jul), Cathy Freeman's gold in Sydney (Sep), PlayStation 2, and Bush v Gore (Nov)."
 },
 {
@@ -719,11 +722,11 @@ const GAME = [
 "c": [
 "Germany beat Argentina in Rio to win the World Cup.",
 "A gunman takes hostages at the Lindt Café in Sydney's Martin Place.",
-"Rosetta reaches a comet and drops the Philae lander onto it.",
+"The selfie stick becomes the must-have gadget for every tourist.",
 "Everyone is tipping ice water over their heads for the ALS Ice Bucket Challenge."
 ],
-"h": "Malaysia Airlines flight MH370 vanishes.",
-"e": "2014: MH370 vanished (Mar), the World Cup in Brazil (Jun–Jul), the Ice Bucket Challenge (Aug), Philae lands on a comet (Nov), the Lindt Café siege (Dec)."
+"h": "Flip my last two digits and you get 41; all four of my digits add up to 7.",
+"e": "2014: MH370 vanished (Mar), the World Cup in Brazil (Jun–Jul), the Ice Bucket Challenge (Aug), the selfie-stick craze, the Lindt Café siege (Dec)."
 },
 {
 "y": 2020,
@@ -756,7 +759,7 @@ const GAME = [
 "SpaceX flies NASA astronauts to the space station, the first crewed launch from the US in nine years.",
 "Fans mourn basketball legend Kobe Bryant after a helicopter crash."
 ],
-"h": "'You're on mute' becomes the phrase of the year.",
+"h": "Add 25 to me and divide by 5: you get 409.",
 "e": "2020: the Black Summer bushfires (Jan), Kobe Bryant's death (Jan), COVID lockdowns (Mar), SpaceX's Demo-2 (May)."
 },
 {
@@ -790,7 +793,7 @@ const GAME = [
 "ChatGPT sets off a worldwide AI boom.",
 "Barbie and Oppenheimer open on the same day: 'Barbenheimer'."
 ],
-"h": "The Titan submersible is lost on a dive to the Titanic.",
+"h": "Flip my last two digits and you get 32; all four of my digits add up to 7.",
 "e": "2023: ChatGPT's AI boom, the coronation (May), the Titan sub (Jun), Barbenheimer (Jul), the Matildas' World Cup run (Aug)."
 },
 {
@@ -824,7 +827,7 @@ const GAME = [
 "Microsoft launches the Xbox One.",
 "Miley Cyrus swings in on a 'Wrecking Ball'."
 ],
-"h": "Prince George is born.",
+"h": "My four digits add up to 6, and I end in 3.",
 "e": "2013: Vivid Sydney and the Opera House's 40th birthday, Snowden's leaks (Jun), Miley's 'Wrecking Ball' (Aug), the Xbox One (Nov). Also Typhoon Haiyan."
 },
 {
@@ -858,7 +861,7 @@ const GAME = [
 "Governments and companies race to fix the 'Y2K bug' before midnight on New Year's Eve.",
 "'...Baby One More Time' makes Britney Spears a superstar."
 ],
-"h": "The last year before the 'millennium bug' was due to strike.",
+"h": "I am 44 squared plus 63. (Hint: 44 × 44 = 1,936)",
 "e": "1999: NATO's Kosovo campaign (Mar), Britney's breakthrough, Australia won the Cricket World Cup (Jun), the European eclipse (Aug), Y2K preparations. Putin became acting president on 31 December."
 },
 {
@@ -892,7 +895,7 @@ const GAME = [
 "New Horizons sends back the first close-up pictures of Pluto.",
 "Star Wars: The Force Awakens premieres in Hollywood."
 ],
-"h": "'The dress': is it blue and black, or white and gold?",
+"h": "Multiply my last two digits by 3, then subtract 4. You get 41.",
 "e": "2015: 'the dress' (Feb), Australia's Cricket World Cup (Mar), New Horizons at Pluto (Jul), The Force Awakens (Dec), the Paris climate agreement (Dec)."
 },
 {
@@ -926,7 +929,7 @@ const GAME = [
 "Felix Baumgartner jumps from the edge of space and breaks the sound barrier.",
 "'Gangnam Style' becomes the first YouTube video to reach a billion views."
 ],
-"h": "London hosts the Olympics for a third time.",
+"h": "I am 44 squared plus 76. (Hint: 44 × 44 = 1,936)",
 "e": "2012: Gotye's US No. 1 (Apr), the London Olympics (Jul–Aug), the Red Bull Stratos jump (Oct), Hurricane Sandy (Oct), Gangnam Style's billion views (Dec)."
 },
 {
@@ -960,7 +963,7 @@ const GAME = [
 "The very first Android phone goes on sale.",
 "All four members of ABBA appear together at the Mamma Mia! movie premiere."
 ],
-"h": "Beijing hosts the Olympics and Usain Bolt runs 9.69.",
+"h": "Half of me is 1,004.",
 "e": "2008: Heath Ledger's death (Jan), Mamma Mia! (Jul), the Beijing Olympics (Aug), the first Android phone (Sep), Obama elected (Nov)."
 },
 {
@@ -994,7 +997,7 @@ const GAME = [
 "Falcon Heavy blasts off carrying a Tesla Roadster, and its twin boosters land side by side.",
 "Avengers: Infinity War ends with half the universe snapped away."
 ],
-"h": "England reach a World Cup semi-final; France win it.",
+"h": "Half of me is 1,009.",
 "e": "2018: Falcon Heavy (Feb), Infinity War (Apr), Harry & Meghan's wedding (May), the Thai cave rescue (Jul)."
 },
 {
@@ -1028,22 +1031,22 @@ const GAME = [
 "The first Bitcoin is mined by the mysterious 'Satoshi Nakamoto'.",
 "The world says goodbye to Michael Jackson at a memorial in Los Angeles."
 ],
-"h": "A plane lands safely on the Hudson River.",
+"h": "I am 41 × 49.",
 "e": "2009: the first Bitcoin mined (Jan), the 'We Are One' concert and Obama's inauguration (Jan), Black Saturday (Feb), Michael Jackson died (Jun)."
 },
 {
 "y": 2006,
 "m": [
 {
-"t": "video",
-"src": "media/r16-1.mp4",
-"cat": "world",
-"poster": "media/r16-1-poster.jpg"
+"t": "img",
+"src": "media/r16-1.jpg",
+"cat": "world"
 },
 {
-"t": "img",
-"src": "media/r16-2.jpg",
-"cat": "aus"
+"t": "video",
+"src": "media/r16-2.mp4",
+"cat": "aus",
+"poster": "media/r16-2-poster.jpg"
 },
 {
 "t": "img",
@@ -1057,13 +1060,13 @@ const GAME = [
 }
 ],
 "c": [
-"Venezuela's Hugo Chávez calls the US president 'the devil' at the UN: 'it still smells of sulphur'.",
-"'Crocodile Hunter' Steve Irwin is killed by a stingray on the Great Barrier Reef.",
+"Zinedine Zidane is sent off for a headbutt as Italy win the World Cup final in Berlin.",
+"The croc show at Australia Zoo goes on, but 'Crocodile Hunter' Steve Irwin is killed by a stingray on the Great Barrier Reef.",
 "Nintendo shows off the Wii, a console you control by waving a remote.",
 "Daniel Craig makes his debut as James Bond in Casino Royale."
 ],
-"h": "Pluto loses its status as a planet.",
-"e": "2006: the Wii unveiled at E3 (May), Chávez at the UN (Sep), Steve Irwin's death (Sep), Casino Royale (Nov). Italy also won the World Cup."
+"h": "My four digits add up to 8, and I end in 6.",
+"e": "2006: the Wii unveiled at E3 (May), Zidane's headbutt as Italy won the World Cup (Jul), Steve Irwin's death (Sep), Casino Royale (Nov). Pluto was also demoted."
 },
 {
 "y": 2022,
@@ -1096,7 +1099,7 @@ const GAME = [
 "NASA's Artemis I sends an uncrewed Orion around the Moon.",
 "Harry Styles' 'As It Was' is the biggest song of the year."
 ],
-"h": "Will Smith slaps Chris Rock at the Oscars.",
+"h": "Multiply my last two digits by 3, then subtract 4. You get 62.",
 "e": "2022: the Oscars slap (Mar), the eastern Australia floods, 'As It Was', Musk bought Twitter (Oct), Artemis I (Nov)."
 },
 {
@@ -1130,7 +1133,7 @@ const GAME = [
 "This NeXT computer at CERN runs the world's first website, which opens to the public.",
 "Queen frontman Freddie Mercury dies, a day after revealing he has AIDS."
 ],
-"h": "The Soviet Union doesn't make it to the end of this year.",
+"h": "In Roman numerals I'm written MCMXCI.",
 "e": "1991: the Desert Storm ground war (Feb), the Web went public (Aug), the Wallabies won the Rugby World Cup (Nov), Freddie Mercury died (Nov). Pinatubo erupted and the USSR dissolved."
 },
 {
@@ -1164,7 +1167,7 @@ const GAME = [
 "Twin rovers Spirit and Opportunity land on Mars and send back these pictures.",
 "Usher's 'Yeah!' is the biggest song of the year."
 ],
-"h": "Mark Zuckerberg launches Facebook from his Harvard dorm room.",
+"h": "Flip my last two digits and you get 40; all four of my digits add up to 6.",
 "e": "2004: Spirit & Opportunity on Mars (Jan), Usher's 'Yeah!', Thorpe's Athens golds (Aug), the Boxing Day tsunami (Dec). Facebook also launched."
 },
 {
@@ -1198,7 +1201,7 @@ const GAME = [
 "The iPhone 4 arrives with FaceTime, and 'Antennagate'.",
 "The droning vuvuzela becomes the sound of the World Cup in South Africa."
 ],
-"h": "Spain win the World Cup for the first time.",
+"h": "Add 25 to me and divide by 5: you get 407.",
 "e": "2010: Deepwater Horizon (Apr), Jessica Watson home (May), the iPhone 4 (Jun), vuvuzelas at the South Africa World Cup (Jun–Jul)."
 },
 {
@@ -1232,7 +1235,7 @@ const GAME = [
 "Scientists reveal the first-ever picture of a black hole.",
 "Avengers: Endgame becomes the highest-grossing film of all time."
 ],
-"h": "Notre-Dame cathedral in Paris catches fire.",
+"h": "I am 44 squared plus 83. (Hint: 44 × 44 = 1,936)",
 "e": "2019: the Notre-Dame fire (Apr), the first black hole image (Apr), Endgame (Apr), Barty's French Open (Jun)."
 },
 {
@@ -1266,7 +1269,7 @@ const GAME = [
 "Artemis II flies four astronauts around the Moon, the first crewed lunar trip in over 50 years.",
 "Bad Bunny headlines the Super Bowl halftime show."
 ],
-"h": "Milan and Cortina host the Winter Olympics.",
+"h": "My four digits add up to 10, and I end in 6.",
 "e": "2026: Bad Bunny's halftime show (Feb), Artemis II (Apr), the 48-team World Cup with the Socceroos (Jun–Jul), America's 250th (Jul)."
 },
 {
@@ -1300,7 +1303,7 @@ const GAME = [
 "Sony launches the PlayStation 4.",
 "Beyoncé tours as 'Mrs Carter' and drops a surprise album overnight."
 ],
-"h": "Andy Murray ends Britain's 77-year wait for a men's Wimbledon champion.",
+"h": "I am 33 × 61.",
 "e": "2013: the Chelyabinsk meteor (Feb), Pope Francis (Mar), The Great Gatsby (May), the PS4 (Nov), Beyoncé's surprise album (Dec)."
 },
 {
@@ -1334,7 +1337,7 @@ const GAME = [
 "The Ingenuity helicopter makes the first powered flight on another planet. Listen to it hum on Mars!",
 "Olivia Rodrigo's 'Drivers License' breaks streaming records."
 ],
-"h": "Facebook renames itself Meta.",
+"h": "Double my last two digits and add 7. You get 49.",
 "e": "2021: the Capitol riot (Jan), Drivers License (Jan), Ingenuity's first flight (Apr), Barty's Wimbledon (Jul), Facebook became Meta (Oct)."
 },
 {
@@ -1368,7 +1371,7 @@ const GAME = [
 "Microsoft launches a new Windows with a brand-new 'Start' button.",
 "Friends is TV's hottest show, and 'The Rachel' haircut is everywhere."
 ],
-"h": "Toy Story becomes the first fully computer-animated feature film.",
+"h": "Multiply my last two digits by 3, then subtract 4. You get 281.",
 "e": "1995: the Oklahoma City bombing (Apr), Silverchair's 'Frogstomp' (Mar), Windows 95 (Aug), Friends mania. Also eBay was founded."
 },
 {
@@ -1402,7 +1405,7 @@ const GAME = [
 "Everyone is out hunting Pokémon on their phones in Pokémon Go.",
 "Fans leave flowers for David Bowie, who dies two days after releasing his last album."
 ],
-"h": "Leicester City win the Premier League at 5000–1.",
+"h": "Half of me is 1,008.",
 "e": "2016: David Bowie's death (Jan), reef bleaching (Mar), the Brexit vote (Jun), the Pokémon Go craze (Jul). Also the Rio Olympics."
 },
 {
@@ -1436,7 +1439,7 @@ const GAME = [
 "iRobot's Roomba robot vacuum cleaner goes on sale.",
 "Avril Lavigne becomes a 'Sk8er Boi' superstar with 'Complicated'."
 ],
-"h": "Brazil win the World Cup in Japan and South Korea.",
+"h": "In Roman numerals I'm written MMII.",
 "e": "2002: euro notes & coins arrived (Jan), the Golden Jubilee (Jun), Avril Lavigne's breakthrough, the Roomba (Sep), the Bali bombings (Oct)."
 },
 {
@@ -1470,7 +1473,7 @@ const GAME = [
 "SpaceX catches a Starship booster with giant 'chopsticks'.",
 "The Paris Olympics open with a parade of boats along the Seine."
 ],
-"h": "A cargo ship knocks down Baltimore's Key Bridge.",
+"h": "I am 44 × 46.",
 "e": "2024: the North American eclipse (Apr), the Paris Olympics (Jul–Aug), Australia's 18 golds, Starship's booster catch (Oct)."
 },
 {
@@ -1504,7 +1507,7 @@ const GAME = [
 "NASA launches Mars Pathfinder, which will put the first rover on Mars.",
 "The Spice Girls tell you what they want, what they really really want."
 ],
-"h": "Atlanta hosts the Olympic Games.",
+"h": "My four digits add up to 25, and I end in 6.",
 "e": "1996: the Port Arthur massacre (Apr), Dolly the sheep born (Jul), the Spice Girls' 'Wannabe' (Jul), Mars Pathfinder launched (Dec)."
 },
 {
@@ -1538,7 +1541,7 @@ const GAME = [
 "Apple launches the iPod: '1,000 songs in your pocket'.",
 "Kylie Minogue's 'Can't Get You Out of My Head' tops the charts around the world."
 ],
-"h": "The first Harry Potter film hits cinemas.",
+"h": "I am 29 × 69.",
 "e": "2001: Moulin Rouge! (May), Can't Get You Out of My Head (Sep), 9/11 (Sep), the first iPod (Oct), Harry Potter and the Philosopher's Stone (Nov)."
 },
 {
@@ -1572,7 +1575,7 @@ const GAME = [
 "Apple fans leave tributes after Steve Jobs dies.",
 "Adele's '21' and 'Someone Like You' rule the charts."
 ],
-"h": "Prince William marries Kate Middleton.",
+"h": "In Roman numerals I'm written MMXI.",
 "e": "2011: the Brisbane floods (Jan), the Tōhoku earthquake & Fukushima (Mar), Adele's '21', Steve Jobs' death (Oct). Also the Arab Spring."
 }
 ];
@@ -1602,7 +1605,11 @@ const stage=document.getElementById('stage'), dotsWrap=document.getElementById('
       progress=document.getElementById('progress'), lightbox=document.getElementById('lightbox');
 let current=-1, timerId=null;
 const revealed = GAME.map(()=>false);      // answer shown?
-const clueCount = GAME.map(()=>1);         // headline clues unlocked (first one free)
+// Clues are all shown, lettered A–D in a scrambled order; players match each one to an exhibit number.
+const clueOrder = GAME.map(q=>{ const n=q.c.length, idx=[...Array(n).keys()];
+  for(let t=0;t<50;t++){ for(let i=n-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; } if(idx.every((v,i)=>v!==i)) break; }
+  return idx; });
+const LETTERS='ABCDEFGH';
 const CATS={world:['🌍','World'],aus:['🇦🇺','Australia'],tech:['💻','Tech'],ent:['🎬','Entertainment']};
 const catTag=c=>CATS[c]?`<span class="cat cat-${c}">${CATS[c][0]} ${CATS[c][1]}</span>`:'';
 const esc = s => String(s).replace(/[&<>"]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
@@ -1612,7 +1619,7 @@ function mediaHTML(m, k){
   const inner = m.t==='video'
     ? `<video src="${esc(m.src)}${m.start?'#t='+m.start:''}" playsinline preload="metadata" ${m.poster?`poster="${esc(m.poster)}"`:''}></video>`
     : `<img src="${esc(m.src)}" alt="Photo clue ${k+1}" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.polaroid').remove()">`;
-  return `<figure class="polaroid" data-k="${k}" style="margin:0"><div class="ph">${inner}</div>${badge}<figcaption class="cap">Exhibit ${k+1}${m.cat?' · '+CATS[m.cat][1]:''}</figcaption></figure>`;
+  return `<figure class="polaroid" data-k="${k}" style="margin:0"><div class="ph">${inner}</div>${badge}<figcaption class="cap">Exhibit ${k+1}</figcaption></figure>`;
 }
 
 function buildSlides(){
@@ -1627,14 +1634,14 @@ function buildSlides(){
         <li><b>👆 Add players first:</b> use <b>＋ Add Player</b> in the scorecard above and type each name.</li>
         <li><b>🗞 Four desks per round:</b> 🌍 World, 🇦🇺 Australia, 💻 Tech and 🎬 Entertainment news.</li>
         <li><b>📷 Exhibits:</b> each round has four numbered exhibits, including a 🔊 video clip with sound. Click any exhibit to enlarge or play it (turn your speakers up!).</li>
-        <li><b>📰 Clues:</b> each numbered clue matches the exhibit with the same number. One is shown at the start; the host presses <b>Next Clue</b> for more.</li>
+        <li><b>📰 Clues:</b> all four clues (A–D) are on show, scrambled. Match each clue to its exhibit, then name the year.</li>
         <li><b>⏱ ${TIMER_SECONDS} seconds</b> per round. The timer starts when the round appears.</li>
-        <li><b>💡 Hint</b> narrows down the era. <b>🗓 Reveal Year</b> stamps the answer with the story behind it.</li>
-        <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year, 1 pt for ±1 year.</li>
+        <li><b>💡 Hint</b> is a maths riddle that works out to the year, for when you're stuck. <b>🗓 Reveal Year</b> stamps the answer, shows which clue goes with which exhibit, and tells the story behind it.</li>
+        <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year (2 if you used the hint), 1 pt for ±1 year, +1 for matching all four clues.</li>
       </ul>
       <button class="act begin" id="beginBtn">▶ Start the Time Machine</button>
       <button class="act" id="shuffleBtn" title="Deal the rounds in a new random order">🔀 Shuffle rounds</button>
-      <div class="foot">Keys: ← → navigate · C next clue · H hint · A reveal year · Esc closes photo</div>
+      <div class="foot">Keys: ← → navigate · H hint · A reveal year · Esc closes photo</div>
     </div>`;
   stage.appendChild(intro);
 
@@ -1649,20 +1656,18 @@ function buildSlides(){
           <span class="timer" data-timer><span class="dial"><b>${TIMER_SECONDS}</b></span></span>
         </div>
         <h2 class="qtitle">What <em>year</em> was this?</h2>
-        <p class="qsub">Study the exhibits and clues. Everything below happened in the same year.</p>
+        <p class="qsub">Match each clue (A–D) to its exhibit (1–4), then name the year. Everything happened in the same year.</p>
         <div class="wall" style="--n:${n}">${q.m.map(mediaHTML).join('')}</div>
-        <div class="clips">${q.c.map((c,k)=>`<div class="clip ${k>0?'locked':''}" data-clip="${k}"><span class="n">${k+1}</span><span>${catTag((q.m[k]||{}).cat)}${esc(c)}</span></div>`).join('')}</div>
+        <div class="clips">${clueOrder[i].map((k,pos)=>`<div class="clip" data-clip="${k}"><span class="n">${LETTERS[pos]}</span><span>${esc(q.c[k])}<span class="match">→ Exhibit ${k+1} ${catTag((q.m[k]||{}).cat)}</span></span></div>`).join('')}</div>
         <div class="actions">
-          <button class="act clue" data-a="clue">📰 Next Clue</button>
           <button class="act hint" data-a="hint">💡 Hint</button>
           <button class="act answer" data-a="answer">🗓 Reveal Year</button>
           <span class="feedback" data-fb></span>
         </div>
-        <div class="hintbox" data-hint>💡 ${esc(q.h)}</div>
+        <div class="hintbox" data-hint>💡 <b>Maths riddle:</b> ${esc(q.h)}</div>
         <div class="answerbox" data-ans><div class="stampyear">${q.y}</div><p>${esc(q.e)}</p></div>
       </div>`;
     stage.appendChild(s);
-    s.querySelector('[data-a="clue"]').onclick=()=>nextClue(i);
     s.querySelector('[data-a="hint"]').onclick=()=>s.querySelector('[data-hint]').classList.toggle('show');
     s.querySelector('[data-a="answer"]').onclick=()=>revealAnswer(i);
     s.querySelectorAll('.polaroid').forEach(p=>p.onclick=()=>openLightbox(p));
@@ -1693,17 +1698,9 @@ function buildSlides(){
 }
 
 function slideEl(i){ return stage.querySelector(`.slide[data-i="${i}"]`); }
-function nextClue(i){
-  const s=slideEl(i), q=GAME[i];
-  if(clueCount[i]>=q.c.length) return;
-  const el=s.querySelector(`[data-clip="${clueCount[i]}"]`);
-  el.classList.remove('locked'); el.classList.add('fresh');
-  clueCount[i]++;
-  s.querySelector('[data-a="clue"]').disabled = clueCount[i]>=q.c.length;
-}
 function revealAnswer(i){
   const s=slideEl(i);
-  while(clueCount[i]<GAME[i].c.length) nextClue(i);
+  s.classList.add('revealed');
   s.querySelector('[data-ans]').classList.add('show');
   revealed[i]=true; stopTimer(); markDots();
   const fb=s.querySelector('[data-fb]'); fb.textContent='';
@@ -1774,7 +1771,6 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft') prevBtn.click();
   if(current>=0 && current<GAME.length){
     const k=e.key.toLowerCase(), s=slideEl(current);
-    if(k==='c') nextClue(current);
     if(k==='h') s.querySelector('[data-hint]').classList.toggle('show');
     if(k==='a') revealAnswer(current);
   }

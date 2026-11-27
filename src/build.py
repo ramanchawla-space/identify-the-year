@@ -1,7 +1,10 @@
-import json, os, random
+import json, os, random, sys
 SP = os.path.dirname(os.path.abspath(__file__)) + '/'
 DST = os.path.join(SP, '..', 'index.html')
 G = json.load(open(SP + 'final.json'))
+sys.path.insert(0, SP)
+from riddles import assign
+RIDDLES = assign([q['y'] for q in G])   # the hint is a maths riddle that works out to the year
 
 out = []
 for i, q in enumerate(G, 1):
@@ -16,7 +19,7 @@ for i, q in enumerate(G, 1):
     # every exhibit must have its matching clue, and every round needs a clip with sound
     assert len(media) == len(q['c']), f"round {i} ({q['y']}): {len(media)} exhibits vs {len(q['c'])} clues"
     assert any(m['t'] == 'video' for m in media), f"round {i} ({q['y']}): no sound clip"
-    out.append({'y': q['y'], 'm': media, 'c': q['c'], 'h': q['h'], 'e': q['e']})
+    out.append({'y': q['y'], 'm': media, 'c': q['c'], 'h': RIDDLES[i-1], 'e': q['e']})
 
 # Base order (the page reshuffles on every visit) where neighbouring rounds are at least 3 years apart.
 rng = random.Random(2026)

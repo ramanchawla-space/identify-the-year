@@ -111,6 +111,9 @@
   .cat{display:inline-block;font-family:Inter,sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;margin-right:8px;vertical-align:2px;color:#fff}
   .cat-world{background:var(--teal)}.cat-aus{background:#1a7a3a}.cat-tech{background:#3b4a8c}.cat-ent{background:#9a3a7a}
   .clip.fresh{animation:stamp .4s ease}
+  .clip .match{display:none;margin-left:8px;font-family:Inter,sans-serif;font-size:.78rem;font-weight:800;color:var(--red);white-space:nowrap}
+  .clip .match .cat{margin:0 0 0 4px}
+  .slide.revealed .clip .match{display:inline}
   @keyframes stamp{from{transform:scale(1.04);background:#fff4d6}to{transform:none}}
 
   /* controls */
@@ -241,7 +244,11 @@ const stage=document.getElementById('stage'), dotsWrap=document.getElementById('
       progress=document.getElementById('progress'), lightbox=document.getElementById('lightbox');
 let current=-1, timerId=null;
 const revealed = GAME.map(()=>false);      // answer shown?
-const clueCount = GAME.map(()=>1);         // headline clues unlocked (first one free)
+// Clues are all shown, lettered A–D in a scrambled order; players match each one to an exhibit number.
+const clueOrder = GAME.map(q=>{ const n=q.c.length, idx=[...Array(n).keys()];
+  for(let t=0;t<50;t++){ for(let i=n-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; } if(idx.every((v,i)=>v!==i)) break; }
+  return idx; });
+const LETTERS='ABCDEFGH';
 const CATS={world:['🌍','World'],aus:['🇦🇺','Australia'],tech:['💻','Tech'],ent:['🎬','Entertainment']};
 const catTag=c=>CATS[c]?`<span class="cat cat-${c}">${CATS[c][0]} ${CATS[c][1]}</span>`:'';
 const esc = s => String(s).replace(/[&<>"]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
@@ -251,7 +258,7 @@ function mediaHTML(m, k){
   const inner = m.t==='video'
     ? `<video src="${esc(m.src)}${m.start?'#t='+m.start:''}" playsinline preload="metadata" ${m.poster?`poster="${esc(m.poster)}"`:''}></video>`
     : `<img src="${esc(m.src)}" alt="Photo clue ${k+1}" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('.polaroid').remove()">`;
-  return `<figure class="polaroid" data-k="${k}" style="margin:0"><div class="ph">${inner}</div>${badge}<figcaption class="cap">Exhibit ${k+1}${m.cat?' · '+CATS[m.cat][1]:''}</figcaption></figure>`;
+  return `<figure class="polaroid" data-k="${k}" style="margin:0"><div class="ph">${inner}</div>${badge}<figcaption class="cap">Exhibit ${k+1}</figcaption></figure>`;
 }
 
 function buildSlides(){
@@ -266,14 +273,14 @@ function buildSlides(){
         <li><b>👆 Add players first:</b> use <b>＋ Add Player</b> in the scorecard above and type each name.</li>
         <li><b>🗞 Four desks per round:</b> 🌍 World, 🇦🇺 Australia, 💻 Tech and 🎬 Entertainment news.</li>
         <li><b>📷 Exhibits:</b> each round has four numbered exhibits, including a 🔊 video clip with sound. Click any exhibit to enlarge or play it (turn your speakers up!).</li>
-        <li><b>📰 Clues:</b> each numbered clue matches the exhibit with the same number. One is shown at the start; the host presses <b>Next Clue</b> for more.</li>
+        <li><b>📰 Clues:</b> all four clues (A–D) are on show, scrambled. Match each clue to its exhibit, then name the year.</li>
         <li><b>⏱ ${TIMER_SECONDS} seconds</b> per round. The timer starts when the round appears.</li>
-        <li><b>💡 Hint</b> narrows down the era. <b>🗓 Reveal Year</b> stamps the answer with the story behind it.</li>
-        <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year, 1 pt for ±1 year.</li>
+        <li><b>💡 Hint</b> is a maths riddle that works out to the year, for when you're stuck. <b>🗓 Reveal Year</b> stamps the answer, shows which clue goes with which exhibit, and tells the story behind it.</li>
+        <li><b>Scoring:</b> the host gives points with the +/− buttons. Suggestion: 3 pts for the exact year (2 if you used the hint), 1 pt for ±1 year, +1 for matching all four clues.</li>
       </ul>
       <button class="act begin" id="beginBtn">▶ Start the Time Machine</button>
       <button class="act" id="shuffleBtn" title="Deal the rounds in a new random order">🔀 Shuffle rounds</button>
-      <div class="foot">Keys: ← → navigate · C next clue · H hint · A reveal year · Esc closes photo</div>
+      <div class="foot">Keys: ← → navigate · H hint · A reveal year · Esc closes photo</div>
     </div>`;
   stage.appendChild(intro);
 
@@ -288,20 +295,18 @@ function buildSlides(){
           <span class="timer" data-timer><span class="dial"><b>${TIMER_SECONDS}</b></span></span>
         </div>
         <h2 class="qtitle">What <em>year</em> was this?</h2>
-        <p class="qsub">Study the exhibits and clues. Everything below happened in the same year.</p>
+        <p class="qsub">Match each clue (A–D) to its exhibit (1–4), then name the year. Everything happened in the same year.</p>
         <div class="wall" style="--n:${n}">${q.m.map(mediaHTML).join('')}</div>
-        <div class="clips">${q.c.map((c,k)=>`<div class="clip ${k>0?'locked':''}" data-clip="${k}"><span class="n">${k+1}</span><span>${catTag((q.m[k]||{}).cat)}${esc(c)}</span></div>`).join('')}</div>
+        <div class="clips">${clueOrder[i].map((k,pos)=>`<div class="clip" data-clip="${k}"><span class="n">${LETTERS[pos]}</span><span>${esc(q.c[k])}<span class="match">→ Exhibit ${k+1} ${catTag((q.m[k]||{}).cat)}</span></span></div>`).join('')}</div>
         <div class="actions">
-          <button class="act clue" data-a="clue">📰 Next Clue</button>
           <button class="act hint" data-a="hint">💡 Hint</button>
           <button class="act answer" data-a="answer">🗓 Reveal Year</button>
           <span class="feedback" data-fb></span>
         </div>
-        <div class="hintbox" data-hint>💡 ${esc(q.h)}</div>
+        <div class="hintbox" data-hint>💡 <b>Maths riddle:</b> ${esc(q.h)}</div>
         <div class="answerbox" data-ans><div class="stampyear">${q.y}</div><p>${esc(q.e)}</p></div>
       </div>`;
     stage.appendChild(s);
-    s.querySelector('[data-a="clue"]').onclick=()=>nextClue(i);
     s.querySelector('[data-a="hint"]').onclick=()=>s.querySelector('[data-hint]').classList.toggle('show');
     s.querySelector('[data-a="answer"]').onclick=()=>revealAnswer(i);
     s.querySelectorAll('.polaroid').forEach(p=>p.onclick=()=>openLightbox(p));
@@ -332,17 +337,9 @@ function buildSlides(){
 }
 
 function slideEl(i){ return stage.querySelector(`.slide[data-i="${i}"]`); }
-function nextClue(i){
-  const s=slideEl(i), q=GAME[i];
-  if(clueCount[i]>=q.c.length) return;
-  const el=s.querySelector(`[data-clip="${clueCount[i]}"]`);
-  el.classList.remove('locked'); el.classList.add('fresh');
-  clueCount[i]++;
-  s.querySelector('[data-a="clue"]').disabled = clueCount[i]>=q.c.length;
-}
 function revealAnswer(i){
   const s=slideEl(i);
-  while(clueCount[i]<GAME[i].c.length) nextClue(i);
+  s.classList.add('revealed');
   s.querySelector('[data-ans]').classList.add('show');
   revealed[i]=true; stopTimer(); markDots();
   const fb=s.querySelector('[data-fb]'); fb.textContent='';
@@ -413,7 +410,6 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft') prevBtn.click();
   if(current>=0 && current<GAME.length){
     const k=e.key.toLowerCase(), s=slideEl(current);
-    if(k==='c') nextClue(current);
     if(k==='h') s.querySelector('[data-hint]').classList.toggle('show');
     if(k==='a') revealAnswer(current);
   }

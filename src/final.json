@@ -529,15 +529,15 @@
   "m": [
    {
     "cat": "world",
-    "t": "video",
-    "local": "media/r16-1.mp4",
-    "localposter": "media/r16-1-poster.jpg",
-    "vol": -17.1
+    "t": "img",
+    "local": "media/r16-1.jpg"
    },
    {
     "cat": "aus",
-    "t": "img",
-    "local": "media/r16-2.jpg"
+    "t": "video",
+    "local": "media/r16-2.mp4",
+    "localposter": "media/r16-2-poster.jpg",
+    "vol": -18.8
    },
    {
     "cat": "tech",
@@ -551,13 +551,13 @@
    }
   ],
   "c": [
-   "Venezuela's Hugo Chávez calls the US president 'the devil' at the UN: 'it still smells of sulphur'.",
-   "'Crocodile Hunter' Steve Irwin is killed by a stingray on the Great Barrier Reef.",
+   "Zinedine Zidane is sent off for a headbutt as Italy win the World Cup final in Berlin.",
+   "The croc show at Australia Zoo goes on, but 'Crocodile Hunter' Steve Irwin is killed by a stingray on the Great Barrier Reef.",
    "Nintendo shows off the Wii, a console you control by waving a remote.",
    "Daniel Craig makes his debut as James Bond in Casino Royale."
   ],
   "h": "Pluto loses its status as a planet.",
-  "e": "2006: the Wii unveiled at E3 (May), Chávez at the UN (Sep), Steve Irwin's death (Sep), Casino Royale (Nov). Italy also won the World Cup."
+  "e": "2006: the Wii unveiled at E3 (May), Zidane's headbutt as Italy won the World Cup (Jul), Steve Irwin's death (Sep), Casino Royale (Nov). Pluto was also demoted."
  },
  {
   "y": 2008,
@@ -657,12 +657,12 @@
   ],
   "c": [
    "An Icelandic volcano's ash cloud grounds flights across Europe.",
-   "Mary MacKillop is declared Australia's first saint.",
+   "A Qantas A380's engine explodes after take-off from Singapore; the pilots land all 469 people safely.",
    "Apple unveils the iPad.",
    "Christopher Nolan's Inception premieres."
   ],
   "h": "33 trapped Chilean miners are rescued.",
-  "e": "2010: the iPad (Jan), Eyjafjallajökull's ash cloud (Apr), Inception (Jul), Mary MacKillop canonised (Oct). Also the Burj Khalifa opened."
+  "e": "2010: the iPad (Jan), Eyjafjallajökull's ash cloud (Apr), Inception (Jul), Qantas QF32's engine blew apart mid-air (Nov). Also the Burj Khalifa opened."
  },
  {
   "y": 2010,
@@ -903,11 +903,11 @@
   "c": [
    "Germany beat Argentina in Rio to win the World Cup.",
    "A gunman takes hostages at the Lindt Café in Sydney's Martin Place.",
-   "Rosetta reaches a comet and drops the Philae lander onto it.",
+   "The selfie stick becomes the must-have gadget for every tourist.",
    "Everyone is tipping ice water over their heads for the ALS Ice Bucket Challenge."
   ],
   "h": "Malaysia Airlines flight MH370 vanishes.",
-  "e": "2014: MH370 vanished (Mar), the World Cup in Brazil (Jun–Jul), the Ice Bucket Challenge (Aug), Philae lands on a comet (Nov), the Lindt Café siege (Dec)."
+  "e": "2014: MH370 vanished (Mar), the World Cup in Brazil (Jun–Jul), the Ice Bucket Challenge (Aug), the selfie-stick craze, the Lindt Café siege (Dec)."
  },
  {
   "y": 2015,
@@ -1337,7 +1337,7 @@
     "t": "video",
     "local": "media/r39-1.mp4",
     "localposter": "media/r39-1-poster.jpg",
-    "vol": -18.0
+    "vol": -14.0
    },
    {
     "cat": "aus",
@@ -1356,13 +1356,13 @@
    }
   ],
   "c": [
-   "Robert Prevost becomes Pope Leo XIV, the first American pope.",
+   "Firefighting 'Super Scooper' planes battle the Palisades fire in Los Angeles.",
    "Oscar Piastri leads the Formula 1 championship for much of the season.",
    "China's DeepSeek AI app stuns Silicon Valley.",
    "Oasis reunite for their first tour in 16 years."
   ],
   "h": "Thieves steal crown jewels from the Louvre in broad daylight.",
-  "e": "2025: DeepSeek (Jan), Pope Leo XIV (May), the Oasis reunion tour, Piastri's title fight, the Louvre jewel heist (Oct)."
+  "e": "2025: the LA wildfires (Jan), DeepSeek (Jan), the Oasis reunion tour, Piastri's title fight, the Louvre jewel heist (Oct)."
  },
  {
   "y": 2026,
